@@ -1,0 +1,23 @@
+<!-- 
+File: show_all.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/10/2025
+Description: html code to display all quotes and images of Joe Biden, randomly matched together
+-->
+{% extends 'quotes/base.html' %}
+
+    {% block content %}
+        <main>
+            <!-- 
+            Loop through all quote-image pairs passed in from views.py and display them in a list (to avoid large white space between cards)
+            -->
+            <ul>
+                {% for quote, image in quote_image_pairs %}
+                        <div class = "quote-card">
+                            <blockquote>{{quote}}</blockquote>
+                            <img src={{image}} alt="Image of Joe Biden">
+                        </div>
+        
+                {% endfor %}
+            </ul>
+        </main>
+    {% endblock %}

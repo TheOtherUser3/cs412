@@ -1,0 +1,49 @@
+<!-- 
+File: about.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/10/2025
+Description: html code to display the about page of the quotes application, 
+showing information about Joe Biden and the creator (me)
+-->
+{% extends 'quotes/base.html' %}
+
+    {% block content %}
+        <main>
+            <ul>
+                <!-- 
+                Use a special about card so that we can format the blockquote text to be smaller, due to the large amount of text
+                Make it in an unordered list to avoid large white space between the cards
+                -->
+                <div class = "about-card">
+                    <h1>Joe Biden</h1>
+                    <br>
+                    <blockquote>
+                        Joseph Robinette Biden Jr. (born November 20, 1942) is an American politician who served as the 46th President 
+                        of the United States from 2021-2025. A member of the Democratic Party, he served as the 47th vice president from 
+                        2009 to 2017 under Barack Obama and represented Delaware in the U.S. Senate from 1973 to 2009.  He is notable for 
+                        having run for president in the 1988 and 2008 elections before winning the presidency in 2020.  While having initial
+                        legislative success as Presient, his administration was largely viewed as a failure due to high inflation, rising
+                        gas prices, and a variety of foreign policy crises, including the chaotic withdrawal from Afghanistan and his 
+                        controversial response to the Israel-Hamas War, started on October 7th.  His Presidency was plagued with criticism
+                        of his age and mental acuity, with many believing that he was not mentally fit to be president, although that claim
+                        has never been substantiated.  He is now most notable for having failed to accomplish his goal of stopping Donald Trump,
+                        as his 2024 re-election bid is heavily blamed for having ruined the Democrats' chances of defeating Trump in 2024.
+                        Even after he dropped out of the race in July, 2024, over criticism of his age and mental acuity, his VP and heir,
+                        Kamala Harris, could not recover from the hole Biden's bid left them in, and she ended up losing the election to Trump.
+                        Trump has now rolled back most of Biden's agenda, and thus Biden is largely viewed as a failed president.
+                    </blockquote>
+                </div>
+                <div class = "about-card">
+                    <br>
+                    <h2>About the Creator</h2>
+                    <br>
+                    <blockquote>
+                        My name is Dawson Maska, and I am a senior at Boston University studying Computer Science. 
+                        I created this website as a project for my Full Stack Application class (CS 412) in Fall 2025.  I have always been
+                        interested in politics, and Joe Biden has been a fascinating figure to watch over the years, both for his
+                        long career in politics and for his often humorous gaffes and quotes.  I hope you enjoyed this website, and feel
+                        free to reach out to me at dawsonwm@bu.edu with any questions or comments!
+                    </blockquote>
+                </div>
+            </ul>
+        </main>
+    {% endblock %}

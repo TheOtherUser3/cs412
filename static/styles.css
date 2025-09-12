@@ -1,0 +1,16 @@
+body {
+    background-color: lightblue;
+    color:slategray;
+    font-family: Arial;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: darkblue;
+    background: lightgray;
+    margin: 0;
+}
+
+a, a:visited {
+    color: darkblue;
+    text-decoration: none;
+}

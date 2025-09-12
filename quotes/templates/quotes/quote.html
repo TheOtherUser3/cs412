@@ -1,0 +1,18 @@
+<!--   
+File: quote.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/9/2025
+Description: html code to display the quote and home page, displaying one quote and one image of Joe Biden
+-->
+{% extends 'quotes/base.html' %}
+
+    {% block content %}
+        <!-- 
+        Create a quote card to display the quote and image neatly, both static variables passed in from views.py
+        -->
+        <main>
+            <div class = "quote-card">
+                <blockquote>{{quote}}</blockquote>
+                <img src={{image}} alt="Image of Joe Biden">
+            </div>
+        </main>
+    {% endblock %}

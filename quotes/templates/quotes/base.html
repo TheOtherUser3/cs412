@@ -1,0 +1,30 @@
+<!-- 
+File: base.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/9/2025
+Description: html code template to display repeated code throughout the application, such as 
+the header and footer, navigation bar, and css link
+-->
+{% load static %}
+<html>
+    <head>
+        <title>Joe Biden Quotes</title>
+        <link rel="stylesheet" href="{% static 'quotes.css' %}">
+    </head>
+    <body>
+        
+        <header>
+            <h1> Biden's Daily Brief </h1>    
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home_page' %}">Daily Quote</a></li>
+                    <li><a href="{% url 'show_all_page' %}">All Quotes</a></li>
+                    <li><a href="{% url 'about_page' %}">About</a></li>
+                </ul>
+            </nav>
+        </header>
+        <!-- Page specific content -->
+        {% block content %}
+
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,112 @@
+/* 
+File: quotes.css
+Author: Dawson Maska (dawsonwm@bu.edu), 9/10/2025
+Description: css code to style the quotes application
+*/
+
+/* Reset default browser styles and set box-sizing for consistency */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set base font, background, and text color for the whole page */
+body {
+    font-family: 'Times New Roman';
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 1.6rem;
+}
+
+/* Style the header with dark background and center the text */
+header {
+    background: #222;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center
+}
+
+/* Add spacing below the main heading in the header */
+header h1 {
+    margin-bottom: 10px;
+}
+
+/* Center all h1 elements and set size */
+h1 {
+    text-align: center;
+    margin: 10px;
+    font-size: 2.5rem;
+}
+
+/* Remove list styles and center nav items horizontally with spacing */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Style navigation links and add hover effect */
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+nav a:hover {
+    color: #f0c040
+}
+
+/* Make main content take up available space and center its content */
+main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for quote cards: max width, padding, rounded corners, shadow */
+.quote-card {
+    max-width: 800px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Style for about cards: larger max width, similar to quote-card */
+.about-card {
+    max-width: 1000px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* About-card blockquotes need smaller text */
+.about-card blockquote {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #555;
+}
+
+/* Make images inside quote-card visually appealing */
+.quote-card img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Style all blockquotes for emphasis */
+blockquote {
+    font-size: 1.8rem;
+    font-style: italic;
+    color: #555;
+}

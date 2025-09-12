@@ -1,3 +1,6 @@
+# File: settings.py
+# Author: Dawson Maska (dawsonwm@bu.edu), 9/9/2025
+# Description: Settings file for all cs412 applications
 """
 Django settings for cs412 project.
 
@@ -11,6 +14,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import socket
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +31,10 @@ SECRET_KEY = "django-insecure-)6h*jzfsskhzst8t6(wbzf5isi#i*i*^cj^16!ok64^eluqtt1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+                "*",
+                "cs-webapps.bu.edu",
+]
 
 
 # Application definition
@@ -37,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "hw", #Hello World Example App
+    "quotes", #HW1 Quote of the Day App
 ]
 
 MIDDLEWARE = [
@@ -57,6 +68,7 @@ TEMPLATES = [
         "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
+            "string_if_invalid": "WARNING: {{%s}} IS INVALID CONTEXT VARIABLE",
             "context_processors": [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
@@ -120,3 +132,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = "media/"
+CS_DEPLOYMENT_HOTNAME = 'cs-webapps.bu.edu'
+
+if socket.gethostname() == CS_DEPLOYMENT_HOTNAME:
+    STATIC_URL = '/dawsonwm/static/'
+    MEDIA_URL = '/dawsonwm/media/'
