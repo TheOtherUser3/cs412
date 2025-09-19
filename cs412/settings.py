@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "hw", #Hello World Example App
     "quotes", #HW1 Quote of the Day App
+    "formdata", #Example Form App 
+    "restaurant", #HW2 Restaurant Order Form App
 ]
 
 MIDDLEWARE = [

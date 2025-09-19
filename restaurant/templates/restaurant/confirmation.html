@@ -1,0 +1,63 @@
+<!-- 
+File: confirmation.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/16/2025
+Description: html code template to display a confirmation page after a user submits a restaurant order form
+-->
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Order Confirmation</h1>
+    <p>
+        Thank you for your order {{name}}!  <br>
+        <br>
+        See the details of your order below:
+    </p>
+    <br>
+
+    <h3>Items Ordered</h3>
+    <p>
+        <!-- Only display items that were ordered to avoid cluttering the page with zeroes. -->
+        {% if ultimate_bean_experience != '0' %}
+            Ultimate Bean Experience: {{ultimate_bean_experience}}  - ${{ultimate_bean_experience_cost}}<br>
+            {% if side_of_beans %}
+             &nbsp;&nbsp;   - With Side of Beans - $5<br>
+            {% endif %}
+        {% endif %}
+        {% if bean_on_a_plate != '0' %}
+            Bean on a Plate: {{bean_on_a_plate}}  - ${{bean_on_a_plate_cost}}<br>
+            {% if bean_dust %}
+             &nbsp;&nbsp;   - With Bean Dust - $4<br>
+            {% endif %}
+        {% endif %}
+        {% if bean_salad != '0' %}
+            Bean Salad: {{bean_salad}} - ${{bean_salad_cost}}<br>
+            {% if bean_dressing %}
+               &nbsp;&nbsp; - With Bean Dressing - $3<br>
+            {% endif %}
+        {% endif %}
+        {% if mystery_bean_stew != '0' %}
+            Mystery Bean Stew: {{mystery_bean_stew}} - ${{mystery_bean_stew_cost}}<br>
+        {% endif %}
+        {% if daily_special %}
+            Daily Special: <br>
+           &nbsp;&nbsp; - {{daily_special_type}}: 1 - $18<br>
+        {% endif %}
+        <br>
+        <strong>Total Cost: ${{total_cost}}</strong>
+        <br>
+        <br>
+    </p>
+        <h3>Expected Wait Time:</h3>
+    <p>
+        {% if extra_delay %}
+            (Note: Sorry for the extra delay - we are currently experiencing higher than usual order volume.)<br>
+        {% endif %}
+        Estimated wait time: {{quantity}} minutes<br>
+        Expected ready time: {{ready_time}}<br>
+        <br>
+        <br>
+        You will receive an email at {{email}} when your order is ready for pickup!
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,150 @@
+<!-- 
+File: order.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/16/2025
+Description: html code template to display a restaurant order form
+-->
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Bean Up Your Order</h1>
+    <form action="{% url 'submit' %}" method="post">
+        {% csrf_token %}
+        
+
+        <!-- The full menu of options -->
+        <div class = "menu">
+
+            <h3><label>Menu Items:</label></h3>
+
+            <!-- Create div for each menu option for nice styling -->
+            <div class = "menu-option">
+                <div class = menu-header>>
+                    <label for="bean_on_a_plate">Bean on a Plate $15</label><br>
+
+                <!-- Quantity control buttons and display -->
+                    <div class = quantity-control>
+                        <button type="button" onclick="decrement(this)">-</button>
+                        <div class = "quantity-display">0</div>
+                        <button type="button" onclick="increment(this)">+</button>
+                        <input type="hidden" name="bean_on_a_plate" value="0">
+                    </div>
+                </div>
+                <!-- Menu extras for each menu option -->
+                <div class = "menu-extras">
+                    <input type="checkbox" name="bean_dust">
+                    <label for="bean_dust">Sprinkle bean dust on top $4</label><br>
+                </div>
+            </div>
+
+
+            <div class = "menu-option">
+                <div class = menu-header>>
+                    <label for="bean_salad">Bean Salad $12</label><br>
+
+                    <!-- Quantity control buttons and display -->
+                    <div class = quantity-control>
+                        <button type="button" onclick="decrement(this)">-</button>
+                        <div class = "quantity-display">0</div>
+                        <button type="button" onclick="increment(this)">+</button>
+                        <input type="hidden" name="bean_salad" value="0">
+                    </div>
+                </div>
+                <!-- Menu extras for each menu option -->
+                <div class = "menu-extras">
+                    <input type="checkbox" name="bean_dressing">
+                    <label for="bean_dressing">Bean Dressing $3</label><br>
+                </div>
+            </div>
+
+
+            <div class = "menu-option">
+                <div class = menu-header>>
+                    <label for="mystery_bean_stew">Mystery Bean Stew $22</label><br>
+
+                    <!-- Quantity control buttons and display -->
+                    <div class = quantity-control>
+                        <button type="button" onclick="decrement(this)">-</button>
+                        <div class = "quantity-display">0</div>
+                        <button type="button" onclick="increment(this)">+</button>
+                        <input type="hidden" name="mystery_bean_stew" value="0">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class = "menu-option">
+                <div class = menu-header>>
+                    <label for="ultimate_bean_experience">The Ultimate Bean Experience $31</label><br>
+
+                    <!-- Quantity control buttons and display -->
+                    <div class = quantity-control>
+                        <button type="button" onclick="decrement(this)">-</button>
+                        <div class = "quantity-display">0</div>
+                        <button type="button" onclick="increment(this)">+</button>
+                        <input type="hidden" name="ultimate_bean_experience" value="0">
+                    </div>
+                </div>
+                <!-- Menu extras for each menu option -->
+                <div class = "menu-extras">
+                    <input type="checkbox" name="side_of_beans">
+                    <label for="side_of_beans">Side of Beans $5</label><br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <!-- Daily Special -->
+        <div class="daily-special">
+            <h3>Daily Special</h3>
+            <div class="special-option">
+                <input type="radio" id="special" name="daily_special">
+                <label for="special">{{daily_special}} $18</label>
+                <input type="hidden" name="daily_special_type" value="{{daily_special}}">
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <!-- Inputs for name and email -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <input type="submit" value="Submit Order">
+    </form>
+</div>
+
+<script>
+// JavaScript functions to handle incrementing and decrementing quantity 
+// because I'm a perfectionist
+function increment(button) {
+    const control = button.parentElement;
+    const display = control.querySelector('.quantity-display');
+    const input = control.querySelector('input[type="hidden"]');
+
+    let value = parseInt(display.textContent);
+    value++;
+    display.textContent = value;
+    input.value = value;
+}
+function decrement(button) {
+    const control = button.parentElement;
+    const display = control.querySelector('.quantity-display');
+    const input = control.querySelector('input[type="hidden"]');
+
+    let value = parseInt(display.textContent);
+    if (value > 0) {
+        value--;
+        display.textContent = value;
+        input.value = value;
+    }
+}
+</script>
+{% endblock %}
+

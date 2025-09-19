@@ -1,0 +1,31 @@
+<!-- 
+File: base.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/16/2025
+Description: html code template to display repeated code throughout the application, such as 
+the header and footer, navigation bar, and css link
+-->
+{% load static %}
+<html>
+    <head>
+        <title>Fork 'n' Beans</title>
+        <link rel="stylesheet" href="{% static 'restaurant.css' %}">
+    </head>
+    <body>
+        
+        <header>
+            <h1> Fork 'n' Beans </h1>    
+            <nav>
+                <ul>
+                    <li><a href="{% url 'main_page' %}">Home Page</a></li>
+                    <li><a href="{% url 'order_page' %}">Place an Order</a></li>
+                </ul>
+            </nav>
+        </header>
+        <!-- Page specific content -->
+        <main>
+            {% block content %}
+
+            {% endblock %}
+        </main>
+    </body>
+</html>
