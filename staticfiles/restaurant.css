@@ -1,0 +1,264 @@
+/* 
+File: restaurant.css
+Author: Dawson Maska (dawsonwm@bu.edu), 9/16/2025
+Description: css code to style the restaurant application
+*/
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    color: #2f6f3a;
+    letter-spacing: 0.5px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    padding: 6px 8px;
+    transition: color 0.2s, background 0.2s;
+    border-radius: 4px;
+}
+
+nav ul li a:hover {
+    background: #2f6f3a;
+    color: #fff;
+}
+
+main {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+
+/* Main title */
+h1 {
+    text-align: center;
+    margin: 0 0 18px;
+    color: #2f6f3a;
+}
+
+/* Section headers */
+h3 {
+    margin: 16px 0 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+}
+
+/* Menu Display */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* tight spacing between rows */
+}
+
+.menu-option {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    border-bottom: 1px solid #e6e6e6;
+}
+.menu-option:last-child { border-bottom: none; }
+
+/* Item labels */
+.menu-option > label {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2b2b2b;
+    margin: 0 0 6px;
+}
+
+/* Quantity control */
+.quantity-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #d3d3d3;
+    border-radius: 6px;
+    background: #fff;
+    overflow: hidden;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.quantity-control button {
+    background: #f7f7f7;
+    color: #333;
+    border: none;
+    padding: 4px 10px;
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.quantity-control button:hover {
+    background: #2f6f3a;
+    color: #fff;
+}
+
+.quantity-display {
+    width: 34px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 4px 0;
+    border-left: 1px solid #d3d3d3;
+    border-right: 1px solid #d3d3d3;
+    background: #fff;
+}
+
+/* Extra options */
+.menu-extras {
+    margin-top: 6px;
+    padding-left: 2px;
+    font-size: 0.95rem;
+    color: #555;
+}
+.menu-extras input[type="checkbox"] {
+    transform: translateY(1px);
+}
+.menu-extras label {
+    margin-left: 6px;
+    cursor: pointer;
+}
+
+/* Name/email fields */
+input[type="text"],
+input[type="email"] {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    padding: 8px 10px;
+    margin: 6px 0 14px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    background: #fff;
+}
+
+/* Submit button */
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    margin: 18px auto 0;
+    padding: 10px 14px;
+    font-size: 1.05rem;
+    background: #2f6f3a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+input[type="submit"]:hover { background: #2a5f32; }
+
+/* Daily special section */
+.daily-special {
+    background: #fcfcfc;
+    padding: 12px 14px;
+    border: 1px solid #e4e4e4;
+    border-radius: 6px;
+    margin-bottom: 18px;
+}
+
+.special-option {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 0.95rem;
+}
+
+.special-option input[type="radio"] {
+    margin-right: 8px;
+    transform: translateY(1px);
+    cursor: pointer;
+}
+
+.special-option label {
+    cursor: pointer;
+    color: #333;
+}
+
+.special-option:hover label {
+    color: #2f6f3a;
+    font-weight: 500;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  color: #333;
+}
+
+/* Home Page */
+
+img[alt="Chicago Bean"] {
+    display: block;
+    max-width: 600px;
+    width: 80%;
+    height: auto;
+    margin: 16px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.intro {
+    width: min(700px, 85vw);
+    margin: 20px auto 40px;
+    background: #fff;
+    padding: 18px 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    line-height: 1.65;
+    font-size: 1.05rem;
+    letter-spacing: 0.1px;
+}
+
+.intro::first-line {
+    font-weight: 700;
+    color: #2f6f3a;
+}
+
