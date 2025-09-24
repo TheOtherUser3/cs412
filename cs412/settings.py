@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "quotes", #HW1 Quote of the Day App
     "formdata", #Example Form App 
     "restaurant", #HW2 Restaurant Order Form App
+    "blog", #Example Blog App
+    "mini_insta" #HW3+ Mini Instragram Copy App
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,22 @@
+
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+<h1>{{article.title}}</h1>
+
+<!-- {{articles}} -->
+
+<main class = "grid-container">
+    <article>
+        <div>
+            <h2>{{ article.title }}</h2>
+            <h3>by {{ article.author }}</h3>
+            <p>{{ article.text }}</p>
+            <p>Published on: {{ article.published }}</p>
+        </div>   
+            <img src = {{article.image_url}}>
+      
+        </article>
+</main>
+{% endblock %}
