@@ -1,0 +1,35 @@
+<!-- 
+File: show_profile.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/25/2025
+Description: html code template to display a single user profile in the mini_insta application.
+-->
+{% extends 'mini_insta/base.html' %}
+
+{% block header %}: {{profile.username}} {% endblock %}
+
+{% block content %}
+<main class = "profile-container">
+    <article>
+        <div class="profile-header">
+            <div class="profile-pic-container">
+                <img src="{{ profile.profile_image_url }}" alt="{{ profile.display_name }}">
+            </div>
+            <div class="profile-info">
+                <h2>{{ profile.display_name }}</h2>
+                <p class="profile-bio">{{ profile.bio_text }}</p>
+            </div>
+        </div>
+            <div class = "profile-extras">
+            <p>Followers: TBD</p>
+            <p>Following: TBD</p>
+            <P>Posts: TBD</P>
+        </div>
+        <h1>Posts</h1>
+        <h1>TBD</h1>
+    </article>
+</main>
+{% endblock %}
+
+{% block footer %}
+    <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
+{% endblock %}

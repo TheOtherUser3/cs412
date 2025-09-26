@@ -1,0 +1,25 @@
+<!-- 
+File: show_all_profiles.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/25/2025
+Description: Template for displaying all user profiles in the mini_insta application.
+-->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Extend the header -->
+{% block header %}: All Profiles{% endblock %}
+
+{% block content %}
+
+<main class = "grid-container">
+    <!-- Display each profile as an image one by one -->
+    {% for profile in profiles %}
+    <article>
+        <h2>{{profile.display_name}}</h2>
+        <a href="{% url 'show_profile' profile.pk %}">
+        <img class = "avatar" src ={{profile.profile_image_url}}>
+        </a>
+    </article>
+    {% endfor %}
+</main>
+{% endblock %}
+

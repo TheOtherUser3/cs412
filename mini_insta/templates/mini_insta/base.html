@@ -1,0 +1,33 @@
+<!-- 
+File: base.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/25/2025
+Description: html code template to display repeated code throughout the application, such as 
+the header and footer, navigation bar, and css link
+-->
+{% load static %}
+
+<html>
+    <head>
+        <title>MiniInsta </title>
+        <link rel="stylesheet" href="{% static 'mini_insta.css' %}">
+    </head>
+    <body>
+        
+        <header>
+            <h1> MiniInsta{% block header %}{% endblock %}</h1>    
+            
+        </header>
+        <!-- Page specific content -->
+        {% block content %}
+
+        {% endblock %}
+
+        <footer>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'show_all_profiles' %}"><img class = "footer-icon" src ="https://previews.123rf.com/images/dstarky/dstarky1708/dstarky170800277/83684809-premium-home-icon-or-logo-in-line-style-high-quality-sign-and-symbol-on-a-white-background-vector.jpg"></a></li>
+                    {% block footer %}{% endblock %}
+                </ul>
+            </nav>
+        </footer>
+    </body>

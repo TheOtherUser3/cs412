@@ -1,0 +1,175 @@
+/* 
+File: mini_insta.css
+Author: Dawson Maska (dawsonwm@bu.edu), 9/25/2025
+Description: css code to style the mini_insta application
+*/
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fafafa;
+    color: #262626;
+}
+
+/* === Header === */
+header {
+    background-color: #fff;
+    padding: 15px 0;
+    border-bottom: 1px solid #dbdbdb;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: #262626;
+}
+
+/* === Footer === */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px solid #dbdbdb;
+    z-index: 100; 
+    padding: 5px 0;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center; 
+    gap: 25px; 
+    margin: 0;
+    padding: 0;
+}
+
+footer nav ul li {
+    display: flex;
+}
+
+.footer-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+    border-radius: 8px;
+}
+
+.footer-icon:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+/* === Main Container === */
+main {
+    padding: 20px;
+    margin-bottom: 60px; 
+}
+
+/* === Profile Grid (show_all_profiles.html) === */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0;                
+}
+
+.grid-container article {
+  text-align: center;
+  padding: 16px 12px;
+  border-right: 4px solid #eee; 
+  border-bottom: 2px solid #eee; 
+  background: #fff;
+}
+
+/* Only affect profile avatars, not all images */
+.avatar {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;     
+  border-radius: 50%;
+  border: 2px solid #dbdbdb;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  transition: transform .18s ease;
+}
+.avatar:hover {
+  transform: scale(1.04);
+}
+
+.grid-container h2 {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #333;
+}
+
+
+/* === Profile Page (show_profile.html) === */
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-container article {
+    text-align: center;
+}
+
+.profile-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-pic-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #dbdbdb;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-info h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+
+.profile-extras {
+    display: flex;
+    justify-content: space-around;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 15px 0;
+}
+
+.profile-extras p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.profile-bio {
+    white-space: pre-line;
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.4;
+    max-width: 400px;
+}
+
+/* === Post Section Placeholder === */
+.profile-container h1 {
+    font-size: 1.2rem;
+    margin: 20px 0 10px 0;
+    color: #262626;
+}
+
