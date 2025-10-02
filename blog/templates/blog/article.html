@@ -9,14 +9,28 @@
 
 <main class = "grid-container">
     <article>
+        <img src = {{article.image_url}}>
         <div>
             <h2>{{ article.title }}</h2>
             <h3>by {{ article.author }}</h3>
             <p>{{ article.text }}</p>
             <p>Published on: {{ article.published }}</p>
         </div>   
-            <img src = {{article.image_url}}>
-      
+            
         </article>
+        <div>
+            <h2>Comments</h2>
+            <h3>
+                <a href="{% url 'create_comment' article.pk %}">Create a Comment</a>
+            </h3>
+            <!-- Display comments -->
+            {% for comment in article.get_all_comments %}
+                <div>
+                    <strong>{{ comment.author }} at ({{ comment.published }}):</strong>
+                    <p>{{ comment.text }}</p>
+                </div>      
+            {% endfor %}
+        </div>
+        
 </main>
 {% endblock %}

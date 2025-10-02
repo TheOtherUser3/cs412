@@ -1,0 +1,45 @@
+<!-- 
+File: show_post.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/30/2025
+Description: html code template to display a single post in the mini_insta application.
+-->
+{% extends 'mini_insta/base.html' %}
+
+{% block header %}: Post by {{post.profile.username}} {% endblock %}
+
+{% block content %}
+
+<main class = "post-container">
+    <article>
+        <div class="post-header">
+            <div class="post-profile-pic-container">
+                <a href="{% url 'show_profile' post.profile.pk %}">
+                    <img src="{{ post.profile.profile_image_url }}" alt="{{ post.profile.display_name }}">
+                </a>
+            </div>
+            <div class="post-profile-info">
+                <h2><a href="{% url 'show_profile' post.profile.pk %}">{{ post.profile.display_name }}</a></h2>      
+                <p class="post-timestamp">{{ post.timestamp }}</p>
+            </div>
+        </div>
+        <div class="post-photos">
+            <!-- Go through all photos and display them one by one -->
+            <!-- WARNING DEFINITELY NEED TO EDIT THIS -->
+            {% for photo in post.get_all_photos %}
+                <div class="photo-item">
+                    <img src="{{ photo.image_url }}" alt="Photo in post by {{ post.profile.username }}">
+                </div>
+            {% empty %}
+                <p>No photos to display.</p>
+            {% endfor %}
+        </div>
+        <div class="post-caption">
+            <p><strong>{{post.profile.username}}</strong>: {{ post.caption }}</p>
+        </div>
+    </article>
+</main>
+{% endblock %}
+<!-- MIGHT NEED TO EDIT THIS -->
+{% block footer %}
+    <li><a href ="{% url 'show_profile' post.profile.pk %}"><img class = "footer-icon" src="{{post.profile.profile_image_url}}"></a></li>
+{% endblock %}

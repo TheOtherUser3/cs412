@@ -25,7 +25,26 @@ Description: html code template to display a single user profile in the mini_ins
             <P>Posts: TBD</P>
         </div>
         <h1>Posts</h1>
-        <h1>TBD</h1>
+        <div class="posts-grid">
+            <!-- Go through all posts and display them one by one -->
+            {% for post in profile.get_all_posts %}
+                <div class="post-item">
+                    <!-- If no photo with, display set blank photo, otherwise first photo -->
+                    {% if post.get_all_photos|length == 0 %}
+                        <a href="{% url 'show_post' post.pk %}">
+                            <img src="https://png.pngtree.com/png-clipart/20200311/ourmid/pngtree-empty-frame-with-torn-paper-png-image_2157793.jpg" alt="Post by {{ profile.username }}">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'show_post' post.pk %}">
+                            <img src="{{ post.get_all_photos.0.image_url }}" alt="Post by {{ profile.username }}">
+                        </a>
+                    {% endif %}
+                    <!-- Maybe display caption too before clicking on it? -->
+                </div>
+            {% empty %}
+                <p>No posts to display.</p>
+            {% endfor %}
+        </div>
     </article>
 </main>
 {% endblock %}
