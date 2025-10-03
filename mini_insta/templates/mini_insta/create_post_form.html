@@ -1,0 +1,38 @@
+<!-- 
+File: show_all_profiles.html
+Author: Dawson Maska (dawsonwm@bu.edu), 9/25/2025
+Description: Template for displaying all user profiles in the mini_insta application.
+-->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Extend the header -->
+{% block header %}
+: Create Post for {{profile.username}}
+<!-- Allow cancelling -->
+<div class="header-cancel">
+    <a href="{% url 'show_profile' profile.pk %}">Click to Cancel</a>
+<div>
+{% endblock %}
+
+{% block content %}
+<main class = "create-post-container">
+    <article>
+        <h2>Create a New Post for {{profile.username}}</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <div class="form-group">
+                <label for="image_url">Photo URL:</label>
+                <input type="text" id="image_url" name="image_url">
+            </div>
+            <button type="submit">Create Post</button>
+        </form>
+    </article>
+</main>
+{% endblock %}
+
+{% block footer %}
+    <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
+{% endblock %}

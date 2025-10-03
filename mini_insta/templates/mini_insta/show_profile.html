@@ -51,4 +51,5 @@ Description: html code template to display a single user profile in the mini_ins
 
 {% block footer %}
     <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
+    <li><a href="{% url 'create_post' profile.pk %}"><img class = "footer-icon" src ="https://cdn-icons-png.flaticon.com/512/992/992651.png"></a></li>
 {% endblock %}

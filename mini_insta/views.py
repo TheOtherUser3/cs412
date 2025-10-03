@@ -4,9 +4,10 @@
 # by urls.py and does any additional logic required to display the desired page
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Profile, Post, Photo
-import random
+from .forms import CreatePostForm
+from django.urls import reverse
 
 # Create your views here.
 
@@ -27,3 +28,38 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'mini_insta/show_post.html'
     context_object_name = 'post'
+
+class CreatePostView(CreateView):
+    """Define a view class to create a new Post for a specific Profile"""
+    form_class = CreatePostForm
+    template_name = 'mini_insta/create_post_form.html'
+
+    def get_context_data(self, **kwargs):
+        """Add the profile to the context data for the template"""
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        context['profile'] = profile
+        return context
+    
+    def form_valid(self, form):
+        """Set the profile of the new Post to the Profile in the URL
+        and create and set the Photo to the Post"""
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        form.instance.profile = profile
+        post = form.save()
+        post.save()
+        #Make new photo, set its attributes, and save it
+        photo = Photo()
+        photo.image_url = self.request.POST.get('image_url')
+        photo.post = post
+        photo.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        """After creating a post, return to the profile page"""
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        pk = profile.pk
+        return reverse('show_profile', kwargs={'pk':pk})
