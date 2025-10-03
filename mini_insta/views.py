@@ -52,7 +52,7 @@ class CreatePostView(CreateView):
         post.save()
         #Make new photo, set its attributes, and save it
         if not self.request.POST.get('image_url'):
-            return super().form_invalid(form)
+            return super().form_valid(form)
         photo = Photo()
         photo.image_url = self.request.POST.get('image_url')
         photo.post = post
