@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<h3>Are you sure you want to delete this comment?</h3>
+<p>
+    <strong>{{ comment.author }} at ({{ comment.published }}):</strong>
+    <p>{{ comment.text }}</p>
+</p>
+
+<form action='' method = "POST">
+    {% csrf_token %}
+    <input type="submit" value="Confirm Delete">
+</form>
+
+<form action="{% url 'article' comment.article.pk %}" method = "GET">
+    <input type="submit" value="Cancel">
+</form>
+{% endblock %}

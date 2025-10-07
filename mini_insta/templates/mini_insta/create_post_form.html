@@ -18,14 +18,14 @@ Description: Template for displaying all user profiles in the mini_insta applica
 <main class = "create-post-container">
     <article>
         <h2>Create a New Post for {{profile.username}}</h2>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <table>
                 {{ form.as_table }}
             </table>
             <div class="form-group">
-                <label for="image_url">Photo URL:</label>
-                <input type="text" id="image_url" name="image_url">
+                <label for="image_file">Upload Photos:</label>
+                <input type="file" id="image_file" name="image_file" multiple>
             </div>
             <button type="submit">Create Post</button>
         </form>

@@ -27,7 +27,7 @@ Description: html code template to display a single post in the mini_insta appli
             <!-- WARNING DEFINITELY NEED TO EDIT THIS -->
             {% for photo in post.get_all_photos %}
                 <div class="photo-item">
-                    <img src="{{ photo.image_url }}" alt="Photo in post by {{ post.profile.username }}">
+                    <img src="{{ photo.get_image_url }}" alt="Photo in post by {{ post.profile.username }}">
                 </div>
             {% empty %}
                 <p>No photos to display.</p>

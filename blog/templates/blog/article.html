@@ -9,11 +9,18 @@
 
 <main class = "grid-container">
     <article>
-        <img src = {{article.image_url}}>
+        {% if article.image_file %}
+        <img src = {{article.image_file.url}}>
+        {% else %}
+        <p>No image available</p>
+        {% endif %}
         <div>
             <h2>{{ article.title }}</h2>
             <h3>by {{ article.author }}</h3>
             <p>{{ article.text }}</p>
+            <h3>
+                <a href="{% url 'update_article' article.pk %}">Update this Article</a>
+            </h3>
             <p>Published on: {{ article.published }}</p>
         </div>   
             
@@ -28,6 +35,7 @@
                 <div>
                     <strong>{{ comment.author }} at ({{ comment.published }}):</strong>
                     <p>{{ comment.text }}</p>
+                    <a href="{% url 'delete_comment' comment.pk %}">Delete</a>
                 </div>      
             {% endfor %}
         </div>

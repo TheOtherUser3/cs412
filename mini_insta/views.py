@@ -50,13 +50,20 @@ class CreatePostView(CreateView):
         form.instance.profile = profile
         post = form.save()
         post.save()
-        #Make new photo, set its attributes, and save it
-        if not self.request.POST.get('image_url'):
-            return super().form_valid(form)
-        photo = Photo()
-        photo.image_url = self.request.POST.get('image_url')
-        photo.post = post
-        photo.save()
+        # if not self.request.POST.get('image_url'):
+        #     return super().form_valid(form)
+        # photo = Photo()
+        # photo.image_url = self.request.POST.get('image_url')
+        # photo.post = post
+        # photo.save()
+        #Make all new photos, set their attributes, and save them
+        files = self.request.FILES.getlist('image_file')
+        for file in files:
+            photo = Photo()
+            photo.image_file = file
+            photo.post = post
+            photo.save()
+
         return super().form_valid(form)
     
     def get_success_url(self):

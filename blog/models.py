@@ -11,7 +11,8 @@ class Article(models.Model):
     author = models.TextField(blank=True)
     text = models.TextField(blank=True)
     published = models.DateTimeField(auto_now=True)
-    image_url = models.URLField(blank=True)
+    # image_url = models.URLField(blank=True)
+    image_file = models.ImageField(blank=True)
 
     def __str__(self):
         """Return a human-readable representation of the model instance."""
