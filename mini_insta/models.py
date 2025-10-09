@@ -4,6 +4,7 @@
 # Creates the classes that define the data models for the application.
 
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -27,6 +28,10 @@ class Profile(models.Model):
         # Order posts by timestamp, most recent first
         posts = posts.order_by('-timestamp')
         return posts
+
+    def get_absolute_url(self):
+        """Return the url to access a particular profile instance."""
+        return reverse('show_profile', kwargs={'pk':self.pk})
     
 class Post(models.Model):
     """Encapsulate the data of a mini_insta Post attached to a Profile"""

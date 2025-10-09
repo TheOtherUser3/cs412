@@ -1,13 +1,13 @@
 <!-- 
-File: create_post_form.html
-Author: Dawson Maska (dawsonwm@bu.edu), 9/30/2025
-Description: form html template for creating a new Post Instance for a Profile
+File: update_profile_form.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/9/2025
+Description: form html template for updating a Profile instance 
 -->
 {% extends 'mini_insta/base.html' %}
 
 <!-- Extend the header -->
 {% block header %}
-: Create Post for {{profile.username}}
+: Update Post for {{profile.username}}
 <!-- Allow cancelling -->
 <div class="header-cancel">
     <a href="{% url 'show_profile' profile.pk %}">Click to Cancel</a>
@@ -17,17 +17,16 @@ Description: form html template for creating a new Post Instance for a Profile
 {% block content %}
 <main class = "create-post-container">
     <article>
-        <h2>Create a New Post for {{profile.username}}</h2>
+        <h2>Update Post for {{profile.username}}</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <table>
                 {{ form.as_table }}
             </table>
-            <div class="form-group">
-                <label for="image_file">Upload Photos:</label>
-                <input type="file" id="image_file" name="image_file" multiple>
-            </div>
-            <button type="submit">Create Post</button>
+            <button type="submit">Update Post</button>
+        </form>
+        <form action="{% url 'show_profile' profile.pk %}" method = "GET">
+            <input type="submit" value="Cancel">
         </form>
     </article>
 </main>

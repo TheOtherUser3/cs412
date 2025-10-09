@@ -3,7 +3,7 @@
 # Description: urls file for mini_insta application.  
 # Sends HTTPS request to matching views.py function
 
-from .views import ProfileListView, ProfileDetailView, PostDetailView, CreatePostView
+from .views import *
 from django.urls import path
 
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path('profile/<int:pk>/', ProfileDetailView.as_view(), name="show_profile"),
     path('profile/post/<int:pk>/', PostDetailView.as_view(), name="show_post"),
     path('profile/<int:pk>/create_post', CreatePostView.as_view(), name='create_post'),
+    path('profile/<int:pk>/update/', UpdateProfileView.as_view(), name='update_profile'),
 ]

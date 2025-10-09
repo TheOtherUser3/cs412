@@ -18,6 +18,9 @@ Description: html code template to display a single user profile in the mini_ins
                 <h2>{{ profile.display_name }}</h2>
                 <p class="profile-bio">{{ profile.bio_text }}</p>
             </div>
+            <div class = 'buttons'>
+                <a href = "{% url 'update_profile' profile.pk %}"><button>Update Profile</button></a>
+            </div>
         </div>
             <div class = "profile-extras">
             <p>Followers: TBD</p>
