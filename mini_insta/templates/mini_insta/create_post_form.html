@@ -8,26 +8,30 @@ Description: form html template for creating a new Post Instance for a Profile
 <!-- Extend the header -->
 {% block header %}
 : Create Post for {{profile.username}}
-<!-- Allow cancelling -->
-<div class="header-cancel">
-    <a href="{% url 'show_profile' profile.pk %}">Click to Cancel</a>
-<div>
 {% endblock %}
 
 {% block content %}
 <main class = "create-post-container">
     <article>
         <h2>Create a New Post for {{profile.username}}</h2>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <table>
-                {{ form.as_table }}
-            </table>
-            <div class="form-group">
-                <label for="image_file">Upload Photos:</label>
-                <input type="file" id="image_file" name="image_file" multiple>
-            </div>
-            <button type="submit">Create Post</button>
+        <div class = 'form-buttons'>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                    <tr>
+                    <div class = "form-group">
+                        <th><label for="image_file">Upload Photos:</label></th>
+                        <td><input type="file" id="image_file" name="image_file" multiple></td>
+                    </div>
+                </tr>
+                </table>
+                <button type="submit">Create Post</button>
+            </form>
+            <form action={{profile.get_absolute_url}} method = "GET">
+                <button type="submit">Cancel!</button>
+            </form>
+        </div>
         </form>
     </article>
 </main>

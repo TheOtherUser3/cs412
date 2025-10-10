@@ -4,7 +4,7 @@
 # by urls.py and does any additional logic required to display the desired page
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Post, Photo
 from .forms import CreatePostForm, UpdateProfileForm
 from django.urls import reverse
@@ -79,3 +79,51 @@ class UpdateProfileView(UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'mini_insta/update_profile_form.html'
+
+class DeletePostView(DeleteView):
+    """Define a View class to delete a specific post instance"""
+
+    model = Post
+    template_name = 'mini_insta/delete_post_form.html'
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        """override the method to provide the 
+        profile instance as a context variable"""
+        pk = self.kwargs['pk']
+        post = Post.objects.get(pk=pk)
+        profile = post.profile
+        context = super().get_context_data(**kwargs)
+        context['profile'] = profile
+        return context
+    
+    def get_success_url(self):
+        """Send user to the profile the deleted post corresponded to"""
+        pk = self.kwargs['pk']
+        post = Post.objects.get(pk=pk)
+        profile = post.profile
+        return reverse('show_profile', kwargs={'pk':profile.pk})
+    
+class UpdatePostView(UpdateView):
+    """Define a view class to update a post instance"""
+
+    model = Post
+    # CreatePostForm already handles the caption, no need to
+    # make a new form to do the exact same thing
+    form_class = CreatePostForm
+    template_name = 'mini_insta/update_post_form.html'
+
+    def get_context_data(self, **kwargs):
+        """override the method to provide the 
+        profile instance as a context variable"""
+        pk = self.kwargs['pk']
+        post = Post.objects.get(pk=pk)
+        profile = post.profile
+        context = super().get_context_data(**kwargs)
+        context['profile'] = profile
+        return context
+    
+    def get_success_url(self):
+        """Send user to the updated post"""
+        pk = self.kwargs['pk']
+        return reverse('show_post', kwargs={'pk':pk})

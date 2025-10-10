@@ -108,16 +108,13 @@ main {
 .profile-container {
     max-width: 600px;
     margin: 0 auto;
-}
-
-.profile-container article {
     text-align: center;
 }
 
 .profile-header {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
+    gap: 24px;
     margin-bottom: 20px;
 }
 
@@ -136,7 +133,7 @@ main {
 }
 
 .profile-info h2 {
-    margin: 0 0 10px 0;
+    margin: 0 0 0 0;
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -185,7 +182,7 @@ main {
 
 .post-item {
     width: 250px;          
-    height: 250px;
+    height: 300px;
     overflow: hidden;
     border-radius: 10px;
     background: #fff;
@@ -291,7 +288,7 @@ main {
 
 .photo-item {
     width: 250px;
-    height: 250px;
+    height: 300px;
     aspect-ratio: 1 / 1;   
     overflow: hidden;
     border-radius: 10px;
@@ -441,3 +438,130 @@ header { position: relative; }
 .create-post-container button[type="submit"]:active { transform: translateY(1px); }
 
 .create-post-container .form-group { margin-left: -28%; }
+
+/* === PROFILE BUTTONS === */
+.update-profile-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid #dbdbdb;
+    background: #efefef;
+    color: #262626;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.update-profile-btn:hover {
+    background: #fafafa;
+    border-color: #bfbfbf;
+}
+
+/* === Post page action buttons === */
+.post-actions {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.post-actions a {
+    display: inline-block;
+    margin: 0 6px;
+}
+
+.post-actions button {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid #dbdbdb;
+    background: #efefef;
+    color: #262626;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.post-actions button:hover {
+    background: #fafafa;
+    border-color: #bfbfbf;
+}
+
+/* === DELETE PAGE === */
+.delete-post-container {
+    max-width: 500px;
+    margin: 10px auto 0px auto;   
+    padding: 20px;
+    text-align: center;
+}
+
+.delete-post-container article {
+    background: #fff;
+    border: 1px solid #e9e9e9;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    padding: 24px 20px;
+}
+
+.delete-post-container h2 {
+    margin: 0 0 18px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #262626;
+}
+
+.delete-post-container form {
+    margin: 10px 0;
+}
+
+.delete-post-container button[type="submit"] {
+    padding: 8px 16px;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+/* "Yes, Delete Post" button */
+.delete-post-container form:first-of-type button {
+    background: #ffecec;
+    color: #b3261e;
+    border: 1px solid #f3b4b4;
+}
+.delete-post-container form:first-of-type button:hover {
+    background: #ffdede;
+    border-color: #e29d9d;
+    transform: translateY(-1px);
+}
+
+/* "No, Cancel" button */
+.delete-post-container form:last-of-type button {
+    background: #efefef;
+    color: #262626;
+    border: 1px solid #dbdbdb;
+}
+.delete-post-container form:last-of-type button:hover {
+    background: #fafafa;
+    border-color: #bfbfbf;
+    transform: translateY(-1px);
+}
+
+/* Cancel Buttons */
+.form-buttons form:last-of-type button {
+  color:#b3261e;
+  font-weight: 700 !important;
+}
+
+/* Upload Photos text and box */
+.create-post-container table { 
+    width:100%; 
+    border-collapse:collapse; 
+}
+.create-post-container table th { 
+    text-align:right; 
+    padding: 0px 12px 10px 0; 
+    white-space:nowrap; 
+}
+
+.create-post-container table td { 
+    width:100%; 
+}

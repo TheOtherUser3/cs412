@@ -1,15 +1,35 @@
 <!-- 
-File: show_post.html
-Author: Dawson Maska (dawsonwm@bu.edu), 9/30/2025
-Description: html code template to display a single post in the mini_insta application.
+File: delete_post_form.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/9/2025
+Description: form html template for deleting a post instance
 -->
 {% extends 'mini_insta/base.html' %}
 
-{% block header %}: Post by {{post.profile.username}} {% endblock %}
+<!-- Extend the header -->
+{% block header %}
+: Delete Post for {{profile.username}}
+{% endblock %}
 
 {% block content %}
 
-<main class = "post-container">
+<!-- Show the confirm and delete buttons -->
+<main class = "delete-post-container">
+    <article>
+        <h2>Are You Sure You Want to Delete this Post for {{profile.username}}?</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Yes, Delete Post</button>
+        </form>
+        <form action={{profile.get_absolute_url}} method = "GET">
+            <button type="submit"> No, Cancel!</button>
+        </form>
+
+    </article>
+</main>
+
+<!-- Show the full post to be deleted -->
+ <main class = "post-container">
     <article>
         <div class="post-header">
             <div class="post-profile-pic-container">
@@ -22,16 +42,6 @@ Description: html code template to display a single post in the mini_insta appli
                 <p class="post-timestamp">{{ post.timestamp }}</p>
             </div>
         </div>
-
-        <div class="post-actions">
-            <a href="{% url 'update_post' post.pk %}">
-                <button type="button">Update Post</button>
-            </a>
-            <a href="{% url 'delete_post' post.pk %}">
-                <button type="button">Delete Post</button>
-            </a>
-        </div>
-
         <div class="post-photos">
             <!-- Go through all photos and display them one by one -->
             {% for photo in post.get_all_photos %}
@@ -47,8 +57,10 @@ Description: html code template to display a single post in the mini_insta appli
         </div>
     </article>
 </main>
+
+
 {% endblock %}
 
 {% block footer %}
-    <li><a href ="{% url 'show_profile' post.profile.pk %}"><img class = "footer-icon" src="{{post.profile.profile_image_url}}"></a></li>
+    <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
 {% endblock %}
