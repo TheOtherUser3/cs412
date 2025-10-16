@@ -153,3 +153,41 @@ class PostFeedListView(ListView):
         context['profile'] = profile
         context['posts'] = profile.get_post_feed()
         return context
+    
+class SearchView(ListView):
+    """Define a view class to search for profiles and posts based on user input"""
+    template_name = 'mini_insta/search_results.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """Handle GET and POST requests differently"""
+        query = self.request.GET.get('query')
+        if query:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            template_name = 'mini_insta/search.html'
+            context = {'profile': Profile.objects.get(pk=self.kwargs['pk'])}
+            return render(request, template_name, context)
+
+    def get_queryset(self):
+        """Return a list of Posts that match the search query"""
+        query = self.request.GET.get('query')
+        results = Post.objects.filter(caption__icontains=query)
+        return results
+
+    def get_context_data(self, **kwargs):
+        """Add the profile and query to the context data for the template"""
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        context['profile'] = profile
+        #Get all QuerySets by orring them together and removing duplicates with distinct()
+        profiles = (
+            Profile.objects.filter(username__icontains=self.request.GET.get('query')) |
+            Profile.objects.filter(bio_text__icontains=self.request.GET.get('query')) |
+            Profile.objects.filter(display_name__icontains=self.request.GET.get('query'))
+        ).distinct()
+        posts = self.get_queryset()
+        context['profiles'] = profiles.distinct()
+        context['posts'] = posts
+        context['query'] = self.request.GET.get('query')
+        return context

@@ -622,3 +622,28 @@ header { position: relative; }
     color: #00376b;    
     text-decoration: underline; 
 }
+
+
+.search-form label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+.search-form input[type="text"] {
+    width: 352px;
+    padding: 10px 14px;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    background: #fff;
+    font: inherit;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.search-form input[type="text"]:focus {
+    border-color: #b3b3b3;
+    box-shadow: 0 0 0 3px rgba(0,0,0,.06);
+    outline: none;
+}

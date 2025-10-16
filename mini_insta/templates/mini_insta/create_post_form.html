@@ -38,5 +38,7 @@ Description: form html template for creating a new Post Instance for a Profile
 {% endblock %}
 
 {% block footer %}
+    <li><a href="{% url 'show_feed' profile.pk %}"><img class = "footer-icon" src ="https://previews.123rf.com/images/dstarky/dstarky1708/dstarky170800277/83684809-premium-home-icon-or-logo-in-line-style-high-quality-sign-and-symbol-on-a-white-background-vector.jpg"></a></li>
+    <li><a href="{% url 'search' profile.pk %}"><img class = "footer-icon" src ="https://m.media-amazon.com/images/I/61ethi3gr0L.jpg"></a></li>
     <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
 {% endblock %}

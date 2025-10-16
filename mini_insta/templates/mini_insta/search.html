@@ -1,26 +1,25 @@
 <!-- 
-File: update_post_form.html
+File: search.html
 Author: Dawson Maska (dawsonwm@bu.edu), 10/9/2025
-Description: form html template for updating a Post instance 
+Description: form html template for making a search query
 -->
 {% extends 'mini_insta/base.html' %}
 
 <!-- Extend the header -->
-{% block header %}
-: Update Post for {{profile.username}}
+{% block header %}: Search
 {% endblock %}
 
 {% block content %}
 <main class = "create-post-container">
     <article>
-        <h2>Update Post for {{profile.username}}</h2>
+        <h2>Submit Your Search</h2>
         <div class = 'form-buttons'>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <table>
-                    {{ form.as_table }}
-                </table>
-                <button type="submit">Update Post</button>
+            <form method="GET">
+                <div class = "search-form">
+                    <th><label for="query">Search for text, tags, or people:</label></th>
+                    <td><input type="text" id="query" name="query"></td>
+                </div>
+                <button type="submit">Search</button>
             </form>
             <form action="{% url 'show_profile' profile.pk %}" method = "GET">
                 <button type="submit">Cancel</button>
@@ -34,4 +33,5 @@ Description: form html template for updating a Post instance
     <li><a href="{% url 'show_feed' profile.pk %}"><img class = "footer-icon" src ="https://previews.123rf.com/images/dstarky/dstarky1708/dstarky170800277/83684809-premium-home-icon-or-logo-in-line-style-high-quality-sign-and-symbol-on-a-white-background-vector.jpg"></a></li>
     <li><a href="{% url 'search' profile.pk %}"><img class = "footer-icon" src ="https://m.media-amazon.com/images/I/61ethi3gr0L.jpg"></a></li>
     <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
+    <li><a href="{% url 'create_post' profile.pk %}"><img class = "footer-icon" src ="https://cdn-icons-png.flaticon.com/512/992/992651.png"></a></li>
 {% endblock %}

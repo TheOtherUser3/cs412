@@ -1,19 +1,39 @@
 <!-- 
-File: show_feed.html
-Author: Dawson Maska (dawsonwm@bu.edu), 10/16/2025
-Description: html code template to display a specific profile's feed.
-That is, posts from profiles they follow, most recent first.
+File: search_results.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/9/2025
+Description: html template to display search query results
 -->
 {% extends 'mini_insta/base.html' %}
 
-{% block header %}: Post Feed 
-<a href ="{% url 'show_profile' profile.pk %}" class = 'header-return'>
-    <span>Click to Return to Profile</span>
-</a>
+<!-- Extend the header -->
+{% block header %}
+: Search
 {% endblock %}
 
 {% block content %}
 
+{% if profiles|length == 0 %}
+    <h2>No Profiles found matching your search for "{{query}}"</h2>
+{% else %}
+    <h2>Profiles matching your search for "{{query}}":</h2>
+    <main class = "grid-container">
+    <!-- Display each profile as an image one by one -->
+    {% for profile in profiles %}
+    <article>
+        <h2>{{profile.display_name}}</h2>
+        <a href="{% url 'show_profile' profile.pk %}">
+        <img class = "avatar" src ={{profile.profile_image_url}}>
+        </a>
+    </article>
+    {% endfor %}
+</main>
+{% endif %}
+
+{% if posts|length == 0 %}
+    <h2>No Posts found matching your search for "{{query}}"</h2>
+{% else %}
+    <h2>Posts matching your search for "{{query}}":</h2>
+<!-- Display each post one by one -->
 {% for post in posts %}
     <main class = "post-container">
         <article>
@@ -64,9 +84,10 @@ That is, posts from profiles they follow, most recent first.
             </div>
         </article>
     </main>
-{% empty %}
-    <p>No posts to display.</p>
 {% endfor %}
+{% endif %}
+
+
 {% endblock %}
 
 {% block footer %}

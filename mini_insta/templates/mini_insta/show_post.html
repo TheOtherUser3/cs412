@@ -58,7 +58,7 @@ Description: html code template to display a single post in the mini_insta appli
             <!-- Go through all comments and display them one by one -->
             {% for comment in post.get_all_comments %}
                 <div class="comment-item">
-                    <p><strong>{{ comment.profile.username }}:</strong>: {{ comment.text }}</p>
+                    <p><strong>{{ comment.profile.username }}:</strong> {{ comment.text }}</p>
                 </div>
             {% endfor %}
         </div>
@@ -67,5 +67,7 @@ Description: html code template to display a single post in the mini_insta appli
 {% endblock %}
 
 {% block footer %}
+    <li><a href="{% url 'show_feed' post.profile.pk %}"><img class = "footer-icon" src ="https://previews.123rf.com/images/dstarky/dstarky1708/dstarky170800277/83684809-premium-home-icon-or-logo-in-line-style-high-quality-sign-and-symbol-on-a-white-background-vector.jpg"></a></li>
+    <li><a href="{% url 'search' post.profile.pk %}"><img class = "footer-icon" src ="https://m.media-amazon.com/images/I/61ethi3gr0L.jpg"></a></li>
     <li><a href ="{% url 'show_profile' post.profile.pk %}"><img class = "footer-icon" src="{{post.profile.profile_image_url}}"></a></li>
 {% endblock %}
