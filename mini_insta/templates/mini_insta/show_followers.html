@@ -1,0 +1,27 @@
+<!-- 
+File: show_followers.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/16/2025
+Description: html code template to display all profiles following a specific profile
+-->
+{% extends 'mini_insta/base.html' %}
+
+{% block header %}: Profiles {{profile.username}} is followed by: {% endblock %}
+
+{% block content %}
+
+<main class = "grid-container">
+    <!-- Display each profile as an image + display name one by one -->
+    {% for follower in profile.get_followers %}
+    <article>
+        <h2>{{follower.display_name}}</h2>
+        <a href="{% url 'show_profile' follower.pk %}">
+        <img class = "avatar" src ={{follower.profile_image_url}}>
+        </a>
+    </article>
+    {% endfor %}
+</main>
+{% endblock %}
+
+{% block footer %}
+    <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
+{% endblock %}

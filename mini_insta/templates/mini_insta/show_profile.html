@@ -21,9 +21,9 @@ Description: html code template to display a single user profile in the mini_ins
                     <a href = "{% url 'update_profile' profile.pk %}"><button class = 'update-profile-btn'>Update Profile</button></a>
                 </div>
             </div>
-                <div class = "profile-extras">
-                <p>Followers: TBD</p>
-                <p>Following: TBD</p>
+            <div class = "profile-extras">
+                <p><a href="{% url 'show_followers' profile.pk %}">Followers: {{profile.get_num_followers}}</a></p>
+                <p><a href="{% url 'show_following' profile.pk %}">Following: {{profile.get_num_following}}</a></p>
                 <P>Posts: {{profile.get_all_posts|length}}</P>
             </div>
             <h1>Posts</h1>

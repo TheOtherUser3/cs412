@@ -1,0 +1,75 @@
+<!-- 
+File: show_feed.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/16/2025
+Description: html code template to display a specific profile's feed.
+That is, posts from profiles they follow, most recent first.
+-->
+{% extends 'mini_insta/base.html' %}
+
+{% block header %}: Post Feed 
+<a href ="{% url 'show_profile' profile.pk %}" class = 'header-return'>
+    <span>Click to Return to Profile</span>
+</a>
+{% endblock %}
+
+{% block content %}
+
+{% for post in posts %}
+    <main class = "post-container">
+        <article>
+            <div class="post-header">
+                <div class="post-profile-pic-container">
+                    <a href="{% url 'show_profile' post.profile.pk %}">
+                        <img src="{{ post.profile.profile_image_url }}" alt="{{ post.profile.display_name }}">
+                    </a>
+                </div>
+                <div class="post-profile-info">
+                    <h2><a href="{% url 'show_profile' post.profile.pk %}">{{ post.profile.display_name }}</a></h2>      
+                    <p class="post-timestamp">{{ post.timestamp }}</p>
+                </div>
+            </div>
+
+            <div class="post-photos">
+                <div class="photo-item">
+                    {% if post.get_all_photos|length == 0 %}
+                        <a href="{% url 'show_post' post.pk %}">
+                            <img src="https://png.pngtree.com/png-clipart/20200311/ourmid/pngtree-empty-frame-with-torn-paper-png-image_2157793.jpg" alt="Post by {{ profile.username }}">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'show_post' post.pk %}">
+                            <img src="{{ post.get_all_photos.0.get_image_url }}" alt="Post by {{ profile.username }}">
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="post-caption">
+                {% if post.get_likes|length == 0 %}
+                    <p>No likes yet</p>
+                {% elif post.get_likes|length == 1 %}
+                    <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong></p>
+                {% elif post.get_likes|length == 2 %}
+                    <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>1 other</strong></p>
+                {% else %}
+                    <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>{{post.get_likes|length|add:-1 }} others</strong></p>
+                {% endif %}
+                <p><strong>{{post.profile.username}}</strong>: {{ post.caption }}</p>
+            </div>
+            <div class="post-comments">
+                <!-- Go through all comments and display them one by one -->
+                {% for comment in post.get_all_comments %}
+                    <div class="comment-item">
+                        <p><strong>{{ comment.profile.username }}:</strong>: {{ comment.text }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </article>
+    </main>
+{% empty %}
+    <p>No posts to display.</p>
+{% endfor %}
+{% endblock %}
+
+{% block footer %}
+    <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
+    <li><a href="{% url 'create_post' profile.pk %}"><img class = "footer-icon" src ="https://cdn-icons-png.flaticon.com/512/992/992651.png"></a></li>
+{% endblock %}

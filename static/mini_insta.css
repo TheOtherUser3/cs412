@@ -70,9 +70,9 @@ main {
 
 /* === Profile Grid (show_all_profiles.html) === */
 .grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0;                
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0;                
 }
 
 .grid-container article {
@@ -153,6 +153,18 @@ main {
     margin: 0;
     font-size: 0.9rem;
     font-weight: bold;
+}
+
+.profile-extras a {
+    color: #262626;        
+    text-decoration: none;    
+    font-weight: bold;       
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.profile-extras a:hover {
+    color: #00376b;           
+    text-decoration: underline; 
 }
 
 .profile-bio {
@@ -564,4 +576,49 @@ header { position: relative; }
 
 .create-post-container table td { 
     width:100%; 
+}
+
+/* === Comments Section  === */
+.post-comments {
+    padding: 10px 14px 14px;
+    border-top: 1px solid #eee;    
+    background: #fafafa;  
+}
+
+.comment-item {
+    margin-bottom: 6px;
+}
+
+.comment-item:last-child {
+    margin-bottom: 0;
+}
+
+.comment-item p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.4;
+}
+
+.comment-item strong {
+    color: #262626;
+    font-weight: 600;
+}
+
+/* === Header Return Link === */
+.header-return {
+    position: fixed;
+    top: 15px;
+    right: 16px;
+    text-decoration: none;
+    color: #262626;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    z-index: 200; 
+}
+
+.header-return:hover {
+    color: #00376b;    
+    text-decoration: underline; 
 }

@@ -127,3 +127,29 @@ class UpdatePostView(UpdateView):
         """Send user to the updated post"""
         pk = self.kwargs['pk']
         return reverse('show_post', kwargs={'pk':pk})
+
+class ShowFollowersDetailView(DetailView):
+    """Define a view class to show all followers of a specific Profile"""
+    model = Profile
+    template_name = 'mini_insta/show_followers.html'
+    context_object_name = 'profile'
+
+class ShowFollowingDetailView(DetailView):
+    """Define a view class to show all Profiles a specific Profile is following"""
+    model = Profile
+    template_name = 'mini_insta/show_following.html'
+    context_object_name = 'profile'
+
+class PostFeedListView(ListView):
+    """Define a view class to show the post feed of a specific Profile"""
+    model = Post
+    template_name = 'mini_insta/show_feed.html'
+
+    def get_context_data(self, **kwargs):
+        """Add the profile to the context data for the template"""
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        context['profile'] = profile
+        context['posts'] = profile.get_post_feed()
+        return context

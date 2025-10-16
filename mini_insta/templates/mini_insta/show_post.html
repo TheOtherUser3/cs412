@@ -43,7 +43,24 @@ Description: html code template to display a single post in the mini_insta appli
             {% endfor %}
         </div>
         <div class="post-caption">
+            {% if post.get_likes|length == 0 %}
+                <p>No likes yet</p>
+            {% elif post.get_likes|length == 1 %}
+                <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong></p>
+            {% elif post.get_likes|length == 2 %}
+                <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>1 other</strong></p>
+            {% else %}
+                <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>{{post.get_likes|length|add:-1 }} others</strong></p>
+            {% endif %}
             <p><strong>{{post.profile.username}}</strong>: {{ post.caption }}</p>
+        </div>
+        <div class="post-comments">
+            <!-- Go through all comments and display them one by one -->
+            {% for comment in post.get_all_comments %}
+                <div class="comment-item">
+                    <p><strong>{{ comment.profile.username }}:</strong>: {{ comment.text }}</p>
+                </div>
+            {% endfor %}
         </div>
     </article>
 </main>

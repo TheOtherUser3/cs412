@@ -33,6 +33,36 @@ class Profile(models.Model):
         """Return the url to access a particular profile instance."""
         return reverse('show_profile', kwargs={'pk':self.pk})
     
+    def get_followers(self):
+        """Return a list of the Profiles of all followers of this Profile instance."""
+        follows = Follow.objects.filter(profile=self)
+        followers = []
+        for follow in follows:
+            followers.append(follow.follower_profile)
+        return followers
+    
+    def get_num_followers(self):
+        """Return the number of followers of this Profile instance."""
+        return Follow.objects.filter(profile=self).count()
+    
+    def get_following(self):
+        """Return a list of the Profiles that this Profile instance is following."""
+        follows = Follow.objects.filter(follower_profile=self)
+        following = []
+        for follow in follows:
+            following.append(follow.profile)
+        return following
+    
+    def get_num_following(self):
+        """Return the number of Profiles that this Profile instance is following."""
+        return Follow.objects.filter(follower_profile=self).count()
+    
+    def get_post_feed(self):
+        """Return a list of Posts from Profiles that this Profile instance is following, ordered by timestamp"""
+        following = self.get_following()
+        posts = Post.objects.filter(profile__in=following)
+        return posts.order_by('-timestamp')
+    
 class Post(models.Model):
     """Encapsulate the data of a mini_insta Post attached to a Profile"""
     # Define the data attributes of a Post
@@ -47,6 +77,16 @@ class Post(models.Model):
     def get_all_photos(self):
         """Return all photos associated with this Post instance."""
         return Photo.objects.filter(post=self)
+    
+    def get_all_comments(self):
+        """Return all comments associated with this Post instance."""
+        comments = Comment.objects.filter(post=self)
+        return comments.order_by('timestamp')
+    
+    def get_likes(self):
+        """Return all likes associated with this Post instance."""
+        likes = Like.objects.filter(post=self)
+        return likes.order_by('-timestamp')
     
 class Photo(models.Model):
     """Encapsulate the data of a mini_insta Photo attached to a Post"""
@@ -69,3 +109,37 @@ class Photo(models.Model):
             return self.image_url
         else:
             return self.image_file.url
+        
+class Follow(models.Model):
+    """Encapsulate the data of a mini_insta Follow relationship between two Profiles"""
+    # Define the data attributes of a Follow relationship
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile')
+    follower_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='follower_profile')
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Return a human-readable representation of the model instance."""
+        return f"{self.follower_profile.username} follows {self.profile.username}"
+    
+class Comment(models.Model):
+    """Encapsulate the data of a mini_insta Comment on a Post"""
+    # Define the data attributes of a Comment
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    text = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Return a human-readable representation of the model instance."""
+        return f"Comment by {self.profile.username} on Profile {self.profile.username} and Post ID: {self.post.id}: {self.text[:30]}..."
+    
+class Like(models.Model):
+    """Encapsulate the data of a mini_insta Like on a Post"""
+    # Define the data attributes of a Like
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Return a human-readable representation of the model instance."""
+        return f"Like by {self.profile.username} on Post ID: {self.post.id}"
