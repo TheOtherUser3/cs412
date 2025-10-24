@@ -1,0 +1,41 @@
+<!-- 
+File: create_profile_form.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/24/2025
+Description: form html template for creating a new Profile Instance and registering a new user
+-->
+{% extends 'mini_insta/base.html' %}
+
+{% block header %}: Create New Account
+{% endblock %}
+
+{% block content %}
+<main class="create-profile-container">
+    <article class="create-profile-card">
+        <h2>Create Your Account</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="profile-form">
+            {% csrf_token %}
+            
+            <h3>User Registration</h3>
+            {{ user_form.username.label_tag }} {{ user_form.username }}
+            {{ user_form.password1.label_tag }} {{ user_form.password1 }}
+            {{ user_form.password2.label_tag }} {{ user_form.password2 }}
+            
+            <h3>Profile Details</h3>
+            {{ form.username.label_tag }} {{ form.username }}
+            {{ form.display_name.label_tag }} {{ form.display_name }}
+            {{ form.bio_text.label_tag }} {{ form.bio_text }}
+            {{ form.profile_image_url.label_tag }} {{ form.profile_image_url }}
+
+            <div class="button-row">
+                <button type="submit" class="primary-btn">Create Profile</button>
+                <a href="{% url 'show_all_profiles' %}" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </article>
+</main>
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

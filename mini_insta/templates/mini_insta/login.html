@@ -1,7 +1,7 @@
 
 <!-- 
 File: login.html
-Author: Dawson Maska (dawsonwm@bu.edu), 10/9/2025
+Author: Dawson Maska (dawsonwm@bu.edu), 10/23/2025
 Description: form html template for a user logging in
 -->
 {% extends 'mini_insta/base.html' %}
@@ -25,7 +25,7 @@ Description: form html template for a user logging in
             {% endif %}
         </form>
         <hr>
-        <!-- <p class="register-link">Don't have an account? <a href="{% url 'register' %}">Register here</a></p> -->
+        <p class="register-link">Don't have an account? <a href="{% url 'create_profile' %}">Register here</a></p>
     </article>
 </main>
 {% endblock %}

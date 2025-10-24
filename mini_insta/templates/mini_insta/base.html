@@ -38,6 +38,8 @@ the header and footer, navigation bar, and css link
                         </li>
                     {% else %}
                         <li><a href="{% url 'login' %}" class="footer-text-btn">Login</a></li>
+                        <li><a href="{% url 'create_profile' %}" class="footer-text-btn">Register</a></li>
+
                     {% endif %}
                     {% block footer %}
                     {% endblock %}

@@ -6,11 +6,12 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Post, Photo
-from .forms import CreatePostForm, UpdateProfileForm
+from .forms import CreatePostForm, UpdateProfileForm, CreateProfileForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth import login
 # Create your views here.
 
 class MiniInstaLoginRequiredMixin(LoginRequiredMixin):
@@ -202,3 +203,26 @@ class SearchView(MiniInstaLoginRequiredMixin, ListView):
         context['query'] = self.request.GET.get('query')
         return context
     
+class CreateProfileView(CreateView):
+    """Define a view class to create a new Profile and register a new user account"""
+    model = Profile
+    form_class = CreateProfileForm
+    template_name = 'mini_insta/create_profile_form.html'
+
+    def get_context_data(self, **kwargs):
+        """Add the user creation form to the context data for the template"""
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm(prefix="user")
+        return context
+
+    def get_success_url(self):
+        """Return the URL to direct to after successful registration"""
+        return reverse('login')
+    
+    def form_valid(self, form):
+        """Create the User account and associate it with the new Profile"""
+        user_form = UserCreationForm(self.request.POST, prefix="user")
+        user = user_form.save()
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        form.instance.user = user
+        return super().form_valid(form)
