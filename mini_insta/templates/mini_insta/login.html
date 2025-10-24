@@ -1,0 +1,31 @@
+
+<!-- 
+File: login.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/9/2025
+Description: form html template for a user logging in
+-->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Extend the header -->
+{% block header %}: Login
+{% endblock %}
+
+{% block content %}
+<main class="login-container">
+    <article class="login-card">
+        <h2>Login to MiniInsta</h2>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Login" class="login-btn">
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% else %}
+                <input type="hidden" name="next" value="{% url 'show_all_profiles' %}">
+            {% endif %}
+        </form>
+        <hr>
+        <!-- <p class="register-link">Don't have an account? <a href="{% url 'register' %}">Register here</a></p> -->
+    </article>
+</main>
+{% endblock %}

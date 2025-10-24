@@ -6,8 +6,7 @@ Description: html template to display search query results
 {% extends 'mini_insta/base.html' %}
 
 <!-- Extend the header -->
-{% block header %}
-: Search
+{% block header %}: Search Results
 {% endblock %}
 
 {% block content %}
@@ -91,5 +90,4 @@ Description: html template to display search query results
 {% endblock %}
 
 {% block footer %}
-    <li><a href="{% url 'create_post' %}"><img class = "footer-icon" src ="https://cdn-icons-png.flaticon.com/512/992/992651.png"></a></li>
 {% endblock %}

@@ -9,6 +9,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # Create your views here.
 
+class MiniInstaLoginRequiredMixin(LoginRequiredMixin):
+    """Custom LoginRequiredMixin that always redirects to the correct login page."""
+
+    def get_login_url(self):
+        """Return the login URL to redirect to for login."""
+        return reverse('login')
+    
 class ShowAllView(ListView):
     """Define a view class to show all blog Articles"""
     model = Article

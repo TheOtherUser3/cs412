@@ -30,6 +30,14 @@ the header and footer, navigation bar, and css link
                         <li><a href="{% url 'search' %}"><img class = "footer-icon" src ="https://m.media-amazon.com/images/I/61ethi3gr0L.jpg"></a></li>
                         <li><a href ="{% url 'show_profile' request.user.profile_set.first.pk %}"><img class = "footer-icon" src="{{request.user.profile_set.first.profile_image_url}}"></a></li>
                         <li><a href="{% url 'create_post' %}"><img class = "footer-icon" src ="https://cdn-icons-png.flaticon.com/512/992/992651.png"></a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post" class="footer-form">
+                                {% csrf_token %}
+                                <button type="submit" class="footer-text-btn">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="footer-text-btn">Login</a></li>
                     {% endif %}
                     {% block footer %}
                     {% endblock %}
