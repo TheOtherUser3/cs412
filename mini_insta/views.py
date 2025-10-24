@@ -37,16 +37,14 @@ class CreatePostView(CreateView):
     def get_context_data(self, **kwargs):
         """Add the profile to the context data for the template"""
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.filter(user=self.request.user).first()
         context['profile'] = profile
         return context
     
     def form_valid(self, form):
         """Set the profile of the new Post to the Profile in the URL
         and create and set the Photo to the Post"""
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.filter(user=self.request.user).first()
         form.instance.profile = profile
         post = form.save()
         post.save()
@@ -68,8 +66,7 @@ class CreatePostView(CreateView):
     
     def get_success_url(self):
         """After creating a post, return to the profile page"""
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.filter(user=self.request.user).first()
         pk = profile.pk
         return reverse('show_profile', kwargs={'pk':pk})
 
@@ -79,6 +76,12 @@ class UpdateProfileView(UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'mini_insta/update_profile_form.html'
+
+    def get_object(self):
+        """Return the Profile instance to be updated based on user account"""
+        # .first to still return a Profile object for the admin profiles
+        profile = Profile.objects.filter(user=self.request.user).first()
+        return profile
 
 class DeletePostView(DeleteView):
     """Define a View class to delete a specific post instance"""
@@ -148,8 +151,7 @@ class PostFeedListView(ListView):
     def get_context_data(self, **kwargs):
         """Add the profile to the context data for the template"""
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.filter(user=self.request.user).first()
         context['profile'] = profile
         context['posts'] = profile.get_post_feed()
         return context
@@ -165,7 +167,7 @@ class SearchView(ListView):
             return super().dispatch(request, *args, **kwargs)
         else:
             template_name = 'mini_insta/search.html'
-            context = {'profile': Profile.objects.get(pk=self.kwargs['pk'])}
+            context = {'profile': Profile.objects.filter(user=self.request.user).first()}
             return render(request, template_name, context)
 
     def get_queryset(self):
@@ -177,8 +179,7 @@ class SearchView(ListView):
     def get_context_data(self, **kwargs):
         """Add the profile and query to the context data for the template"""
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.filter(user=self.request.user).first()
         context['profile'] = profile
         #Get all QuerySets by orring them together and removing duplicates with distinct()
         profiles = (
@@ -191,3 +192,4 @@ class SearchView(ListView):
         context['posts'] = posts
         context['query'] = self.request.GET.get('query')
         return context
+    

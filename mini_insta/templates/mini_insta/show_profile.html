@@ -18,7 +18,11 @@ Description: html code template to display a single user profile in the mini_ins
                 <div class="profile-info">
                     <h2>{{ profile.display_name }}</h2>
                     <p class="profile-bio">{{ profile.bio_text }}</p>
-                    <a href = "{% url 'update_profile' profile.pk %}"><button class = 'update-profile-btn'>Update Profile</button></a>
+                    <!-- Only allow editing if the set of profiles related to the user through the foreign key is the current profile 
+                        Use first to make sure it doesn't crash for the admin-->
+                    {% if request.user.id == profile.user.id %}
+                        <a href = "{% url 'update_profile' %}"><button class = 'update-profile-btn'>Update Profile</button></a>
+                    {% endif %}
                 </div>
             </div>
             <div class = "profile-extras">
@@ -53,8 +57,4 @@ Description: html code template to display a single user profile in the mini_ins
 {% endblock %}
 
 {% block footer %}
-    <li><a href="{% url 'show_feed' profile.pk %}"><img class = "footer-icon" src ="https://previews.123rf.com/images/dstarky/dstarky1708/dstarky170800277/83684809-premium-home-icon-or-logo-in-line-style-high-quality-sign-and-symbol-on-a-white-background-vector.jpg"></a></li>
-    <li><a href="{% url 'search' profile.pk %}"><img class = "footer-icon" src ="https://m.media-amazon.com/images/I/61ethi3gr0L.jpg"></a></li>
-    <li><a href ="{% url 'show_profile' profile.pk %}"><img class = "footer-icon" src="{{profile.profile_image_url}}"></a></li>
-    <li><a href="{% url 'create_post' profile.pk %}"><img class = "footer-icon" src ="https://cdn-icons-png.flaticon.com/512/992/992651.png"></a></li>
 {% endblock %}

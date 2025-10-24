@@ -14,7 +14,7 @@ the header and footer, navigation bar, and css link
     <body>
         
         <header>
-            <h1> MiniInsta{% block header %}{% endblock %}</h1>   
+            <h1> MiniInsta{% block header %}{% endblock %}: {{request.user}}</h1>   
         </header>
         <!-- Page specific content -->
         {% block content %}
@@ -24,6 +24,13 @@ the header and footer, navigation bar, and css link
         <footer>
             <nav>
                 <ul>
+                    <li><a href="{% url 'show_all_profiles' %}"><img class = "footer-icon" src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlo2Mcne5gfIgamsBMyHUboDtaQoQsGGC-LA&s"></a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'show_feed' %}"><img class = "footer-icon" src ="https://previews.123rf.com/images/dstarky/dstarky1708/dstarky170800277/83684809-premium-home-icon-or-logo-in-line-style-high-quality-sign-and-symbol-on-a-white-background-vector.jpg"></a></li>
+                        <li><a href="{% url 'search' %}"><img class = "footer-icon" src ="https://m.media-amazon.com/images/I/61ethi3gr0L.jpg"></a></li>
+                        <li><a href ="{% url 'show_profile' request.user.profile_set.first.pk %}"><img class = "footer-icon" src="{{request.user.profile_set.first.profile_image_url}}"></a></li>
+                        <li><a href="{% url 'create_post' %}"><img class = "footer-icon" src ="https://cdn-icons-png.flaticon.com/512/992/992651.png"></a></li>
+                    {% endif %}
                     {% block footer %}
                     {% endblock %}
                 </ul>
