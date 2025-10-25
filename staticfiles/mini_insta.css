@@ -321,7 +321,9 @@ main {
     border-top: 1px solid #eee;
 }
 
-.post-caption p { margin: 0 0 6px; }
+.post-caption p { 
+    margin: 0 0 6px; 
+}
 
 .posts-grid,
 .post-container {
@@ -646,4 +648,304 @@ header { position: relative; }
     border-color: #b3b3b3;
     box-shadow: 0 0 0 3px rgba(0,0,0,.06);
     outline: none;
+}
+
+/* === Login Page === */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px); 
+    padding: 20px 0;
+}
+
+.login-card {
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    padding: 30px 50px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-card h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #262626;
+    margin-bottom: 20px;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.login-card input[type="text"]:focus,
+.login-card input[type="password"]:focus {
+    border-color: #aaa;
+    outline: none;
+}
+
+.login-btn {
+    background: #efefef;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    color: #262626;
+    font-weight: 600;
+    padding: 8px 0;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.login-btn:hover {
+    background: #fafafa;
+    border-color: #bfbfbf;
+}
+
+.register-link {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    color: #555;
+}
+
+.register-link a {
+    color: #3897f0;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* === Logout Confirmation Page === */
+.logout-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+    padding: 20px 0;
+}
+
+.logout-card {
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    padding: 40px 60px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.logout-card h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #262626;
+    margin-bottom: 14px;
+}
+
+.logout-message {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 24px;
+}
+
+.login-again-btn {
+    display: inline-block;
+    background: #efefef;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    color: #262626;
+    font-weight: 600;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.login-again-btn:hover {
+    background: #fafafa;
+    border-color: #bfbfbf;
+}
+/* === Footer Text Buttons (Login/Logout) === */
+.footer-form {
+    margin: 0;
+    padding: 0;
+}
+
+.footer-text-btn {
+    background: none;
+    border: none;
+    color: #262626;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: color 0.2s ease;
+}
+
+.footer-text-btn:hover {
+    color: #555;
+}
+
+footer nav ul li {
+    display: flex;
+    align-items: center;
+}
+/* Remove the annoying underline after clicking once */
+.footer-text-btn,
+.footer-text-btn:focus,
+.footer-text-btn:active,
+.footer-text-btn:visited {
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* === Create Profile Page  === */
+.create-profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+    padding: 30px 0;
+}
+
+.create-profile-card {
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    padding: 30px 50px;
+    max-width: 480px;
+    width: 100%;
+    text-align: left;
+}
+
+.create-profile-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #262626;
+}
+
+.create-profile-card h3 {
+    font-size: 1rem;
+    color: #444;
+    margin: 20px 0 10px;
+}
+
+.profile-form label {
+    font-weight: 600;
+    color: #262626;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.profile-form input,
+.profile-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    resize: none;
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus {
+    border-color: #aaa;
+    outline: none;
+}
+
+.profile-form input[type="password"],
+.profile-form input[type="text"],
+.profile-form input[type="url"] {
+    height: 38px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.primary-btn {
+    background: #efefef;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    color: #262626;
+    font-weight: 600;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.primary-btn:hover {
+    background: #fafafa;
+    border-color: #bfbfbf;
+}
+
+.cancel-btn {
+    background: none;
+    border: none;
+    color: #262626;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    color: #555;
+}
+
+.create-profile-card h3 {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #262626;
+    margin: 25px 0 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 5px;
+}
+
+textarea[name="username"],
+textarea[name="display_name"] {
+    height: 38px !important;
+    resize: none;
+    overflow-y: hidden;
+}
+
+/* === (UN)LIKE BUTTONS === */
+.like-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    vertical-align: middle;
+    object-fit: contain;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.like-icon:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+.like-caption {
+    display: inline;
+    margin-bottom: 20px;
 }

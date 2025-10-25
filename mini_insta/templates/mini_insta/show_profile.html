@@ -22,6 +22,19 @@ Description: html code template to display a single user profile in the mini_ins
                         Use first to make sure it doesn't crash for the admin-->
                     {% if request.user.id == profile.user.id %}
                         <a href = "{% url 'update_profile' %}"><button class = 'update-profile-btn'>Update Profile</button></a>
+                    {% elif request.user.is_authenticated %}
+                        {% if profile in request.user.profile_set.first.get_following %}
+                            <form method="POST" action="{% url 'unfollow' profile.pk %}">
+                                {% csrf_token %}
+                                <!-- Too lazy to rename the css so these are now also update profile buttons -->
+                                <button type="submit" class="update-profile-btn">Unfollow</button>
+                            </form>
+                        {% else %}
+                            <form method="POST" action="{% url 'follow' profile.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="update-profile-btn">Follow</button>
+                            </form>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

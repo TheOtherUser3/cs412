@@ -5,13 +5,14 @@
 
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Profile, Post, Photo
+from .models import Profile, Post, Photo, Follow, Like
 from .forms import CreatePostForm, UpdateProfileForm, CreateProfileForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login
+from django.shortcuts import redirect
 # Create your views here.
 
 class MiniInstaLoginRequiredMixin(LoginRequiredMixin):
@@ -226,3 +227,35 @@ class CreateProfileView(CreateView):
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         form.instance.user = user
         return super().form_valid(form)
+    
+def follow(request, pk):
+    """Define a view function to follow a specific profile"""
+    profile_to_follow = Profile.objects.get(pk=pk)
+    profile = Profile.objects.filter(user=request.user).first()
+    follow = Follow()
+    follow.profile = profile_to_follow
+    follow.follower_profile = profile
+    follow.save()
+    return redirect('show_profile', pk=pk)
+
+def unfollow(request, pk):
+    """Define a view function to unfollow a specific profile"""
+    follow = Follow.objects.get(profile__pk=pk, follower_profile=request.user.profile_set.first())
+    follow.delete()
+    return redirect('show_profile', pk=pk)
+
+def like(request, pk):
+    """Define a view function to like a specific post"""
+    post_to_like = Post.objects.get(pk=pk)
+    profile = Profile.objects.filter(user=request.user).first()
+    like = Like()
+    like.post = post_to_like
+    like.profile = profile
+    like.save()
+    return redirect('show_post', pk=pk)
+
+def unlike(request, pk):
+    """Define a view function to unlike a specific post"""
+    like = Like.objects.get(post__pk=pk, profile=request.user.profile_set.first())
+    like.delete()
+    return redirect('show_post', pk=pk)

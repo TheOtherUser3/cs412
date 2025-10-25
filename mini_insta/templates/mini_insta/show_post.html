@@ -47,15 +47,25 @@ Description: html code template to display a single post in the mini_insta appli
             {% endfor %}
         </div>
         <div class="post-caption">
-            {% if post.get_likes|length == 0 %}
-                <p>No likes yet</p>
-            {% elif post.get_likes|length == 1 %}
-                <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong></p>
-            {% elif post.get_likes|length == 2 %}
-                <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>1 other</strong></p>
-            {% else %}
-                <p>Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>{{post.get_likes|length|add:-1 }} others</strong></p>
+            <!-- Only allow likes if logged in.  If already liked, show unlike link, else like link -->
+            {% if request.user.is_authenticated and request.user.profile_set.first in post.get_like_profiles %}
+                <a href = "{% url 'unlike' post.pk %}"><img class = "like-icon" src = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png"></a>
+            {% elif request.user.is_authenticated %}
+                <a href = "{% url 'like' post.pk %}"><img class = "like-icon" src = "https://icons.veryicon.com/png/o/internet--web/elegant-linear-icon/heart-58.png"></a>
             {% endif %}
+
+            <!-- Need multiple if statements to ensure proper wording for low like counts -->
+            {% if post.get_likes|length == 0 %}
+                <p class = "like-caption">No likes yet</p>
+            {% elif post.get_likes|length == 1 %}
+                <p class = "like-caption">Liked by <strong>{{post.get_likes.0.profile.username}}</strong></p>
+            {% elif post.get_likes|length == 2 %}
+                <p class = "like-caption">Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>1 other</strong></p>
+            {% else %}
+                <p class = "like-caption">Liked by <strong>{{post.get_likes.0.profile.username}}</strong> and <strong>{{post.get_likes|length|add:-1 }} others</strong></p>
+            {% endif %}
+            <br>
+            <br>
             <p><strong>{{post.profile.username}}</strong>: {{ post.caption }}</p>
         </div>
         <div class="post-comments">

@@ -90,6 +90,14 @@ class Post(models.Model):
         likes = Like.objects.filter(post=self)
         return likes.order_by('-timestamp')
     
+    def get_like_profiles(self):
+        """Return all Profiles that liked this Post instance."""
+        likes = Like.objects.filter(post=self)
+        profiles = []
+        for like in likes:
+            profiles.append(like.profile)
+        return profiles
+    
 class Photo(models.Model):
     """Encapsulate the data of a mini_insta Photo attached to a Post"""
     # Define the data attributes of a Photo
