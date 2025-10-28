@@ -51,7 +51,9 @@ INSTALLED_APPS = [
     "formdata", #Example Form App 
     "restaurant", #HW2 Restaurant Order Form App
     "blog", #Example Blog App
-    "mini_insta" #HW3+ Mini Instragram Copy App
+    "mini_insta", #HW3+ Mini Instragram Copy App
+    "marathon_analytics", #Example Data Analytics App,
+    "voter_analytics", #HW8 Voter Analytics App
 ]
 
 MIDDLEWARE = [
