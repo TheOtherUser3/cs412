@@ -24,6 +24,21 @@ class Voter(models.Model):
         """Return a human-readable representation of the model instance."""
         return f"Name: {self.name} Address: {self.address} Party: {self.party}"
     
+    def get_voting_history(self):
+        """Return a list of elections the voter has participated in."""
+        history = []
+        if self.v20state:
+            history.append("2020 State Election")
+        if self.v21town:
+            history.append("2021 Town Election")
+        if self.v21primary:
+            history.append("2021 Primary Election")
+        if self.v22general:
+            history.append("2022 General Election")
+        if self.v23town:
+            history.append("2023 Town Election")
+        return history
+    
 def load_data():
     """Load the cvs data into the database."""
 

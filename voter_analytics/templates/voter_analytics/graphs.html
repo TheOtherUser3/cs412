@@ -1,0 +1,28 @@
+<!-- 
+File: graphs.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/30/2025
+Description: Template for displaying some beautiful graphs about voter data.
+-->
+{% extends 'voter_analytics/base.html' %}
+
+
+{% block content %}
+
+<main>
+    <div class = "search-container">
+        <form method="GET">
+            {{ form.as_table }}
+            <input type="submit" value="Filter Voters" class="filter-btn">
+        </form>
+        <form method="GET">
+            <input type="submit" value="Cancel" class="filter-btn">
+        </form>
+    </div>
+    <div class = "graph-container">
+        <!-- Display each graph one by one -->
+        {% for graph in graphs %}
+            <div class="graph-card">
+</main>
+{% endblock %}
+
+

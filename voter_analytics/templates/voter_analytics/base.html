@@ -1,0 +1,24 @@
+<!-- 
+File: base.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/29/2025
+Description: html code template to display repeated code throughout the application, such as 
+the header and footer, navigation bar, and css link
+-->
+{% load static %}
+
+<html>
+    <head>
+        <title>Voter Analytics</title>
+        <link rel="stylesheet" href="{% static 'voter_analytics.css' %}">
+    </head>
+    <body>
+        
+        <header>
+            <!-- Put nav here -->
+        </header>
+        <!-- Page specific content -->
+        {% block content %}
+
+        {% endblock %}
+
+    </body>

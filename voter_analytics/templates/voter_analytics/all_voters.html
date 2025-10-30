@@ -1,0 +1,65 @@
+<!-- 
+File: all_voters.html
+Author: Dawson Maska (dawsonwm@bu.edu), 10/29/2025
+Description: Template for displaying 100 voters at a time and allowing filtering of those voters.
+-->
+{% extends 'voter_analytics/base.html' %}
+
+
+{% block content %}
+
+<main>
+    <div class = "search-container">
+        <form method="GET">
+            {{ form.as_table }}
+            <input type="submit" value="Filter Voters" class="filter-btn">
+        </form>
+        <form method="GET">
+            <input type="submit" value="Cancel" class="filter-btn">
+        </form>
+    </div>
+    {% if is_paginated %}
+    <div class="pagination-container">
+        <div class="pagination-controls">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&{{ querystring }}" class="pagination-btn prev">← Previous</a>
+            {% else %}
+                <span class="pagination-btn disabled">← Previous</span>
+            {% endif %}
+
+            <span class="pagination-info">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&{{ querystring }}" class="pagination-btn next">Next →</a>
+            {% else %}
+                <span class="pagination-btn disabled">Next →</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    <div class = "grid-container">
+        <!-- Display each voter one by one -->
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>Party</th>
+                <th>Voter Score</th>
+            </tr>
+            {% for voter in voters %}
+                <tr>
+                    <td><a href = "{% url 'voter' voter.pk %}">{{voter.name}}</a></td>
+                    <td>{{voter.dob}}</td>
+                    <td>{{voter.address}}</td>
+                    <td>{{voter.party}}</td>
+                    <td>{{voter.voter_score}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</main>
+{% endblock %}
+
