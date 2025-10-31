@@ -8,6 +8,9 @@ from django.views.generic import ListView, DetailView
 from .models import Voter
 from .forms import VoterFilterForm
 from urllib.parse import urlencode
+import plotly
+import plotly.graph_objs as go
+
 
 
 #Helper function for filtering so I don't need to have that massive code section twice
@@ -93,6 +96,57 @@ class GraphsListView(ListView):
         """Add the form to the context data so we can render it in the template"""
         context = super().get_context_data(**kwargs)
         context['form'] = VoterFilterForm(self.request.GET)
+        voters = self.get_queryset()
+
+        # Create a beautiful dictionary of dictionaries to only need one pass through the data
+        dod = {'dobs': {}, 'parties': {}, 'elections': {'v20state': 0, 'v21town': 0, 'v21primary': 0, 'v22general': 0, 'v23town': 0}}
+
+        for v in voters:
+            if v.dob.year in dod['dobs']:
+                dod['dobs'][v.dob.year] += 1
+            else:
+                dod['dobs'][v.dob.year] = 1
+            if v.party in dod['parties']:
+                dod['parties'][v.party] += 1
+            else:
+                dod['parties'][v.party] = 1
+            for election in v.get_election_history():
+                dod['elections'][election] += 1
+            
+        # Ensure that the pie chart doesn't break visually from all the little parties by combining them into 'Other'
+        # But make sur that it isn't being filtered by a single tiny party first since we want to see that party then
+        if len(dod['parties']) > 1:
+            other = 0
+            for party in list(dod['parties'].keys()):
+                if party not in ['D ', "R ", 'U ']:
+                    other += dod['parties'][party]
+                    del dod['parties'][party]
+            dod['parties']['Other'] = other
+        # Now create the plots
+        # DOB Histogram
+        dob_fig = go.Bar(x=list(dod['dobs'].keys()), y=list(dod['dobs'].values()))
+        dob_graph = plotly.offline.plot({"data": [dob_fig], 
+                                            "layout": {
+                                            "title": {"text": "Voter Birth Year Distribution", "x": 0.5}}},
+                                            output_type="div")
+        context['dob_graph'] = dob_graph
+
+
+        # Party Pie Chart
+        party_fig = go.Pie(labels=list(dod['parties'].keys()), values=list(dod['parties'].values()))
+        party_graph = plotly.offline.plot({"data": [party_fig], 
+                                            "layout": {
+                                            "title": {"text": "Voter Political Party Distribution", "x": 0.5}}},
+                                            output_type="div")
+        context['party_graph'] = party_graph
+
+        # Election Bar Chart
+        election_fig = go.Bar(x=list(dod['elections'].keys()), y=list(dod['elections'].values()))
+        election_graph = plotly.offline.plot({"data": [election_fig],
+                                            "layout": {
+                                            "title": {"text": "Voter Participation by Election", "x": 0.5}}},
+                                            output_type="div")
+        context['election_graph'] = election_graph
 
         return context
     

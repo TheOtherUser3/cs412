@@ -14,7 +14,12 @@ the header and footer, navigation bar, and css link
     <body>
         
         <header>
-            <!-- Put nav here -->
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{% url 'voters' %}">All Voters</a></li>
+                    <li><a href="{% url 'graphs' %}">Graphs</a></li>
+                </ul>
+            </nav>
         </header>
         <!-- Page specific content -->
         {% block content %}

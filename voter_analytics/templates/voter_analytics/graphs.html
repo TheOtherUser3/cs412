@@ -20,8 +20,15 @@ Description: Template for displaying some beautiful graphs about voter data.
     </div>
     <div class = "graph-container">
         <!-- Display each graph one by one -->
-        {% for graph in graphs %}
-            <div class="graph-card">
+        <div class="graph-card">
+            {{ dob_graph|safe }}
+        </div>
+        <div class="graph-card">
+            {{ party_graph|safe }}
+        </div>
+        <div class="graph-card">
+            {{ election_graph|safe }}
+        </div>
 </main>
 {% endblock %}
 

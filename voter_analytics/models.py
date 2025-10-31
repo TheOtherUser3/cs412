@@ -39,6 +39,21 @@ class Voter(models.Model):
             history.append("2023 Town Election")
         return history
     
+    def get_election_history(self):
+        """Return a list of elections as string the voter has participated in to make graph easy to make."""
+        history = []
+        if self.v20state:
+            history.append("v20state")
+        if self.v21town:
+            history.append("v21town")
+        if self.v21primary:
+            history.append("v21primary")
+        if self.v22general:
+            history.append("v22general")
+        if self.v23town:
+            history.append("v23town")
+        return history
+    
 def load_data():
     """Load the cvs data into the database."""
 
