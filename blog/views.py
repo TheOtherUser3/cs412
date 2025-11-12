@@ -132,3 +132,13 @@ class UserRegistrationView(CreateView):
     def get_success_url(self):
         """Return the URL to direct to after successful registration"""
         return reverse('login')
+    
+################################################################################
+# enable the REST API for this application
+from rest_framework import generics
+from .serializers import *
+
+class ArticleListAPIView(generics.ListCreateAPIView):
+    """This view will expose the API for Articles with List and Create"""
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer

@@ -1,0 +1,24 @@
+<!-- 
+File: random.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/11/2025
+Description: Template for showing a random joke + picture
+-->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Extend the header -->
+{% block header %}: Random EPIC Joke{% endblock %}
+
+
+{% block content %}
+
+<main>
+    <article class="random">
+        <div class="container-box">
+            <div class="joke-text">{{ joke.text }}</div>
+            <img src="{{ picture.image_url }}" alt="HILARIOUS Image by {{ picture.name }}">
+            <p class="byline">By: {{ joke.name }}</p>
+        </div>
+    </article>
+</main>
+
+{% endblock %}

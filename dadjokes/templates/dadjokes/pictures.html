@@ -1,0 +1,27 @@
+<!-- 
+File: pictures.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/11/2025
+Description: Template for showing all Pictures
+-->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Extend the header -->
+{% block header %}: EPIC Pictures{% endblock %}
+
+
+{% block content %}
+
+<main>
+    <article class='pictures'>
+        {% for picture in pictures %}
+        <div class="container-box">
+            <img src="{{ picture.image_url }}" alt="HILARIOUS Image by {{ picture.name }}">
+            <p class="byline">By: {{ picture.name }}</p>
+        </div>
+        {% empty %}
+            <p>No pictures... A sad day...</p>
+        {% endfor %}
+    </article>
+</main>
+
+{% endblock %}

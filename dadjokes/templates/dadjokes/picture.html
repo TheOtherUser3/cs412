@@ -1,0 +1,23 @@
+<!-- 
+File: picture.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/11/2025
+Description: Template for showing a specific Picture
+-->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Extend the header -->
+{% block header %}: EPIC Picture{% endblock %}
+
+
+{% block content %}
+
+<main>
+    <article class='picture'>
+        <div class="container-box">
+            <img src="{{ picture.image_url }}" alt="HILARIOUS photo by {{picture.name}}">
+            <p class="byline">By: {{picture.name}}</p>
+        </div>
+    </article>
+</main>
+
+{% endblock %}

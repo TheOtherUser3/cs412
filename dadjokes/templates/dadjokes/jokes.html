@@ -1,0 +1,27 @@
+<!-- 
+File: jokes.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/11/2025
+Description: Template for showing all Jokes
+-->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Extend the header -->
+{% block header %}: EPIC Jokes{% endblock %}
+
+
+{% block content %}
+
+<main>
+    <article class='jokes'>
+        {% for joke in jokes %}
+        <div class="container-box">
+            <div class="joke-text">{{ joke.text }}</div>
+            <p class="byline">By: {{ joke.name }}</p>
+        </div>
+        {% empty %}
+            <p>No jokes... A sad day...</p>
+        {% endfor %}
+    </article>
+</main>
+
+{% endblock %}

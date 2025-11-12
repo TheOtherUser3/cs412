@@ -1,0 +1,35 @@
+<!-- 
+File: base.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/11/2025
+Description: html code template to display repeated code throughout the application, such as 
+the header and footer, navigation bar, and css link
+-->
+{% load static %}
+
+<html>
+    <head>
+        <title>Dad Jokes</title>
+        <link rel="stylesheet" href="{% static 'dadjokes.css' %}">
+    </head>
+    <body>
+        
+        <header>
+            <h1>Dad Jokes{% block header %}{% endblock %}</h1>   
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{% url 'home_page' %}">Home</a></li>
+                    <li><a href="{% url 'random' %}">Random</a></li>
+                    <li><a href="{% url 'jokes' %}">Jokes</a></li>
+                    <li><a href="{% url 'pictures' %}">Pictures</a></li>
+                </ul>
+            </nav>
+        </header>
+        <!-- Page specific content -->
+        {% block content %}
+
+        {% endblock %}
+
+        <footer>
+            <p>© 2025 Dad Jokes Inc. | Built with Django</p>
+        </footer>
+    </body>
