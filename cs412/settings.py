@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "voter_analytics", #HW8 Voter Analytics App
     "rest_framework", #Example app
     'dadjokes', #HW 10 Dad Jokes App
+    "rest_framework", ## NEW: Django REST framework
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,8 @@ CS_DEPLOYMENT_HOTNAME = 'cs-webapps.bu.edu'
 if socket.gethostname() == CS_DEPLOYMENT_HOTNAME:
     STATIC_URL = '/dawsonwm/static/'
     MEDIA_URL = '/dawsonwm/media/'
+
+REST_FRAMEWORK = {
+  'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+  'PAGE_SIZE': 10
+}
