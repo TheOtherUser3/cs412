@@ -57,9 +57,11 @@ INSTALLED_APPS = [
     "rest_framework", #Example app
     'dadjokes', #HW 10 Dad Jokes App
     "rest_framework", ## NEW: Django REST framework
+    'corsheaders' ## Needed for HW10 to allow API for React Native
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -70,6 +72,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "cs412.urls"
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
