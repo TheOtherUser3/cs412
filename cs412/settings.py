@@ -56,12 +56,9 @@ INSTALLED_APPS = [
     "voter_analytics", #HW8 Voter Analytics App
     "rest_framework", #Example app
     'dadjokes', #HW 10 Dad Jokes App
-    "rest_framework", ## NEW: Django REST framework
-    'corsheaders' ## Needed for HW10 to allow API for React Native
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
