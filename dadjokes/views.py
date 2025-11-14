@@ -90,21 +90,15 @@ class PictureListAPIView(generics.ListAPIView):
     serializer_class = PictureSerializer
 
 class PictureDetailAPIView(generics.RetrieveAPIView):
-    """Exposes the API to return all Pictures"""
+    """Exposes the API to return A single Picture by primary key"""
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
-
-    def get_object(self):
-        """Override to get a random picture"""
-        pks = Picture.objects.values_list('pk', flat=True)
-        random_pk = choice(pks)
-        return Picture.objects.get(pk=random_pk)
 
 class PictureRandomAPIView(generics.RetrieveAPIView):
     """Exposes the API for a single random Picture"""
     # Use clever code from km6 for maximum efficiency
     queryset = Picture.objects.all()
-    serializer_class = JokeSerializer
+    serializer_class = PictureSerializer
 
     def get_object(self):
         """Override to get a random joke"""
