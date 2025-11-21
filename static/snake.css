@@ -1,0 +1,43 @@
+/* 
+File: snake.css
+Author: Dawson Maska (dawsonwm@bu.edu), 11/20/2025
+Description: css code to style the snake application
+*/
+
+/* ===== Global Layout ===== */
+
+body {
+    background: #222;
+    color: white;
+    font-family: sans-serif;
+}
+
+
+/* ===== Snake Navigation Home Screen ===== */
+
+#game-container {
+    width: 1000px;
+    height: 600px;
+
+    margin: 20px auto;
+    position: relative;
+    background: #111;
+    border: 3px solid #fff;
+}
+
+#game-container canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Navigation hitboxes (invisible to mouse, visible visually) */
+.nav-zone {
+    position: absolute;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100px;
+    pointer-events: none; /* Snake triggers it, not user!  snake snake */
+    font-size: 20px;
+}

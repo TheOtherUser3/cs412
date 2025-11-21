@@ -1,0 +1,23 @@
+<!-- 
+File: base.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/20/2025
+Description: html code template to display repeated code throughout the application, such as 
+the header and footer, navigation bar, and css link
+-->
+{% load static %}
+
+<html>
+    <head>
+        <!-- Load CSS -->
+        <link rel="stylesheet" href="{% static 'snake.css' %}">
+
+        <title>SNAKE ARENA</title>
+    </head>
+
+    <body>
+
+        {% block content %}
+        {% endblock %}
+
+    </body>
+</html>

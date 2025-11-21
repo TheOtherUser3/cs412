@@ -1,0 +1,42 @@
+<!-- 
+File: home_page.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/20/2025
+Description: The incredible snake navigation home page. Navigate with a snake. Innovative! Brave! Really annoying to get anywhere!
+-->
+
+{% extends "project/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<h1 style="text-align:center; color:white;">Snake Navigation</h1>
+
+<div id="game-container">
+    <canvas id="snakeCanvas"></canvas>
+
+    <!-- Navigation zones -->
+    <div id="zone-bots" class="nav-zone" 
+         style="top:10px; left:10px; width:200px; height:100px;">
+        Bots
+    </div>
+
+    <div id="zone-boards" class="nav-zone" 
+         style="top:10px; right:10px; width:200px; height:100px;">
+        Boards
+    </div>
+
+    <div id="zone-matches" class="nav-zone" 
+         style="bottom:10px; left:10px; width:200px; height:100px;">
+        Matches
+    </div>
+
+    <div id="zone-leaderboard" class="nav-zone" 
+         style="bottom:10px; right:10px; width:200px; height:100px;">
+        Leaderboard
+    </div>
+</div>
+
+<script src="{% static 'js/home_snake.js' %}"></script>
+
+{% endblock %}
