@@ -8,5 +8,9 @@ from django.urls import path
 
 urlpatterns = [
     path('', HomePageTemplateView.as_view(), name="home_page"),
-    path("test/<str:page>/", test_page, name="test_page"),
+    path('bots/<int:pk>/', BotListView.as_view(), name="bots"),
+    path('bots/create/', CreateBotView.as_view(), name="create_bot"),
+    path('boards/', BoardListView.as_view(), name="boards"),
+    path('boards/<int:pk>/', BoardDetailView.as_view(), name="board"),
+    path('boards/create/', CreateBoardView.as_view(), name="create_board"),
 ]

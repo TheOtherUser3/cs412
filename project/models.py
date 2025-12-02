@@ -5,6 +5,7 @@
 
 from django.db import models
 from django.urls import reverse
+from colorfield.fields import ColorField
 
 class Bot(models.Model):
     """Encapsulate the data of a snake bot"""
@@ -14,7 +15,7 @@ class Bot(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     # Snake color in hex format
-    color = models.CharField(max_length=7, default="#00FF00")
+    color = ColorField(default="#00FF00")
 
     # User provided bot weights
 
@@ -40,6 +41,9 @@ class Bot(models.Model):
         Direction Bias: {self.direction_bias} \n\
         Circliness: {self.circliness} \n\
         Chaos: {self.chaos}"
+    
+    def get_absolute_url(self):
+        return reverse('bots', args=[str(self.id)])
 
 class Board(models.Model):
     """Encapsulate the data of a snake board"""
@@ -57,6 +61,9 @@ class Board(models.Model):
 
     def __str__(self):
         return f"Board {self.id} by {self.author}: {self.width}x{self.height} with {self.food_count} food items."
+    
+    def get_absolute_url(self):
+        return reverse('boards', args=[str(self.id)])
 
 class Match(models.Model):
     """Encapsulate the data of a Match between two Bots on a Board"""
@@ -80,6 +87,10 @@ class Match(models.Model):
 
     def __str__(self):
         return f"Match {self.id} between {self.bot1.name} and {self.bot2.name} won by {'Bot 1' if self.winner == 1 else 'Bot 2' if self.winner == 2 else 'NIETHER'} after {self.total_turns} turns.  Score: {self.apples_a}-{self.apples_b}"
+    
+    def get_moves(self):
+        """Get all move events for this match ordered by move number"""
+        return self.move_events.order_by('move_number')
 
 class MoveEvent(models.Model):
     """Encapsulate a single move event in a Match"""

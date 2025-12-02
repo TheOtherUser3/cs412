@@ -1,0 +1,87 @@
+<!-- 
+File: preview_board.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/25/2025
+Description: The page to preview a newly created board before saving it.
+-->
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<h1>Preview Board</h1>
+
+<div class="page-container">
+
+    <div class="board-info">
+        <p><strong>Type:</strong> {{ board_type }}</p>
+        <p><strong>Size:</strong> {{ width }} x {{ height }}</p>
+        <p><strong>Apples:</strong> {{ num_apples }}</p>
+    </div>
+
+    <!-- Board Preview -->
+    <div id="board-preview-container">
+        <canvas id="board-preview" width="1000" height="600"></canvas>
+    </div>
+
+    <!-- Hidden values so as not to lose them, but also so we don't have to save the board to the 
+     database until we have confirmed it (to avoid dirty writes) -->
+    <form method="POST" class="preview-actions">
+        {% csrf_token %}
+        <input type="hidden" name="width" value="{{ width }}">
+        <input type="hidden" name="num_apples" value="{{ num_apples }}">
+        <input type="hidden" name="board_json_str" value="{{ board_json_str|escape }}">
+        <input type="hidden" name="author" value= "{{ author }}">
+
+        <button name="action" value="confirm" class="btn-primary">Confirm Board</button>
+        <!-- Only show regenerate if it is a board type with randomness -->
+        {% if board_type == "scattered_blocks" %}
+            <button name="action" value="regenerate" class="btn-secondary">Regenerate</button>
+        {% endif %}
+        <a href="{% url 'boards' %}" class="btn-secondary">Cancel</a>
+        
+    </form>
+
+</div>
+
+<!-- Load obstacle data to json script for JS -->
+{{ board_json.obstacles|json_script:"obstacles-data" }}
+
+<!-- Meta data for JS because it won't work otherwise for some inexplicable reason! -->
+<div id="meta" 
+     data-width="{{ width }}" 
+     data-height="{{ height }}">
+</div>
+
+<script>
+    // Simple visual preview rendering
+    const obstacles = JSON.parse(document.getElementById("obstacles-data").textContent);
+    const width = parseInt(meta.dataset.width);
+    const height = parseInt(meta.dataset.height);
+
+    const canvas = document.getElementById("board-preview");
+    const ctx = canvas.getContext("2d");
+
+    const cellW = canvas.width / width;
+    const cellH = canvas.height / height;
+
+    function drawBoard() {
+        ctx.fillStyle = "#111";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw obstacles
+        ctx.fillStyle = "#ff4444";
+        obstacles.forEach(([x, y]) => {
+            ctx.fillRect(x * cellW, y * cellH, cellW, cellH);
+        });
+
+        ctx.strokeStyle = "#444";
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {
+                ctx.strokeRect(x * cellW, y * cellH, cellW, cellH);
+            }
+        }
+    }
+
+    drawBoard();
+</script>
+
+{% endblock %}

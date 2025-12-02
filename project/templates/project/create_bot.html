@@ -1,0 +1,22 @@
+<!-- 
+File: create_bot.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/21/2025
+Description: The page to create new snake bots. Quite simple.
+-->
+
+{% extends "project/base.html" %}
+
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<h1>Create a New Snake Bot</h1>
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Create Bot</button>
+</form>
+
+{% endblock %}

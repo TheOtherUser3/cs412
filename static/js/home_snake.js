@@ -37,13 +37,13 @@ window.addEventListener("resize", resizeCanvas);
 
 // ===== Snake (3 segments on nav screen) =====
 let snake = [
-    { x: 12, y: 12 },
-    { x: 11, y: 12 },
-    { x: 10, y: 12 },
+    { x: 25, y: 18 },
+    { x: 25, y: 17 },
+    { x: 25, y: 16 },
 ];
 
-let dx = 1;
-let dy = 0;
+let dx = 0;
+let dy = -1;
 
 // ===== Input =====
 document.addEventListener("keydown", e => {
@@ -92,10 +92,10 @@ function checkNavigation() {
     const headPxY = offsetY + head.y * cellSize + cellSize / 2;
 
     const zones = [
-        { id: "zone-bots", url: "/test/bots/" },
-        { id: "zone-boards", url: "/test/boards/" },
-        { id: "zone-matches", url: "/test/matches/" },
-        { id: "zone-leaderboard", url: "/test/leaderboard/" }
+        { id: "zone-bots", url: "bots/0/" },
+        { id: "zone-boards", url: "boards/" },
+        { id: "zone-matches", url: "matches/" },
+        { id: "zone-leaderboard", url: "leaderboard/" }
     ];
 
     for (let z of zones) {

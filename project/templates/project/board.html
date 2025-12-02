@@ -1,0 +1,70 @@
+<!-- 
+File: board.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/25/2025
+Description: The Board display page.  See a visual preview of the board layout here.
+-->
+
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<h1>Board {{ board.pk }}</h1>
+
+<div class="page-container">
+    <div class="board-info">
+        <p><strong>Size:</strong> {{ board.width }} x {{ board.height }}</p>
+        <p><strong>Apples:</strong> {{ board.food_count }}</p>
+        <p><strong>Type:</strong> {{ board.board_json.type }}</p>
+        <p><strong>Author:</strong> {{ board.author }}</p>
+        <p><strong>Wraparound:</strong> {{ board.board_json.wrap }}</p>
+    </div>
+
+    <!-- Board Preview -->
+    <div id="board-preview-container">
+        <canvas id="board-preview" width="1000" height="600"></canvas>
+    </div>
+</div>
+
+<!-- Load obstacle data to json script for JS -->
+{{ board.board_json.obstacles|json_script:"obstacles-data" }}
+
+<!-- Meta data for JS because it won't work otherwise for some inexplicable reason! -->
+<div id="meta" 
+     data-width="{{ board.width }}" 
+     data-height="{{ board.height }}">
+</div>
+
+<script>
+    // Simple visual preview rendering
+    const obstacles = JSON.parse(document.getElementById("obstacles-data").textContent);
+    const width = parseInt(meta.dataset.width);
+    const height = parseInt(meta.dataset.height);
+
+    const canvas = document.getElementById("board-preview");
+    const ctx = canvas.getContext("2d");
+
+    const cellW = canvas.width / width;
+    const cellH = canvas.height / height;
+
+    function drawBoard() {
+        ctx.fillStyle = "#111";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw obstacles
+        ctx.fillStyle = "#ff4444";
+        obstacles.forEach(([x, y]) => {
+            ctx.fillRect(x * cellW, y * cellH, cellW, cellH);
+        });
+
+        ctx.strokeStyle = "#444";
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {
+                ctx.strokeRect(x * cellW, y * cellH, cellW, cellH);
+            }
+        }
+    }
+
+    drawBoard();
+</script>
+
+{% endblock %}

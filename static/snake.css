@@ -41,3 +41,128 @@ body {
     pointer-events: none; /* Snake triggers it, not user!  snake snake */
     font-size: 20px;
 }
+
+h1 {
+    text-align: center; 
+    color: white;
+}
+
+/* ===== Board Pages ===== */
+
+.page-container {
+    width: 1000px;
+    margin: 20px auto;
+    color: white;
+}
+
+/* Buttons */
+.btn-primary {
+    background: #fff;
+    color: #111;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    border: 2px solid #fff;
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    background: #111;
+    color: #fff;
+}
+
+/* Boards list */
+.boards-header {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.board-card {
+    background: #111;
+    padding: 20px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
+}
+
+.board-card:hover {
+    background: #333;
+    border-color: #ff4444;
+}
+
+/* Create form */
+.board-form {
+    background: #111;
+    padding: 20px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+}
+
+.form-row {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.board-form select {
+    padding: 8px;
+    background: #222;
+    color: white;
+    border: 1px solid #444;
+}
+
+/* Board detail preview */
+#board-preview-container {
+    width: 1000px;
+    height: 600px;
+    background: #111;
+    margin-top: 20px;
+    border: 3px solid #fff;
+}
+
+#board-preview {
+    width: 100%;
+    height: 100%;
+}
+
+.preview-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.btn-secondary {
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #555;
+}
+
+#board-preview-container {
+    width: 1000px;
+    height: 600px;
+    background: #111;
+    margin: 20px auto;
+    border: 3px solid #fff;
+}

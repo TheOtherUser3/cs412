@@ -1,0 +1,32 @@
+<!-- 
+File: boards.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/25/2025
+Description: Displays all boards. Click on a board to see its mapping.
+-->
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<h1>Boards</h1>
+
+<div class="page-container">
+    <div class="boards-header">
+        <a href="{% url 'create_board' %}" class="btn-primary">Create New Board</a>
+    </div>
+
+    <div class="boards-grid">
+        {% for board in boards %}
+            <a href="{% url 'board' board.pk %}" class="board-card">
+                <h2>Board {{ board.pk }}</h2>
+                <p>{{ board.width }} x {{ board.height }}</p>
+                <p>{{ board.food_count }} apples</p>
+                <p>Type: {{ board.board_json.type }}</p>
+                <p>Author: {{ board.author }}</p>
+            </a>
+        {% empty %}
+            <p>No boards created yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

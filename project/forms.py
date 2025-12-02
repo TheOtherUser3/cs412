@@ -5,16 +5,44 @@
 from django import forms
 from .models import *
 
-from colorfield.widgets import ColorWidget
+from colorfield.fields import ColorField
+from colorfield.widgets import ColorWidget  
+
+# Define constants for board generation
+BOARD_TYPES = [
+    ("open", "Open Field (No Obstacles)"),
+    ("outer_wall", "Outer Walls"),
+    ("inner_maze", "Inner Maze"),
+    ("scattered_blocks", "Random Scattered Blocks"),
+    ("corridors", "Corridor Maze"),
+    ("two_box_arenas", "Twin Box Arenas"),
+]
+
+BOARD_SIZES = [
+    (100, "100×60 (Jumbo Arena)"),
+    (80, "80×48 (Huge Arena)"),
+    (60, "60×36 (Extra Large Arena)"),
+    (50, "50×30 (Large Arena)"),
+    (40, "40×24 (Medium)"),
+    (25, "25×15 (Standard)"),
+    (20, "20×12 (Compact)"),
+    (10, "10×6 (Tiny Duel Arena)"),
+]
+
+APPLE_OPTIONS = [
+    (1, "1 Apple"),
+    (2, "2 Apples"),
+    (3, "3 Apples"),
+    (5, "5 Apples"),
+    (8, "8 Apples"),
+    (10, "10 Apples"),
+]
 
 class CreateBotForm(forms.ModelForm):
     """Define a form to create a new Bot"""
 
     name = forms.CharField(max_length=30, label='Bot Name')
     author = forms.CharField(max_length=30, label='Author Name')
-
-    # Get color using a color picker
-    color = forms.CharField(widget=ColorWidget, label='Bot Color')
 
     # Define sliders for personality weights
 
@@ -86,3 +114,28 @@ class CreateBotForm(forms.ModelForm):
     class Meta:
         model = Bot
         fields = ['name', 'author', 'color', 'greediness', 'caution', 'direction_bias', 'circliness', 'chaos']
+
+class BoardGeneratorForm(forms.ModelForm):
+    """Define a form to generate a new Board"""
+    board_type = forms.ChoiceField(
+        label="Board Layout",
+        choices=BOARD_TYPES
+    )
+
+    grid_width = forms.ChoiceField(
+        label="Grid Width",
+        choices=BOARD_SIZES
+    )
+
+    num_apples = forms.ChoiceField(
+        label="Number of Apples",
+        choices=APPLE_OPTIONS
+    )
+
+    wraparound = forms.BooleanField(
+        label="Enable Wraparound Edges",
+        required=False)
+
+    class Meta:
+        model = Board
+        fields = ['board_type', 'grid_width', 'num_apples', 'wraparound', 'author']

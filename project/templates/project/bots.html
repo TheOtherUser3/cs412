@@ -1,0 +1,33 @@
+<!-- 
+File: bots.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/20/2025
+Description: The incredible snake bot display page. 
+Selected snake bots are shown playing snake in the background!
+-->
+
+{% extends "project/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class = 'bot-container'>
+    <h1 class="bot-header">Snake Bots</h1>
+    <div class="bot-list">
+        {% for bot in bots %}
+            {% if bot == selected_bot %}
+                <div class = "selected-bot-highlight">
+            {% else %}
+                <a href = "{% url 'bots' bot.pk %}">
+                    <div class="bot-item">
+                        <h2 class="bot-name">{{ bot.name }}</h2>
+                        <p class="bot-description">
+                            <!-- Use sliders to show details -->
+                        </p>
+                    </div>
+                </a>
+            {% endif %}
+        {% empty %}
+            <p>No bots available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
