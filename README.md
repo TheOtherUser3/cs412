@@ -49,7 +49,8 @@ These projects were implemented as part of incremental learning throughout the c
   - User accounts  
   - Image posting  
   - Feed generation  
-  - Following and liking  
+  - Following and liking
+  <br>
   This is the most substantial project in the repository outside of the final project, with a focus on model interaction.
 
 - **`marathon_analytics`**  
