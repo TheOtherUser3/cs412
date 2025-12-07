@@ -19,14 +19,14 @@ BOARD_TYPES = [
 ]
 
 BOARD_SIZES = [
-    (100, "100×60 (Jumbo Arena)"),
-    (80, "80×48 (Huge Arena)"),
-    (60, "60×36 (Extra Large Arena)"),
-    (50, "50×30 (Large Arena)"),
-    (40, "40×24 (Medium)"),
-    (25, "25×15 (Standard)"),
-    (20, "20×12 (Compact)"),
-    (10, "10×6 (Tiny Duel Arena)"),
+    (100, "100x60 (Jumbo Arena)"),
+    (80, "80x48 (Huge Arena)"),
+    (60, "60x36 (Extra Large Arena)"),
+    (50, "50x30 (Large Arena)"),
+    (40, "40x24 (Medium)"),
+    (25, "25x15 (Standard)"),
+    (20, "20x12 (Compact)"),
+    (10, "10x6 (Tiny Duel Arena)"),
 ]
 
 APPLE_OPTIONS = [
@@ -98,6 +98,19 @@ class CreateBotForm(forms.ModelForm):
         })
     )
 
+    introversion = forms.FloatField(
+        label="Introversion",
+        initial = 0.5,
+        min_value=0,
+        max_value=2,
+        widget=forms.NumberInput(attrs={
+            'type': 'range',   # make a slider
+            'step': '0.05',     # float increments
+            'min': '0',
+            'max': '2'
+        })
+    )
+
     chaos = forms.FloatField(
         label="Chaos Factor",
         initial = 0.1,
@@ -113,7 +126,7 @@ class CreateBotForm(forms.ModelForm):
 
     class Meta:
         model = Bot
-        fields = ['name', 'author', 'color', 'greediness', 'caution', 'direction_bias', 'circliness', 'chaos']
+        fields = ['name', 'author', 'color', 'greediness', 'caution', 'direction_bias', 'circliness', 'introversion', 'chaos']
 
 class BoardGeneratorForm(forms.ModelForm):
     """Define a form to generate a new Board"""
@@ -138,4 +151,35 @@ class BoardGeneratorForm(forms.ModelForm):
 
     class Meta:
         model = Board
-        fields = ['board_type', 'grid_width', 'num_apples', 'wraparound', 'author']
+        fields = ['name', 'board_type', 'grid_width', 'num_apples', 'wraparound', 'author']
+
+class BoardUpdateForm(forms.ModelForm):
+    """Define a form to update an existing Board"""
+
+    num_apples = forms.ChoiceField(
+        label="Number of Apples",
+        choices=APPLE_OPTIONS
+    )
+
+    class Meta:
+        model = Board
+        fields = ['name', 'num_apples']
+
+
+class StartMatchForm(forms.Form):
+    """Define a form to start a new Match"""
+
+    bot1 = forms.ModelChoiceField(
+        queryset=Bot.objects.all(),
+        label="Bot 1"
+    )
+
+    bot2 = forms.ModelChoiceField(
+        queryset=Bot.objects.all(),
+        label="Bot 2"
+    )
+
+    board = forms.ModelChoiceField(
+        queryset=Board.objects.all(),
+        label="Board"
+    )

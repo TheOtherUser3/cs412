@@ -11,12 +11,35 @@ Description: The page to create new snake bots. Quite simple.
 {% endblock %}
 
 {% block content %}
+<div class="snake-page">
 
-<h1>Create a New Snake Bot</h1>
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Create Bot</button>
-</form>
+    <h1>Create a New Snake Bot</h1>
 
+    <div class="create-bot-header">
+        <a href="{% url 'bots' %}" class="btn-secondary">Back to Bots</a>
+    </div>
+
+    <div class="form-card">
+
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                {{ form.as_p }}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    Create Bot
+                </button>
+
+                <a href="{% url 'bots' %}" class="btn-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+
+</div>
 {% endblock %}

@@ -1,0 +1,33 @@
+<!-- 
+File: create_match.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/7/2025
+Description: The match page to create a new match between two bots on a board.
+-->
+
+{% extends "project/base.html" %}
+
+{% block content %}
+
+<div class="snake-page">
+    <h1>Start New Match</h1>
+
+    <form method="post" class="snake-form">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            {{ form.as_p }}
+        </div>
+
+        <div class="form-actions">
+            <!-- ADD REDIRECT HERE!! -->
+            <button type="submit" class="snake-button">
+                Run Match
+            </button>
+            <a href="{% url 'matches' %}" class="snake-button secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

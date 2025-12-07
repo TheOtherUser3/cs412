@@ -8,17 +8,24 @@ Description: The Board display page.  See a visual preview of the board layout h
 {% extends "project/base.html" %}
 {% block content %}
 
-<h1>Board {{ board.pk }}</h1>
+<h1>Board: {{ board.name }}</h1>
 
 <div class="page-container">
-    <div class="board-info">
-        <p><strong>Size:</strong> {{ board.width }} x {{ board.height }}</p>
-        <p><strong>Apples:</strong> {{ board.food_count }}</p>
-        <p><strong>Type:</strong> {{ board.board_json.type }}</p>
-        <p><strong>Author:</strong> {{ board.author }}</p>
-        <p><strong>Wraparound:</strong> {{ board.board_json.wrap }}</p>
-    </div>
+    <div class="board-header">
+        <div class="board-info">
+            <div class="info-item"><span>Size</span>{{ board.width }} x {{ board.height }}</div>
+            <div class="info-item"><span>Apples</span>{{ board.food_count }}</div>
+            <div class="info-item"><span>Type</span>{{ board.board_json.type }}</div>
+            <div class="info-item"><span>Author</span>{{ board.author }}</div>
+            <div class="info-item"><span>Wraparound</span>{{ board.board_json.wrap }}</div>
+        </div>
 
+        <div class="board-buttons">
+            <a href="{% url 'boards' %}" class="btn-secondary">Back to Boards</a>
+            <a href="{% url 'update_board' board.pk %}" class="btn-primary">Update</a>
+            <a href="{% url 'delete_board' board.pk %}" class="btn-danger">Delete</a>
+        </div>
+    </div>
     <!-- Board Preview -->
     <div id="board-preview-container">
         <canvas id="board-preview" width="1000" height="600"></canvas>

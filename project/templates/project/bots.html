@@ -9,25 +9,53 @@ Selected snake bots are shown playing snake in the background!
 {% load static %}
 
 {% block content %}
-<div class = 'bot-container'>
-    <h1 class="bot-header">Snake Bots</h1>
+<div class="snake-page">
+
+    <h1>Snake Bots</h1>
+
+    <!-- Header buttons -->
+    <div class="bots-header">
+        <a href="{% url 'home_page' %}" class="btn-secondary">Back to Home</a>
+
+        <a href="{% url 'create_bot' %}" class="btn-primary">Create New Bot</a>
+    </div>
+
+    <!-- Bot list -->
     <div class="bot-list">
         {% for bot in bots %}
-            {% if bot == selected_bot %}
-                <div class = "selected-bot-highlight">
-            {% else %}
-                <a href = "{% url 'bots' bot.pk %}">
-                    <div class="bot-item">
-                        <h2 class="bot-name">{{ bot.name }}</h2>
-                        <p class="bot-description">
-                            <!-- Use sliders to show details -->
-                        </p>
+            <div class="bot-card">
+                <div class="bot-card-header">
+                    <!-- Apparently this is the way you have to access django inside of CSS! -->
+                    <h2 class="bot-name" style="--bot-color: {{ bot.color }}">{{ bot.name }}</h2>
+
+                    <!-- Placeholder for future actions -->
+                    <div class="bot-actions">
+                        <a href="{% url 'bots' %}" class="btn-small secondary">
+                            Edit
+                        </a>
+                        <a href="{% url 'bots' %}" class="btn-small danger">
+                            Delete
+                        </a>
                     </div>
-                </a>
-            {% endif %}
+
+                    <div class="bot-stats">
+                        <div class="stat"><span>Greediness</span><strong>{{ bot.greediness }}</strong></div>
+                        <div class="stat"><span>Caution</span><strong>{{ bot.caution }}</strong></div>
+                        <div class="stat"><span>Circliness</span><strong>{{ bot.circliness }}</strong></div>
+                        <div class="stat"><span>Introversion</span><strong>{{ bot.introversion }}</strong></div>
+                    </div>
+                    
+                    <div class="stat chaos centered">
+                        <span>Chaos</span><strong>{{ bot.chaos }}</strong>
+                    </div>
+
+                </div>
+            </div>
+
         {% empty %}
-            <p>No bots available.</p>
+            <p class="muted">No bots yet. Create one!</p>
         {% endfor %}
     </div>
+
 </div>
 {% endblock %}

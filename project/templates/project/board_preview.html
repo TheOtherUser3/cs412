@@ -26,6 +26,7 @@ Description: The page to preview a newly created board before saving it.
      database until we have confirmed it (to avoid dirty writes) -->
     <form method="POST" class="preview-actions">
         {% csrf_token %}
+        <input type="hidden" name="name" value="{{ name }}">
         <input type="hidden" name="width" value="{{ width }}">
         <input type="hidden" name="num_apples" value="{{ num_apples }}">
         <input type="hidden" name="board_json_str" value="{{ board_json_str|escape }}">
@@ -33,7 +34,7 @@ Description: The page to preview a newly created board before saving it.
 
         <button name="action" value="confirm" class="btn-primary">Confirm Board</button>
         <!-- Only show regenerate if it is a board type with randomness -->
-        {% if board_type == "scattered_blocks" %}
+        {% if board_type == "scattered_blocks" or board_type == "inner_maze" %}
             <button name="action" value="regenerate" class="btn-secondary">Regenerate</button>
         {% endif %}
         <a href="{% url 'boards' %}" class="btn-secondary">Cancel</a>

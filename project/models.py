@@ -31,6 +31,9 @@ class Bot(models.Model):
     # How much the bot prefers to circle - 0 to 2
     circliness = models.FloatField(default=0.5)
 
+    # How much the bot tries to avoid the other snake - 0 to 2
+    introversion = models.FloatField(default=0.5)
+
     # How much the bot ignores the optimal move based on the rest of its personality to be quirky - 0 to 1
     chaos = models.FloatField(default=0.1)
 
@@ -40,6 +43,7 @@ class Bot(models.Model):
         Caution: {self.caution} \n\
         Direction Bias: {self.direction_bias} \n\
         Circliness: {self.circliness} \n\
+        Introversion: {self.introversion} \n\
         Chaos: {self.chaos}"
     
     def get_absolute_url(self):
@@ -47,6 +51,8 @@ class Bot(models.Model):
 
 class Board(models.Model):
     """Encapsulate the data of a snake board"""
+
+    name = models.CharField(max_length=30, blank=True)
 
     width = models.IntegerField(default=20)
     height = models.IntegerField(default=20)
@@ -60,7 +66,7 @@ class Board(models.Model):
     board_json = models.JSONField(blank=False)
 
     def __str__(self):
-        return f"Board {self.id} by {self.author}: {self.width}x{self.height} with {self.food_count} food items."
+        return f"Board {self.name} by {self.author}: {self.width}x{self.height} with {self.food_count} food items."
     
     def get_absolute_url(self):
         return reverse('boards', args=[str(self.id)])
@@ -103,10 +109,8 @@ class MoveEvent(models.Model):
     bot2_move = models.CharField(max_length=5)
 
     #Store the head position of the bots (body positions can be derived from this and the board state)
-    bot1_head_x = models.IntegerField()
-    bot1_head_y = models.IntegerField()
-    bot2_head_x = models.IntegerField()
-    bot2_head_y = models.IntegerField()
+    bot1_body = models.JSONField()
+    bot2_body = models.JSONField()
 
     # Location of the apple positions 
     apple_positions = models.JSONField(blank=False)

@@ -10,14 +10,15 @@ Description: Displays all boards. Click on a board to see its mapping.
 <h1>Boards</h1>
 
 <div class="page-container">
-    <div class="boards-header">
+    <div class="buttons-header">
+        <a href="{% url 'home_page' %}" class="btn-secondary">Back to Home</a> <!-- Style this!! -->
         <a href="{% url 'create_board' %}" class="btn-primary">Create New Board</a>
     </div>
 
     <div class="boards-grid">
         {% for board in boards %}
             <a href="{% url 'board' board.pk %}" class="board-card">
-                <h2>Board {{ board.pk }}</h2>
+                <h2>{{ board.name }}</h2>
                 <p>{{ board.width }} x {{ board.height }}</p>
                 <p>{{ board.food_count }} apples</p>
                 <p>Type: {{ board.board_json.type }}</p>

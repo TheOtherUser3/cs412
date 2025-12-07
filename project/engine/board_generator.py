@@ -39,23 +39,161 @@ def gen_outer_wall(width, height, wraparound):
 
 
 # -----------------------------------------------------------
-# 4. INNER MAZE (fixed pattern)
+# 4. INNER MAZE (why do I do this to myself)
 # -----------------------------------------------------------
+
+# edit of the design found at https://inventwithpython.com/recursion/chapter11.html, to give credit
+
+WALL = 1
+EMPTY = 0
+
+def generate_maze(log_w, log_h):
+    """
+    Generate a maze on a logical grid of size log_w x log_h.
+    log_w and log_h should be odd and >= 3.
+    Returns a dict {(x, y): WALL/EMPTY}.
+    """
+
+    maze = {}
+    for x in range(log_w):
+        for y in range(log_h):
+            maze[(x, y)] = WALL
+
+    def neighbors_two_steps(x, y):
+        res = []
+        if y > 1:
+            res.append((x, y - 2))
+        if y < log_h - 2:
+            res.append((x, y + 2))
+        if x > 1:
+            res.append((x - 2, y))
+        if x < log_w - 2:
+            res.append((x + 2, y))
+        return res
+
+    visited = set()
+    stack = [(1, 1)]
+    visited.add((1, 1))
+    maze[(1, 1)] = EMPTY
+
+    while stack:
+        x, y = stack[-1]
+
+        unvisited = [
+            (nx, ny) for (nx, ny) in neighbors_two_steps(x, y)
+            if (nx, ny) not in visited
+        ]
+
+        if not unvisited:
+            stack.pop()
+            continue
+
+        nx, ny = random.choice(unvisited)
+        visited.add((nx, ny))
+
+        # Carve passage between (x, y) and (nx, ny)
+        mx = (x + nx) // 2
+        my = (y + ny) // 2
+        maze[(mx, my)] = EMPTY
+        maze[(nx, ny)] = EMPTY
+
+        stack.append((nx, ny))
+
+    return maze
+
+def add_multiple_exits(maze, log_w, log_h, exit_count=3):
+    """
+    Convert some border walls into empty cells if they border an empty interior cell,
+    to create multiple exits.
+    """
+
+    candidates = []
+
+    for x in range(log_w):
+        for y in range(log_h):
+            if x in (0, log_w - 1) or y in (0, log_h - 1):
+                if maze[(x, y)] == WALL:
+                    # Check for adjacent empty interior cell
+                    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                        nx = x + dx
+                        ny = y + dy
+                        if 0 <= nx < log_w and 0 <= ny < log_h:
+                            if maze[(nx, ny)] == EMPTY:
+                                candidates.append((x, y))
+                                break
+
+    random.shuffle(candidates)
+    for (x, y) in candidates[:exit_count]:
+        maze[(x, y)] = EMPTY
+
+    return maze
+
+
 def gen_inner_maze(width, height, wraparound):
+    """
+    Maze with:
+      - 3-cell empty border all around
+      - corridors 2 cells wide
+      - multiple exits into the outer ring
+    """
+    BORDER = 3
+    CELL_SCALE = 2
+
+    inner_w = width  - 2 * BORDER
+    inner_h = height - 2 * BORDER
+
+    if inner_w <= 0 or inner_h <= 0:
+        # Board too small, just no obstacles
+        return {
+            "type": "inner_maze",
+            "obstacles": [],
+            "wrap": wraparound,
+        }
+
+    # Logical grid size
+    log_w = inner_w // CELL_SCALE
+    log_h = inner_h // CELL_SCALE
+
+    if log_w < 3 or log_h < 3:
+        # Still too small for a real maze
+        return {
+            "type": "inner_maze",
+            "obstacles": [],
+            "wrap": wraparound,
+        }
+
+    maze = generate_maze(log_w, log_h)
+    maze = add_multiple_exits(maze, log_w, log_h, exit_count=3)
+
     obstacles = []
 
-    # Super simple maze.  Vertical pillars every few columns
-    for x in range(3, width - 3, 6):
-        for y in range(2, height - 2):
-            if y % 4 != 0:
-                obstacles.append((x, y))
+    for x in range(log_w):
+        for y in range(log_h):
+            if maze[(x, y)] == WALL:
+                base_x = BORDER + x * CELL_SCALE
+                base_y = BORDER + y * CELL_SCALE
+
+                for dx in range(CELL_SCALE):
+                    for dy in range(CELL_SCALE):
+                        gx = base_x + dx
+                        gy = base_y + dy
+
+                        # Make sure we never invade the 3-cell border
+                        if (
+                            BORDER <= gx < width  - BORDER
+                            and BORDER <= gy < height - BORDER
+                        ):
+                            obstacles.append((gx, gy))
 
     return {
         "type": "inner_maze",
         "obstacles": obstacles,
-        "wrap": wraparound
+        "wrap": wraparound,
     }
 
+
+
+    
 
 # -----------------------------------------------------------
 # 5. SCATTERED BLOCKS (random obstacles)

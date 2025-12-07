@@ -92,7 +92,7 @@ function checkNavigation() {
     const headPxY = offsetY + head.y * cellSize + cellSize / 2;
 
     const zones = [
-        { id: "zone-bots", url: "bots/0/" },
+        { id: "zone-bots", url: "bots/" },
         { id: "zone-boards", url: "boards/" },
         { id: "zone-matches", url: "matches/" },
         { id: "zone-leaderboard", url: "leaderboard/" }

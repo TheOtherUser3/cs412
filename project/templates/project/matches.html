@@ -1,0 +1,60 @@
+<!-- 
+File: matches.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/6/2025
+Description: The matches dashboard page where you can start new matches or view past ones.
+-->
+
+{% extends "project/base.html" %}
+
+{% block content %}
+
+<div class="snake-page">
+    <h1>Snake Arena Matches</h1>
+
+    <div class="buttons-header">
+        <a href="{% url 'home_page' %}" class="btn-secondary">Back to Home</a>
+        <a href="{% url 'create_board' %}" class="btn-primary">Create New Board</a>
+    </div>
+
+    <div class="action-bar">
+        <a href="{% url 'new_match' %}" class="snake-button">
+            Start New Match
+        </a>
+    </div>
+
+    <div class="match-list">
+        {% for match in matches %}
+        <div class="match-card">
+            <div class="match-title">
+                {{ match.name }}
+            </div>
+
+            <div class="match-info">
+                {{ match.bot1.name }} vs {{ match.bot2.name }}  
+                <span class="muted">on {{ match.board.name }}</span>
+            </div>
+
+            <div class="match-meta">
+                Turns: {{ match.total_turns }} 
+                Winner:
+                {% if match.winner == 1 %}
+                    {{ match.bot1.name }}
+                {% elif match.winner == 2 %}
+                    {{ match.bot2.name }}
+                {% else %}
+                    TIE
+                {% endif %}
+            </div>
+
+            <a href="{% url 'match_detail' match.pk %}"
+               class="snake-button small">
+               View Match
+            </a>
+        </div>
+        {% empty %}
+        <p class="muted">No matches yet. Start one!</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

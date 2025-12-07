@@ -1,0 +1,43 @@
+<!-- 
+File: match.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/6/2025
+Description: The match page where you see details about a past match
+-->
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<div class="snake-page">
+    <h1>{{ match.bot1.name }} VS {{match.bot2.name}}</h1>
+
+    <div class="match-summary">
+        <p><strong>Bots:</strong> {{ match.bot1.name }} vs {{ match.bot2.name }}</p>
+        <p><strong>Board:</strong> {{ match.board.name }}</p>
+        <p><strong>Turns:</strong> {{ match.total_turns }}</p>
+        <p><strong>Apples:</strong>
+            {{ match.apples_a }} / {{ match.apples_b }}
+        </p>
+        <p><strong>Winner:</strong>
+            {% if match.winner == 1 %}
+                {{ match.bot1.name }}
+            {% elif match.winner == 2 %}
+                {{ match.bot2.name }}
+            {% else %}
+                TIE
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="action-bar">
+        <a href="{% url 'matches' %}" class="snake-button">
+            Back to Matches
+        </a>
+
+        <!-- placeholder for later -->
+        <button class="snake-button secondary">
+            Replay Match
+        </button>
+    </div>
+</div>
+
+{% endblock %}
