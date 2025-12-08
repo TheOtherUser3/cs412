@@ -16,6 +16,21 @@ DIR_DELTAS = {
 
 RELATIVE_MOVES = ["LEFT", "STRAIGHT", "RIGHT"]
 
+RELATIVE_DELTAS = {
+    "STRAIGHT": 0,
+    "LEFT": -1,
+    "RIGHT": 1
+}
+
+DIRECTIONS = ["UP", "RIGHT", "DOWN", "LEFT"]
+
+def rotate_direction(current, relative):
+    """Rotate a direction by a relative move"""
+    delta = RELATIVE_DELTAS[relative]
+    idx = DIRECTIONS.index(current)
+
+    return DIRECTIONS[(idx + delta) % len(DIRECTIONS)]
+
 def manhattan(a, b):
     """Return the Manhattan distance between points a and b"""
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
@@ -42,11 +57,6 @@ def adjacent_self_count(head, body):
             count += 1
 
     return count
-
-
-def rotate_direction(current, relative):
-    """Rotate a direction (0=up, 1=right, 2=down, 3=left) by a relative move (-1=left, 0=straight, 1=right)"""
-    return (current + relative) % 4
 
 
 def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
@@ -94,7 +104,8 @@ def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
             nearest = min([(manhattan(head, a), a) for a in apples])[1]
             before = manhattan(head, nearest)
             after = manhattan(new_head, nearest)
-            score += bot.greediness * (before - after)
+            # Multiply by two so they are extra inclined to actually do something
+            score += (bot.greediness * (before - after)) * 2
 
         # caution (local free space)
         free_neighbors = 0
@@ -170,8 +181,8 @@ def step_game(prev, bot1, bot2, board):
     b1_body = list(prev.bot1_body)
     b2_body = list(prev.bot2_body)
 
-    b1_dir = prev.bot1_dir
-    b2_dir = prev.bot2_dir
+    b1_move = prev.bot1_move
+    b2_move = prev.bot2_move
 
     b1_alive = prev.bot1_alive
     b2_alive = prev.bot2_alive
@@ -180,22 +191,12 @@ def step_game(prev, bot1, bot2, board):
 
     turn = prev.move_number + 1
 
-    # bot decisions
-    rel1 = choose_bot_move(bot1, b1_body, b2_body, apples, board)
-    rel2 = choose_bot_move(bot2, b2_body, b1_body, apples, board)
-
-    new_dir1 = rotate_direction(b1_dir, rel1)
-    new_dir2 = rotate_direction(b2_dir, rel2)
-
     # move heads 
     def next_head(body, direction):
         dx, dy = DIR_DELTAS[direction]
         x, y = body[0]
         return (x + dx, y + dy)
-
-    h1 = next_head(b1_body, new_dir1)
-    h2 = next_head(b2_body, new_dir2)
-
+    
     # boundary / wrap handling (should be handled by bot move choice, but just in case)
     def normalize(pos):
         x, y = pos
@@ -203,8 +204,22 @@ def step_game(prev, bot1, bot2, board):
             return (x % board.width, y % board.height)
         return (x, y)
 
-    h1 = normalize(h1)
-    h2 = normalize(h2)
+    # bot decisions
+    if b1_alive:
+        rel1 = choose_bot_move(bot1, b1_body, b2_body, apples, board, b1_move)
+        new_dir1 = rotate_direction(b1_move, rel1)
+        h1 = next_head(b1_body, new_dir1)
+        h1 = normalize(h1)
+    else:
+        new_dir1 = "NONE"
+    
+    if b2_alive:
+        rel2 = choose_bot_move(bot2, b2_body, b1_body, apples, board, b2_move)
+        new_dir2 = rotate_direction(b2_move, rel2)
+        h2 = next_head(b2_body, new_dir2)
+        h2 = normalize(h2)
+    else:
+        new_dir2 = "NONE"
 
     # turn board obstacles into list of tuples for checking
     obstacles = set(map(tuple, board.board_json.get("obstacles", [])))
@@ -249,7 +264,7 @@ def step_game(prev, bot1, bot2, board):
             b2_body.pop()
 
     # respawn apples
-    while len(apples) < board.num_apples:
+    while len(apples) < board.food_count:
         # choose random empty spot 
         for _ in range(100):
             p = (random.randrange(board.width), random.randrange(board.height))
@@ -266,8 +281,8 @@ def step_game(prev, bot1, bot2, board):
     return {
         "match": prev.match,
         "move_number": turn,
-        "bot1_dir": new_dir1,
-        "bot2_dir": new_dir2,
+        "bot1_move": new_dir1,
+        "bot2_move": new_dir2,
         "bot1_body": b1_body,
         "bot2_body": b2_body,
         "bot1_alive": b1_alive,

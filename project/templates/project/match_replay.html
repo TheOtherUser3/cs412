@@ -1,0 +1,94 @@
+<!-- 
+File: match_replay.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/8/2025
+Description: The incredible snake arena match replay page.  Here is where the magic happens!  Except not really
+because all the magic is in the python engine and the JS just replays the magic.
+-->
+
+
+{% extends "project/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="snake-page">
+
+    <h1>Match Replay</h1>
+
+    <div class="replay-header">
+        <a href="{% url 'match' match.pk %}" class="btn-secondary">
+            Fast Forward to Match Details
+        </a>
+    </div>
+
+    <div class="replay-summary">
+
+        <!-- Loading the variables into the css since it is hard to know which bot is which otherwise -->
+        <p><strong>Match:</strong> 
+            <span class="bot-color" style="--bot-color: {{ bot.color }}"> </span> 
+            {{ match.bot1.name }} vs 
+            <span class="bot-color" style="--bot-color: {{ bot.color }}"> </span> 
+            {{ match.bot2.name }}</p>
+        
+        <p><strong>Board:</strong> {{ match.board.name }}</p>
+        <p><strong>Turns:</strong> {{ match.total_turns }}</p>
+    </div>
+
+    <div class="replay-controls">
+        <div class="replay-buttons">
+            <button id="playBtn" class="btn-primary">Play</button>
+            <button id="pauseBtn" class="btn-secondary">Pause</button>
+        </div>
+
+        <div class="replay-speed">
+            <span>Speed:</span>
+            <button class="btn-secondary speed-btn active" data-speed="1">1x</button>
+            <button class="btn-secondary speed-btn" data-speed="2">2x</button>
+            <button class="btn-secondary speed-btn" data-speed="3">3x</button>
+        </div>
+
+        <div class="replay-info">
+            <span>Turn: <span id="turnCounter">0</span></span>
+            <span>{{ match.bot1.name }}: <span id="scoreBot1">0</span></span>
+            <span>{{ match.bot2.name }}: <span id="scoreBot2">0</span></span>
+        </div>
+    </div>
+
+    <div class="replay-canvas-wrapper">
+        <canvas id="replayCanvas" width="1000" height="600"></canvas>
+    </div>
+
+</div>
+
+
+<!-- Load obstacle data to json script for JS -->
+{{ match.board.board_json.obstacles|json_script:"obstacles-data" }}
+
+<!-- Meta data for JS because it won't work otherwise for some inexplicable reason! -->
+<div id="meta" 
+     data-width="{{ match.board.width }}" 
+     data-height="{{ match.board.height }}"
+     data-pk="{{match.pk}}"
+     data-wrap="{{ match.board.board_json.wrap }}">
+</div>
+
+
+<script>
+    const meta = document.getElementById("meta");
+    // Match + board context passed from Django to JS
+    const MATCH_ID = parseInt(meta.dataset.pk);
+    const BOARD_WIDTH = parseInt(meta.dataset.width);
+    const BOARD_HEIGHT = parseInt(meta.dataset.height);
+    const BOARD_WRAP = (meta.dataset.wrap === 'True');
+    const BOARD_OBSTACLES = JSON.parse(document.getElementById("obstacles-data").textContent);
+
+    const BOT1_NAME = "{{ match.bot1.name|escapejs }}";
+    const BOT2_NAME = "{{ match.bot2.name|escapejs }}";
+    const BOT1_COLOR = "{{ match.bot1.color|default:'#2ecc71' }}";
+    const BOT2_COLOR = "{{ match.bot2.color|default:'#e74c3c' }}";
+
+    const MOVE_EVENTS_API_URL = "{% url 'move_events_api' match.pk %}";
+</script>
+<script src="{% static 'js/match_replay.js' %}"></script>
+{% endblock %}
+

@@ -30,10 +30,10 @@ Selected snake bots are shown playing snake in the background!
 
                     <!-- Placeholder for future actions -->
                     <div class="bot-actions">
-                        <a href="{% url 'bots' %}" class="btn-small secondary">
+                        <a href="{% url 'update_bot' bot.pk %}" class="btn-small secondary">
                             Edit
                         </a>
-                        <a href="{% url 'bots' %}" class="btn-small danger">
+                        <a href="{% url 'delete_bot' bot.pk %}" class="btn-small danger">
                             Delete
                         </a>
                     </div>

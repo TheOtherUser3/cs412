@@ -1,0 +1,45 @@
+<!-- 
+File: update_bot.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/7/2025
+Description: The page to update snake bots.
+-->
+
+{% extends "project/base.html" %}
+
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+<div class="snake-page">
+
+    <h1>Update {{bot.name}}</h1>
+
+    <div class="create-bot-header">
+        <a href="{% url 'bots' %}" class="btn-secondary">Back to Bots</a>
+    </div>
+
+    <div class="form-card">
+
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                {{ form.as_p }}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    Update {{ bot.name }}
+                </button>
+
+                <a href="{% url 'bots' %}" class="btn-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}

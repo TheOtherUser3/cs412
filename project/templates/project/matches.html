@@ -13,21 +13,15 @@ Description: The matches dashboard page where you can start new matches or view 
 
     <div class="buttons-header">
         <a href="{% url 'home_page' %}" class="btn-secondary">Back to Home</a>
-        <a href="{% url 'create_board' %}" class="btn-primary">Create New Board</a>
-    </div>
-
-    <div class="action-bar">
         <a href="{% url 'new_match' %}" class="snake-button">
             Start New Match
         </a>
     </div>
 
+
     <div class="match-list">
         {% for match in matches %}
         <div class="match-card">
-            <div class="match-title">
-                {{ match.name }}
-            </div>
 
             <div class="match-info">
                 {{ match.bot1.name }} vs {{ match.bot2.name }}  
@@ -46,7 +40,7 @@ Description: The matches dashboard page where you can start new matches or view 
                 {% endif %}
             </div>
 
-            <a href="{% url 'match_detail' match.pk %}"
+            <a href="{% url 'match' match.pk %}"
                class="snake-button small">
                View Match
             </a>

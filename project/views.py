@@ -4,7 +4,7 @@
 # by urls.py and does any additional logic required to display the desired page
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView, FormView
 from .models import *
 from .forms import *
 from django.urls import reverse
@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from .engine.board_generator import generate_board
 import json
 from django.shortcuts import redirect
+from .engine.run_match import run_match
 
 class HomePageTemplateView(TemplateView):
     """Define a view class to display the home snake navigation page"""
@@ -31,6 +32,37 @@ class CreateBotView(CreateView):
     """Define a view class to display the create bot page"""
     template_name = 'project/create_bot.html'
     form_class = CreateBotForm
+
+    def get_success_url(self):
+        """Overide to redirect to bots list"""
+        return reverse('bots')
+
+class DeleteBotView(DeleteView):
+    """Define a view class to delete a Bot"""
+    model = Bot
+    template_name = 'project/delete_bot.html'
+    context_object_name = 'bot'
+
+    def get_success_url(self):
+        return reverse('bots')
+    
+class UpdateBotView(UpdateView):
+    """Define a view class to update a Bot"""
+    model = Bot
+    template_name = 'project/update_bot.html'
+    form_class = CreateBotForm
+
+    def get_context_data(self, **kwargs):
+        """Add additional context data of selected bot"""
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        bot = Bot.objects.get(pk=pk)
+        context['bot'] = bot 
+        return context
+    
+    def get_success_url(self):
+        """Overide to redirect to bots list"""
+        return reverse('bots')
 
 class BoardListView(ListView):
     """Define a view class to display the list of Boards"""
@@ -159,21 +191,49 @@ class MatchListView(ListView):
     def get_queryset(self):
         return super().get_queryset().order_by('-started_at')
     
+class MatchDetailView(DetailView):
+    """Define a view class to display the details of a Match"""
+    model = Match
+    template_name = 'project/match.html'
+    context_object_name = 'match'
 
-def start_match_view(request):
-    # Get the two bots and board from the request we forward here from the previous view
+# Apparently you can use FormView for regular forms wow!
+class MatchCreateView(FormView):
+    """Define a view class to display the create match page"""
+    template_name = 'project/create_match.html'
+    form_class = StartMatchForm
 
-    # match = run_match(bot1, bot2, board)
+    def form_valid(self, form):
+        """When the form is valid, start the match and redirect to match detail page"""
+        bot1 = form.cleaned_data['bot1']
+        bot2 = form.cleaned_data['bot2']
+        board = form.cleaned_data['board']
 
-    # save match here
+        match = run_match(bot1, bot2, board)
 
-    # return redirect("match_detail", pk=match.pk)
+        # Redirect to replay page
+        return redirect('match_replay', pk=match.pk)
 
-    return HttpResponse("(Not implemented yet)")
+class MatchReplayView(DetailView):
+    """Define a view class to display the match replay page"""
+    model = Match
+    template_name = 'project/match_replay.html'
+    context_object_name = 'match'
+    
+
 
 ################################################################################
 # enable the REST API for this application
 from rest_framework import generics
 from .serializers import *
 
+class MoveEventListAPIView(generics.ListAPIView):
+    """Exposes the API to return all MoveEvents for a given Match"""
+    queryset = MoveEvent.objects.all()
+    serializer_class = MoveEventSerializer
+    pagination_class = None
 
+    def get_queryset(self):
+        """Override to filter by match_pk from URL"""
+        match_pk = self.kwargs['match_pk']
+        return MoveEvent.objects.filter(match__pk=match_pk).order_by('move_number')

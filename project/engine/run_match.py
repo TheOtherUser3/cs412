@@ -1,7 +1,7 @@
 import random
 from django.db import transaction
 from ..models import Match, MoveEvent
-from arena import step_game
+from .arena import step_game
 
 
 def run_match(bot1, bot2, board, max_turns=5000):
@@ -30,7 +30,7 @@ def run_match(bot1, bot2, board, max_turns=5000):
         # Initial apples 
         obstacles = set(map(tuple, board.board_json.get("obstacles", [])))
         apples = []
-        while len(apples) < board.num_apples:
+        while len(apples) < board.food_count:
             p = (
                 random.randrange(board.width),
                 random.randrange(board.height),
@@ -47,8 +47,8 @@ def run_match(bot1, bot2, board, max_turns=5000):
         prev = MoveEvent.objects.create(
             match=match,
             move_number=0,
-            bot1_dir="RIGHT",
-            bot2_dir="LEFT",
+            bot1_move="RIGHT",
+            bot2_move="LEFT",
             bot1_body=b1_start,
             bot2_body=b2_start,
             bot1_alive=True,
@@ -84,9 +84,9 @@ def run_match(bot1, bot2, board, max_turns=5000):
             max([ev.move_number for ev in match.move_events.filter(bot2_alive=True)])
         )
 
-        if match.a_survival_time > match.b_survival_time:
+        if match.apples_a > match.apples_b:
             match.winner = 1
-        elif match.a_survival_time < match.b_survival_time:
+        elif match.apples_b > match.apples_a:
             match.winner = 2
         else:
             match.winner = 0  # tie

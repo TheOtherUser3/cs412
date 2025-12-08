@@ -166,6 +166,7 @@ class BoardUpdateForm(forms.ModelForm):
         fields = ['name', 'num_apples']
 
 
+#Use a forms.form for what we are doing here since we DO NOT immediately make the match
 class StartMatchForm(forms.Form):
     """Define a form to start a new Match"""
 

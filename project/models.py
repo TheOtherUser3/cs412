@@ -115,6 +115,10 @@ class MoveEvent(models.Model):
     # Location of the apple positions 
     apple_positions = models.JSONField(blank=False)
 
+    # Whether bots are alive or dead
+    bot1_alive = models.BooleanField(default=True)
+    bot2_alive = models.BooleanField(default=True)
+
     # Did snakes just eat an apple (Would have caused apple positions to change, so need to track it)
     bot1_ate = models.BooleanField(default=False)
     bot2_ate = models.BooleanField(default=False)
@@ -122,4 +126,4 @@ class MoveEvent(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Move {self.move_number} in Match {self.match.id}: Bot1 move {self.bot1_move} to ({self.bot1_head_x},{self.bot1_head_y}), Bot2 move {self.bot2_move} to ({self.bot2_head_x},{self.bot2_head_y}). Apples at {self.apple_positions}."
+        return f"Move {self.move_number} in Match {self.match.id}: Bot1 move {self.bot1_move} to ({self.bot1_body}), Bot2 move {self.bot2_move} to ({self.bot2_body}). Apples at {self.apple_positions}."

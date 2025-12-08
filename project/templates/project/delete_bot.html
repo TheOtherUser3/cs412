@@ -1,0 +1,55 @@
+<!-- 
+File: update_bot.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/7/2025
+Description: The page to delete snake bots.
+-->
+
+{% extends "project/base.html" %}
+
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+<div class="snake-page">
+
+    <h1>Delete {{bot.name}}</h1>
+
+    <div class="create-bot-header">
+        <a href="{% url 'bots' %}" class="btn-secondary">Back to Bots</a>
+    </div>
+
+    <div class="delete-form">
+        <form method="POST" class = "delete-card">
+            {% csrf_token %}
+            <p class = "warning-text">Are you sure you want to delete this bot?</p>
+            <div class = "delete-actions"> 
+                <button type="submit" class="btn-danger">Delete {{ bot.name }}</button>
+                <a href="{% url 'bots' %}" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="bot-list">
+        <div class="bot-card">
+            <div class="bot-card-header">
+                <!-- Apparently this is the way you have to access django inside of CSS! -->
+                <h2 class="bot-name" style="--bot-color: {{ bot.color }}">{{ bot.name }}</h2>
+
+                <div class="bot-stats">
+                    <div class="stat"><span>Greediness</span><strong>{{ bot.greediness }}</strong></div>
+                    <div class="stat"><span>Caution</span><strong>{{ bot.caution }}</strong></div>
+                    <div class="stat"><span>Circliness</span><strong>{{ bot.circliness }}</strong></div>
+                    <div class="stat"><span>Introversion</span><strong>{{ bot.introversion }}</strong></div>
+                </div>
+                
+                <div class="stat chaos centered">
+                    <span>Chaos</span><strong>{{ bot.chaos }}</strong>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

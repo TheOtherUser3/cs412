@@ -11,20 +11,25 @@ Description: The Board update page.  See a visual preview of the board layout he
 <h1>Board {{ board.name }}</h1>
 
 <div class="page-container">
-    <div class="board-info">
-        <p><strong>Size:</strong> {{ board.width }} x {{ board.height }}</p>
-        <p><strong>Apples:</strong> {{ board.food_count }}</p>
-        <p><strong>Type:</strong> {{ board.board_json.type }}</p>
-        <p><strong>Author:</strong> {{ board.author }}</p>
-        <p><strong>Wraparound:</strong> {{ board.board_json.wrap }}</p>
+    <div class="board-header">
+        <div class="board-info">
+            <div class="info-item"><span>Size</span>{{ board.width }} x {{ board.height }}</div>
+            <div class="info-item"><span>Apples</span>{{ board.food_count }}</div>
+            <div class="info-item"><span>Type</span>{{ board.board_json.type }}</div>
+            <div class="info-item"><span>Author</span>{{ board.author }}</div>
+            <div class="info-item"><span>Wraparound</span>{{ board.board_json.wrap }}</div>
+        </div>
+
     </div>
-    <!-- STYLE THIS!!! -->
-    <div class="update-form">
-        <form method="POST">
+
+    <div class="page-container">
+        <form method="POST" class="board-form">
             {% csrf_token %}
+            
             {{ form.as_p }}
+
             <button type="submit" class="btn-primary">Update Board</button>
-            <a href="{% url 'board' board.pk %}" class="btn-secondary">Cancel</a>
+            <a href="{% url 'boards' %}" class="btn-secondary">Cancel</a>
         </form>
     </div>
 
