@@ -17,7 +17,7 @@ def rect_walls(width, height):
 
 
 # -----------------------------------------------------------
-# 1. OPEN FIELD (no obstacles, no wraparound)
+# 1. OPEN FIELD 
 # -----------------------------------------------------------
 def gen_open(width, height, wraparound):
     return {
