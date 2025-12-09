@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     "voter_analytics", #HW8 Voter Analytics App
     "rest_framework", #Example app
     'dadjokes', #HW 10 Dad Jokes App
-   # 'project', #Final Project - Snake Arena. Snake snake snake!
+    'project', #Final Project - Snake Arena. Snake snake snake!
 ]
 
 
