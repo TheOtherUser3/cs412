@@ -23,6 +23,7 @@ RELATIVE_DELTAS = {
 DIRECTIONS = ["UP", "RIGHT", "DOWN", "LEFT"]
 
 
+
 def first_step_toward_target(head, targets, board, my_body, other_body, obstacles, wrap):
     """
     Use BFS to find the first absolute direction 
@@ -180,14 +181,14 @@ def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
         # Strong bonus for following the BFS path toward food if it exists
         if path_dir is not None and new_dir == path_dir:
             # Factor in greediness
-            score += bot.greediness * 5.0
+            score += bot.greediness * 3.0
 
-        # greediness (local distance change toward nearest apple)
-        if apples:
-            nearest = min([(manhattan(head, a), a) for a in apples])[1]
-            before = manhattan(head, nearest)
-            after = manhattan(new_head, nearest)
-            score += (bot.greediness * (before - after))
+        # # greediness (local distance change toward nearest apple)
+        # if apples:
+        #     nearest = min([(manhattan(head, a), a) for a in apples])[1]
+        #     before = manhattan(head, nearest)
+        #     after = manhattan(new_head, nearest)
+        #     score += (bot.greediness * (before - after))
 
         # caution (local free space)
         free_neighbors = 0
