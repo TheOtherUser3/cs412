@@ -2,7 +2,8 @@
 
 This repository serves as a portfolio of Django-based full-stack web applications developed over the course of CS412 at Boston University. It contains both guided class examples and homework projects, progressing from introductory Django concepts to a full-scale final project.
 
-The capstone project in this repository is the Snake AI Arena, located in the `/project` directory. Due to course requirements, all applications are maintained within this single repository during the semester.
+The capstone project in this repository is the Snake Arena, located in the `/project` directory.  
+
 ---
 
 ## Capstone Project
@@ -75,5 +76,3 @@ This repository demonstrates:
 - Full-stack simulation systems  
 
 It reflects the full technical learning arc of the course, culminating in the Snake Arena final project.
-
----
