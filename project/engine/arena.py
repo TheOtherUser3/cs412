@@ -283,7 +283,9 @@ def step_game(prev, bot1, bot2, board):
         if board.board_json.get("wrap"):
             return (x % board.width, y % board.height)
         return (x, y)
-
+    
+    h1 = None
+    h2 = None
     # bot decisions
     if b1_alive:
         rel1 = choose_bot_move(bot1, b1_body, b2_body, apples, board, b1_move)
@@ -300,6 +302,19 @@ def step_game(prev, bot1, bot2, board):
         h2 = normalize(h2)
     else:
         new_dir2 = "NONE"
+
+    # check for head on collisions
+    if h1 == h2:
+        b1_alive = False
+        b2_alive = False
+    
+    # Check for crossing collisions
+    if (
+        h1 == b2_body[0]
+        and h2 == b1_body[0]
+    ):
+        b1_alive = False
+        b2_alive = False
 
     # turn board obstacles into list of tuples for checking
     obstacles = set(map(tuple, board.board_json.get("obstacles", [])))
