@@ -2,10 +2,8 @@
 # Author: Dawson Maska (dawsonwm@bu.edu), 12/2/2025
 # Description: Runs the snake arena matches between specified bots on specified boards. (Runs a single move, let view handle the game loop)
 
-
-
-
 import random
+from collections import deque
 
 DIR_DELTAS = {
     "UP":    (0, -1),
@@ -23,6 +21,73 @@ RELATIVE_DELTAS = {
 }
 
 DIRECTIONS = ["UP", "RIGHT", "DOWN", "LEFT"]
+
+
+def first_step_toward_target(head, targets, board, my_body, other_body, obstacles, wrap):
+    """
+    Use BFS to find the first absolute direction 
+    along a shortest path from head to any apple.
+    Returns a direction string, or None if no path exists.
+    """
+
+    if not targets:
+        return None
+
+    width, height = board.width, board.height
+
+    # Cells we are not allowed to go into
+    blocked = set(obstacles)
+    # Avoid crashing into own body except for current head
+    blocked.update(my_body[1:])
+    # Avoid other snake completely
+    blocked.update(other_body)
+
+    targets = set(targets)
+
+    # BFS queue: (position, first_dir_taken) apparently deque is best to use for this for efficiency
+    q = deque()
+    visited = set()
+
+    # Start at head, no direction chosen yet
+    q.append((tuple(head), None))
+    visited.add(tuple(head))
+
+    while q:
+        (x, y), first_dir = q.popleft()
+
+        # If we reached an apple, return the first step that led us here
+        if (x, y) in targets and first_dir is not None:
+            return first_dir
+
+        # Explore neighbors
+        for dir_name, (dx, dy) in DIR_DELTAS.items():
+            nx = x + dx
+            ny = y + dy
+
+            if wrap:
+                nx %= width
+                ny %= height
+            else:
+                if not (0 <= nx < width and 0 <= ny < height):
+                    continue
+
+            nxt = (nx, ny)
+
+            if nxt in blocked or nxt in visited:
+                continue
+
+            visited.add(nxt)
+
+            # If we have not chosen a first step yet, this neighbor is
+            # reached by taking dir_name as the first step.
+            if first_dir is None:
+                q.append((nxt, dir_name))
+            else:
+                q.append((nxt, first_dir))
+
+    # No path found
+    return None
+
 
 def rotate_direction(current, relative):
     """Rotate a direction by a relative move"""
@@ -69,6 +134,19 @@ def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
     obstacles = set(map(tuple, board.board_json.get("obstacles", [])))
     wrap = board.board_json.get("wrap", False)
 
+    # where should we go to reach an apple?
+    path_dir = None
+    if apples:
+        path_dir = first_step_toward_target(
+            head=head,
+            targets=apples,
+            board=board,
+            my_body=my_body,
+            other_body=other_body,
+            obstacles=obstacles,
+            wrap=wrap,
+        )
+
     best_score = -float("inf")
     best_moves = []
 
@@ -90,7 +168,7 @@ def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
 
         new_head = (nx, ny)
 
-        # collision checks 
+        # collision checks
         if (
             new_head in obstacles
             or new_head in my_body
@@ -99,13 +177,17 @@ def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
             score -= 1000
             continue
 
-        # greediness (food seeking)
+        # Strong bonus for following the BFS path toward food if it exists
+        if path_dir is not None and new_dir == path_dir:
+            # Factor in greediness
+            score += bot.greediness * 5.0
+
+        # greediness (local distance change toward nearest apple)
         if apples:
             nearest = min([(manhattan(head, a), a) for a in apples])[1]
             before = manhattan(head, nearest)
             after = manhattan(new_head, nearest)
-            # Multiply by two so they are extra inclined to actually do something
-            score += (bot.greediness * (before - after)) * 2
+            score += (bot.greediness * (before - after))
 
         # caution (local free space)
         free_neighbors = 0
@@ -134,24 +216,21 @@ def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
             dist_after = manhattan(new_head, other_body[0])
             score += bot.introversion * (dist_after - dist_before)
 
-        # circliness (compactness / self adjacency) 
+        # circliness (compactness / self adjacency)
         if len(my_body) > 3:
             min_dist = min_self_distance(new_head, my_body)
             adj_count = adjacent_self_count(new_head, my_body)
 
-            # prefer staying close to own body without collision
             score += bot.circliness * (2 - min(min_dist, 2))
-
-            # extra reward for hugging multiple segments
             score += bot.circliness * 0.5 * adj_count
 
-        # direction bias 
+        # direction bias
         if rel == "LEFT":
             score -= bot.direction_bias
         elif rel == "RIGHT":
             score += bot.direction_bias
 
-        # chaos 
+        # chaos
         score += random.uniform(-bot.chaos, bot.chaos)
 
         # pick best
@@ -161,11 +240,11 @@ def choose_bot_move(bot, my_body, other_body, apples, board, current_dir):
         elif score == best_score:
             best_moves.append(rel)
 
-    # fallback if all moves sucked (-1000, rest in peace)
     if not best_moves:
         return random.choice(RELATIVE_MOVES)
 
     return random.choice(best_moves)
+
 
 
 def step_game(prev, bot1, bot2, board):

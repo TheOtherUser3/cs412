@@ -63,6 +63,8 @@ Description: The match page where you see details about a past match
                class="snake-button primary">
                 Replay Match
             </a>
+
+            <a href="{% url 'delete_match' match.pk %}" class="btn-danger">Delete</a>
         </div>
 
     </div>

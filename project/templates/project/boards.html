@@ -11,7 +11,12 @@ Description: Displays all boards. Click on a board to see its mapping.
 
 <div class="page-container">
     <div class="buttons-header">
-        <a href="{% url 'home_page' %}" class="btn-secondary">Back to Home</a> <!-- Style this!! -->
+        <a href="{% url 'home_page' %}" class="btn-secondary">Back to Home</a> 
+        <a href="{% url 'matches' %}" class="btn-primary">Matches</a>
+
+        <a href="{% url 'bots' %}" class="btn-secondary">
+            Bots
+        </a>
         <a href="{% url 'create_board' %}" class="btn-primary">Create New Board</a>
     </div>
 

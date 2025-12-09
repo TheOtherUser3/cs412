@@ -17,7 +17,7 @@
     const scoreBot1El = document.getElementById("scoreBot1");
     const scoreBot2El = document.getElementById("scoreBot2");
 
-    const BASE_INTERVAL = 300; // ms at 1x speed
+    const BASE_INTERVAL = 150; // ms at 1x speed
 
     let moves = [];
     let currentIndex = 0;

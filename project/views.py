@@ -219,6 +219,15 @@ class MatchReplayView(DetailView):
     model = Match
     template_name = 'project/match_replay.html'
     context_object_name = 'match'
+
+class MatchDeleteView(DeleteView):
+    """Define a view class to delete a Match"""
+    model = Match
+    template_name = 'project/delete_match.html'
+    context_object_name = 'match'
+
+    def get_success_url(self):
+        return reverse('matches')
     
 
 
