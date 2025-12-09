@@ -11,7 +11,6 @@ class Bot(models.Model):
     """Encapsulate the data of a snake bot"""
 
     name = models.CharField(max_length=30, blank=True)
-    author = models.CharField(max_length=30, blank=True)
     timestamp = models.DateTimeField(auto_now=True)
 
     # Snake color in hex format
@@ -38,7 +37,7 @@ class Bot(models.Model):
     chaos = models.FloatField(default=0.1)
 
     def __str__(self):
-        return f"Bot {self.name} by {self.author}:\n\
+        return f"Bot {self.name}:\n\
         Greediness: {self.greediness}\n\
         Caution: {self.caution} \n\
         Direction Bias: {self.direction_bias} \n\
@@ -56,8 +55,6 @@ class Board(models.Model):
 
     width = models.IntegerField(default=20)
     height = models.IntegerField(default=20)
-    #Creator of the board
-    author = models.CharField(max_length=30, blank=True)
     #How many food pieces are on the board at once
     food_count = models.IntegerField(default=1)
     timestamp = models.DateTimeField(auto_now=True)
@@ -66,10 +63,14 @@ class Board(models.Model):
     board_json = models.JSONField(blank=False)
 
     def __str__(self):
-        return f"Board {self.name} by {self.author}: {self.width}x{self.height} with {self.food_count} food items."
+        return f"Board {self.name}: {self.width}x{self.height} with {self.food_count} food items."
     
     def get_absolute_url(self):
         return reverse('boards', args=[str(self.id)])
+    
+    def has_leaderboard(self):
+        """Returns true if Board has a leaderboard (has matches attached) and false otherwise"""
+        return Match.objects.filter(board=self).exists()
 
 class Match(models.Model):
     """Encapsulate the data of a Match between two Bots on a Board"""
@@ -97,6 +98,7 @@ class Match(models.Model):
     def get_moves(self):
         """Get all move events for this match ordered by move number"""
         return self.move_events.order_by('move_number')
+
 
 class MoveEvent(models.Model):
     """Encapsulate a single move event in a Match"""
@@ -127,3 +129,28 @@ class MoveEvent(models.Model):
 
     def __str__(self):
         return f"Move {self.move_number} in Match {self.match.id}: Bot1 move {self.bot1_move} to ({self.bot1_body}), Bot2 move {self.bot2_move} to ({self.bot2_body}). Apples at {self.apple_positions}."
+    
+
+# Not me adding a new model the day before the project is due to add more content to the leaderboards page...
+class BotBoardStats(models.Model):
+    """Define a class to represent relationships regarding how well a bot does on a particular board.  
+    This will allow bot to bot comparisons per board as well.  E.g. each board should have a seperate leaderboard
+    since the boards are so different"""
+    bot = models.ForeignKey(Bot, on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+
+    # Define game stats for things like W/L ratio
+    games = models.IntegerField(default=0)
+    wins = models.IntegerField(default=0)
+    losses = models.IntegerField(default=0)
+    draws = models.IntegerField(default=0)
+
+    # Other fun stats
+    avg_turns = models.FloatField(default=0.0)
+    avg_apples = models.FloatField(default=0.0)
+
+    def win_rate(self):
+        """Calculate and return win rate for use in the leaderboards without having to store it and update it every time"""
+        if self.games == 0:
+            return 0
+        return (self.wins / self.games) * 100

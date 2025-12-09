@@ -1,0 +1,53 @@
+
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<!-- Since I wanted to use plotly instead apparently you need to include this to get them to render -->
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+<div class="snake-page simulation-results">
+
+    <h1>Simulation Results</h1>
+
+    <div class="simulation-summary">
+        <div class="summary-card">
+            <h3 class="bot-color" style="--bot-color: {{ results.bot1.color }}">
+                {{ results.bot1.name }}
+            </h3>
+            <p>Wins: {{ results.bot1.wins }}</p>
+            <p>Losses: {{ results.bot1.losses }}</p>
+            <p>Draws: {{ results.bot1.draws }}</p>
+            <!-- nice decimal placing -->
+            <p>Avg Turns: {{ results.bot1.avg_turns|floatformat:1 }}</p>
+            <p>Avg Apples: {{ results.bot1.avg_apples|floatformat:2 }}</p>
+        </div>
+
+        <div class="summary-card">
+            <h3 class="bot-color" style="--bot-color: {{ results.bot2.color }}">
+                {{ results.bot2.name }}
+            </h3>
+            <p>Wins: {{ results.bot2.wins }}</p>
+            <p>Losses: {{ results.bot2.losses }}</p>
+            <p>Draws: {{ results.bot2.draws }}</p>
+            <p>Avg Turns: {{ results.bot2.avg_turns|floatformat:1 }}</p>
+            <p>Avg Apples: {{ results.bot2.avg_apples|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <div class="plot-grid">
+        {{ plot_win_loss|safe }}
+        {{ plot_win_rate|safe }}
+        {{ plot_avg_turns|safe }}
+        {{ plot_avg_apples|safe }}
+    </div>
+
+    <div class="buttons-header">
+        <a href="{% url 'leaderboards' %}" class="btn-secondary">Back to Leaderboards</a>
+        <a href="{% url 'simulate' %}" class="btn-primary">
+            Run Another Simulation
+        </a>
+    </div>
+</div>
+
+{% endblock %}

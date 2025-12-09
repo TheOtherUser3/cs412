@@ -69,6 +69,66 @@ Description: The match page where you see details about a past match
 
     </div>
 
+    <div class="bot-list">
+        <div class="bot-card">
+            <div class="bot-card-header">
+                <!-- Apparently this is the way you have to access django inside of CSS! -->
+                <h2 class="bot-name" style="--bot-color: {{ match.bot1.color }}">{{ match.bot1.name }}</h2>
+
+                <!-- Placeholder for future actions -->
+                <div class="bot-actions">
+                    <a href="{% url 'update_bot' match.bot1.pk %}" class="btn-small secondary">
+                        Edit
+                    </a>
+                    <a href="{% url 'delete_bot' match.bot1.pk %}" class="btn-small danger">
+                        Delete
+                    </a>
+                </div>
+
+                <div class="bot-stats">
+                    <div class="stat"><span>Greediness</span><strong>{{ match.bot1.greediness }}</strong></div>
+                    <div class="stat"><span>Caution</span><strong>{{ match.bot1.caution }}</strong></div>
+                    <div class="stat"><span>Circliness</span><strong>{{ match.bot1.circliness }}</strong></div>
+                    <div class="stat"><span>Introversion</span><strong>{{ match.bot1.introversion }}</strong></div>
+                </div>
+                
+                <div class="stat chaos centered">
+                    <span>Chaos</span><strong>{{ match.bot1.chaos }}</strong>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bot-card">
+            <div class="bot-card-header">
+                <!-- Apparently this is the way you have to access django inside of CSS! -->
+                <h2 class="bot-name" style="--bot-color: {{ match.bot2.color }}">{{ match.bot2.name }}</h2>
+
+                <!-- Placeholder for future actions -->
+                <div class="bot-actions">
+                    <a href="{% url 'update_bot' match.bot2.pk %}" class="btn-small secondary">
+                        Edit
+                    </a>
+                    <a href="{% url 'delete_bot' match.bot2.pk %}" class="btn-small danger">
+                        Delete
+                    </a>
+                </div>
+
+                <div class="bot-stats">
+                    <div class="stat"><span>Greediness</span><strong>{{ match.bot2.greediness }}</strong></div>
+                    <div class="stat"><span>Caution</span><strong>{{ match.bot2.caution }}</strong></div>
+                    <div class="stat"><span>Circliness</span><strong>{{ match.bot2.circliness }}</strong></div>
+                    <div class="stat"><span>Introversion</span><strong>{{ match.bot2.introversion }}</strong></div>
+                </div>
+                
+                <div class="stat chaos centered">
+                    <span>Chaos</span><strong>{{ match.bot2.chaos }}</strong>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

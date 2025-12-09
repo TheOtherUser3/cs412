@@ -387,6 +387,7 @@ h1 {
   justify-content: center;
   align-items: stretch;
   text-align: center;
+  margin-top: 2.5rem;
 }
 
 .bots-header {
@@ -529,7 +530,7 @@ h1 {
 
 /* MATCH REPLAY */
 
-.replay-info .bot-color {
+.bot-color {
     color: var(--bot-color, #eafff1) !important;
 }
 
@@ -746,4 +747,199 @@ h1 {
 .snake-button.secondary {
     background: rgba(255, 255, 255, 0.08);
     color: #eafff1;
+}
+
+/* 
+---------------------------
+LEADERBOARD SECTION
+---------------------------
+*/
+
+.simulation-results {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.simulation-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    background: rgba(10, 20, 15, 0.9);
+    border: 1px solid #2ecc71;
+    border-radius: 12px;
+    padding: 1.25rem;
+
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.15);
+}
+
+.summary-card h3 {
+    margin-bottom: 0.5rem;
+}
+
+.summary-card p {
+    margin: 0.25rem 0;
+    color: #eafff1;
+}
+
+.plot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* === LEADERBOARD PAGE === */
+
+.leaderboard-hub-page {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hub-title {
+    text-align: center;
+    margin-bottom: 2.2rem;
+    color: #eafff1;
+}
+
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.2rem;
+
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Big, beautiful cards. */
+.hub-card {
+    min-height: 150px;
+
+    padding: 2.1rem 2.2rem;
+    border-radius: 18px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    background: rgba(14, 24, 21, 0.88);
+    border: 1px solid rgba(90, 160, 130, 0.5);
+
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 18px 44px rgba(0, 0, 0, 0.75);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
+
+    text-decoration: none;
+}
+
+.hub-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(160, 255, 210, 0.85);
+    box-shadow:
+        0 0 0 1px rgba(180, 255, 220, 0.15),
+        0 28px 60px rgba(0, 0, 0, 0.85);
+}
+
+.hub-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #eafff1;
+    margin-bottom: 0.6rem;
+}
+
+.hub-card-sub {
+    font-size: 0.95rem;
+    color: #94cbb3;
+    line-height: 1.35;
+}
+
+.hub-card.primary {
+    border-color: rgba(70, 200, 130, 0.6);
+}
+
+.hub-card.secondary {
+    border-color: rgba(150, 170, 160, 0.35);
+}
+
+.leaderboard-title {
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+.leaderboard-card {
+    background: rgba(14, 24, 21, 0.85);
+    border: 1px solid rgba(95, 130, 115, 0.45);
+    border-radius: 16px;
+    padding: 1.6rem 1.8rem;
+
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 18px 40px rgba(0, 0, 0, 0.7);
+
+    overflow-x: auto; 
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #eafff1;
+}
+
+.leaderboard-table thead th {
+    text-align: left;
+    padding: 0.8rem 0.6rem;
+    font-size: 0.9rem;
+    color: #9ddfc2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.leaderboard-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+    background: rgba(63, 185, 122, 0.08);
+}
+
+.leaderboard-table td {
+    padding: 0.7rem 0.6rem;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bot-name-cell {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.leaderboard-table td:not(:first-child) {
+    text-align: right;
+}
+
+/* highlight top 3 rows */
+.leaderboard-table tbody tr:nth-child(1) .bot-name-cell {
+    color: #ffd700; 
+}
+
+.leaderboard-table tbody tr:nth-child(2) .bot-name-cell {
+    color: #c0c0c0; 
+}
+
+.leaderboard-table tbody tr:nth-child(3) .bot-name-cell {
+    color: #cd7f32; 
 }

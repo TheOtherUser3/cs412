@@ -1,0 +1,35 @@
+<!-- 
+File: board_leaderboard_hub.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/9/2025
+Description: Select a board to view board specific leaderboard stats for.
+-->
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<h1>Select A Board to View it's Leaderboard</h1>
+
+<div class="page-container">
+    <div class="buttons-header">
+        <a href="{% url 'leaderboards' %}" class="btn-secondary">Back to Leaderboards</a>
+        <a href="{% url 'create_board' %}" class="btn-primary">Create New Board</a>
+    </div>
+
+    <div class="boards-grid">
+        {% for board in boards %}
+        <!-- Only need to display the board as an option if it has matches associated-->
+            {% if board.has_leaderboard %}
+                <a href="{% url 'board_leaderboard' board.pk %}" class="board-card">
+                    <h2>{{ board.name }}</h2>
+                    <p>{{ board.width }} x {{ board.height }}</p>
+                    <p>{{ board.food_count }} apples</p>
+                    <p>Type: {{ board.board_json.type }}</p>
+                </a>
+            {% endif %}
+        {% empty %}
+            <p>No boards created yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

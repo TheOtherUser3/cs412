@@ -1,6 +1,6 @@
 import random
 from django.db import transaction
-from ..models import Match, MoveEvent
+from ..models import Match, MoveEvent, BotBoardStats
 from .arena import step_game
 
 # Let us be lazy and just make FakeMoveEvents if we are simulating to save on database hits
@@ -130,6 +130,11 @@ def run_match(bot1, bot2, board, max_turns=5000, simulate=False):
             match.total_turns = prev.move_number
             match.save()
 
+            # Update stats for each bot on this board
+            update_bot_board_stats(bot1, board, 1 if winner == 1 else (2 if winner == 2 else 0), a_survival_time, apples_a)
+            update_bot_board_stats(bot2, board, 2 if winner == 1 else (1 if winner == 2 else 0), b_survival_time, apples_b)
+
+
             return match
 
     else:
@@ -190,12 +195,13 @@ def run_match(bot1, bot2, board, max_turns=5000, simulate=False):
 
 
 
-def simulate_matches(bot1, bot2, board, num_sims):
+def simulate_matches(bot1, bot2, board, num_runs):
     """Simulate num_sims number of matches between bot1 and bot2 on board, for plotly. 
     Return all relevent results in nice JSON format."""
     results = {
         "bot1": {
             "name": bot1.name,
+            "color": bot1.color,
             "wins": 0,
             "losses": 0,
             "draws": 0,
@@ -204,6 +210,7 @@ def simulate_matches(bot1, bot2, board, num_sims):
         },
         "bot2": {
             "name": bot2.name,
+            "color": bot2.color,
             "wins": 0,
             "losses": 0,
             "draws": 0,
@@ -212,7 +219,7 @@ def simulate_matches(bot1, bot2, board, num_sims):
         }
         }
     
-    for i in range(1, num_sims + 1):
+    for i in range(1, num_runs + 1):
         match = run_match(bot1, bot2, board, simulate=True)
         if match['winner'] == 1:
             results["bot1"]["wins"] += 1
@@ -233,4 +240,26 @@ def simulate_matches(bot1, bot2, board, num_sims):
     
     return results
 
+def update_bot_board_stats(bot, board, outcome, turns, apples):
+    """Helper function to update bot stats in the new BotBoardStats model"""
 
+    # get_or_create method lets us easily prevent duplicates
+    stats, _ = BotBoardStats.objects.get_or_create(
+        bot=bot,
+        board=board
+    )
+
+    stats.games += 1
+
+    if outcome == 1:
+        stats.wins += 1
+    elif outcome == 2:
+        stats.losses += 1
+    else:
+        stats.draws += 1
+
+    # running averages
+    stats.avg_turns = (stats.avg_turns*(stats.games-1))/stats.games + turns / stats.games
+    stats.avg_apples = (stats.avg_apples*(stats.games-1))/stats.games + apples / stats.games
+
+    stats.save()

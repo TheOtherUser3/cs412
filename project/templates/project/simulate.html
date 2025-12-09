@@ -1,0 +1,33 @@
+<!-- 
+File: simulate.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/8/2025
+Description: The simulation form page.  User chooses what bots and board to simulate on,
+as well as how many runs to simulate.  This will generate the data necessary for quantitative display.
+-->
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<div class="snake-page">
+    <h1>Simulation Arena</h1>
+
+    <form method="post" class="snake-form">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            {{ form.as_p }}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="snake-button btn-primary">
+                Run Simulations
+            </button>
+
+            <a href="{% url 'leaderboards' %}" class="btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

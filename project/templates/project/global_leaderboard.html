@@ -1,0 +1,48 @@
+<!-- 
+File: global_leaderboard.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/9/2025
+Description: The global leaderboard stats, for bots across all boards.
+-->
+
+{% extends "project/base.html" %}
+{% block content %}
+<div class="snake-page leaderboard-page">
+
+    <h1 class="leaderboard-title">Global Leaderboard</h1>
+
+    <div class="bots-header">
+        <a href="{% url 'leaderboards' %}" class="btn-secondary">Back to Leaderboards</a>
+    </div>
+
+    <div class="leaderboard-card">
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Bot</th>
+                    <th>Win Rate</th>
+                    <th>Wins</th>
+                    <th>Games</th>
+                    <th>Avg Turns</th>
+                    <th>Avg Apples</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td class="bot-name-cell">
+                        {{ row.bot.name }}
+                    </td>
+                    <td>{{ row.win_rate|floatformat:2 }}</td>
+                    <td>{{ row.wins }}</td>
+                    <td>{{ row.games }}</td>
+                    <td>{{ row.avg_turns|floatformat:1 }}</td>
+                    <td>{{ row.avg_apples|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

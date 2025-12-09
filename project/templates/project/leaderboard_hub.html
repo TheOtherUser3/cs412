@@ -1,0 +1,43 @@
+<!-- 
+File: leaderboard_hub.html
+Author: Dawson Maska (dawsonwm@bu.edu), 12/8/2025
+Description: The navigation hub for the rest of the leaderboard screens
+-->
+
+{% extends "project/base.html" %}
+{% block content %}
+<div class="snake-page leaderboard-hub-page">
+    <h1 class="hub-title">Leaderboards</h1>
+
+    <div class="hub-grid">
+        <a class="hub-card primary" href="{% url 'home_page' %}">
+            <div class="hub-card-title">Back to Home</div>
+            <div class="hub-card-sub">
+                Return to the main menu
+            </div>
+        </a>
+
+        <a class="hub-card primary" href="{% url 'global_leaderboard' %}">
+            <div class="hub-card-title">Global Leaderboard</div>
+            <div class="hub-card-sub">
+                View best bots across all boards
+            </div>
+        </a>
+
+        <a class="hub-card secondary" href="{% url 'board_leaderboard_hub' %}">
+            <div class="hub-card-title">Leaderboard by Board</div>
+            <div class="hub-card-sub">
+                See the bot leaderboards for specific boards
+            </div>
+        </a>
+
+        <a class="hub-card secondary" href="{% url 'simulate' %}">
+            <div class="hub-card-title">Simulation Arena</div>
+            <div class="hub-card-sub">
+                Run large-scale bot battles and analyze the results
+            </div>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

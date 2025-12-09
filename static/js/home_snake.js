@@ -95,7 +95,7 @@ function checkNavigation() {
         { id: "zone-bots", url: "bots/" },
         { id: "zone-boards", url: "boards/" },
         { id: "zone-matches", url: "matches/" },
-        { id: "zone-leaderboard", url: "leaderboard/" }
+        { id: "zone-leaderboard", url: "leaderboards/" }
     ];
 
     for (let z of zones) {

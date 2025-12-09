@@ -30,7 +30,6 @@ Description: The page to preview a newly created board before saving it.
         <input type="hidden" name="width" value="{{ width }}">
         <input type="hidden" name="num_apples" value="{{ num_apples }}">
         <input type="hidden" name="board_json_str" value="{{ board_json_str|escape }}">
-        <input type="hidden" name="author" value= "{{ author }}">
 
         <button name="action" value="confirm" class="btn-primary">Confirm Board</button>
         <!-- Only show regenerate if it is a board type with randomness -->

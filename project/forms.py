@@ -42,7 +42,6 @@ class CreateBotForm(forms.ModelForm):
     """Define a form to create a new Bot"""
 
     name = forms.CharField(max_length=30, label='Bot Name')
-    author = forms.CharField(max_length=30, label='Author Name')
 
     # Define sliders for personality weights
 
@@ -126,7 +125,7 @@ class CreateBotForm(forms.ModelForm):
 
     class Meta:
         model = Bot
-        fields = ['name', 'author', 'color', 'greediness', 'caution', 'direction_bias', 'circliness', 'introversion', 'chaos']
+        fields = ['name', 'color', 'greediness', 'caution', 'direction_bias', 'circliness', 'introversion', 'chaos']
 
 class BoardGeneratorForm(forms.ModelForm):
     """Define a form to generate a new Board"""
@@ -151,7 +150,7 @@ class BoardGeneratorForm(forms.ModelForm):
 
     class Meta:
         model = Board
-        fields = ['name', 'board_type', 'grid_width', 'num_apples', 'wraparound', 'author']
+        fields = ['name', 'board_type', 'grid_width', 'num_apples', 'wraparound']
 
 class BoardUpdateForm(forms.ModelForm):
     """Define a form to update an existing Board"""
@@ -184,3 +183,13 @@ class StartMatchForm(forms.Form):
         queryset=Board.objects.all(),
         label="Board"
     )
+
+class SimulationForm(forms.Form):
+    """Define a form to simulate runs number of matches"""
+    bot1 = forms.ModelChoiceField(queryset=Bot.objects.all(), label = "Bot 1")
+
+    bot2 = forms.ModelChoiceField(queryset=Bot.objects.all(), label = "Bot 2")
+
+    board = forms.ModelChoiceField(queryset=Board.objects.all(), label = "Board")
+
+    runs = forms.IntegerField(min_value=5, max_value=50, initial=20, label = "Number of Simulations")

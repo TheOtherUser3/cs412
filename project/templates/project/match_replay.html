@@ -74,8 +74,8 @@ because all the magic is in the python engine and the JS just replays the magic.
 
     const BOT1_NAME = "{{ match.bot1.name|escapejs }}";
     const BOT2_NAME = "{{ match.bot2.name|escapejs }}";
-    const BOT1_COLOR = "{{ match.bot1.color|default:'#2ecc71' }}";
-    const BOT2_COLOR = "{{ match.bot2.color|default:'#e74c3c' }}";
+    const BOT1_COLOR = "{{ match.bot1.color }}";
+    const BOT2_COLOR = "{{ match.bot2.color }}";
 
     const MOVE_EVENTS_API_URL = "{% url 'move_events_api' match.pk %}";
 </script>

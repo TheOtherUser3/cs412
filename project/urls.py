@@ -28,8 +28,16 @@ urlpatterns = [
     path('matches/all/<int:pk>/', MatchDetailView.as_view(), name="match"),
     path('matches/create/', MatchCreateView.as_view(), name="new_match"),
     path('matches/<int:pk>/replay/', MatchReplayView.as_view(), name="match_replay"),
-    path('matches/<int:pk>/delete', MatchDeleteView.as_view(), name="delete_match"),
+    path('matches/<int:pk>/delete/', MatchDeleteView.as_view(), name="delete_match"),
 
-    # Allows the JS to access MoveEvents via API by passing in match pk (clarified variable name since it's match not move event)
+    #Leaderboards
+    path('leaderboards/', LeaderboardHubView.as_view(), name="leaderboards"),
+    path('leaderboards/simulate/', SimulationView.as_view(), name="simulate"),
+    path('leaderboards/global_leaderboard/', GlobalLeaderboardView.as_view(), name="global_leaderboard"),
+    path('leaderboards/board_leaderboard/', BoardLeaderboardHubView.as_view(), name="board_leaderboard_hub"),
+    path('leaderboards/board_leaderboard/<int:pk>/', BoardLeaderboardView.as_view(), name="board_leaderboard"),
+
+
+    # Allows the JS to access MoveEvents via API by passing in match pk (clarified variable name since it's match not move event and that is a little confusing)
     path('api/move_events/<int:match_pk>/', MoveEventListAPIView.as_view(), name="move_events_api"),
 ]

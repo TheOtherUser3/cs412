@@ -13,11 +13,17 @@ from django.http import HttpResponse
 from .engine.board_generator import generate_board
 import json
 from django.shortcuts import redirect
-from .engine.run_match import run_match
+from .engine.run_match import run_match, simulate_matches
+from .engine.plots import *
+from plotly.offline import plot
 
 class HomePageTemplateView(TemplateView):
     """Define a view class to display the home snake navigation page"""
     template_name = 'project/home_page.html'
+
+####################################################################
+# BOTS BOTS BOTS BOTS BOTS BOTS BOTS BOTS BOTS BOTS BOTS BOTS BOTS
+####################################################################
 
 class BotListView(ListView):
     """Define a view class to display the list of Bots"""
@@ -63,6 +69,10 @@ class UpdateBotView(UpdateView):
     def get_success_url(self):
         """Overide to redirect to bots list"""
         return reverse('bots')
+    
+####################################################################
+# BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS
+####################################################################
 
 class BoardListView(ListView):
     """Define a view class to display the list of Boards"""
@@ -96,7 +106,6 @@ class CreateBoardView(CreateView):
             height = int(width * 0.6) # 5:3 aspect ratio
             num_apples = int(request.POST.get('num_apples'))
             board_json = json.loads(request.POST.get("board_json_str"))
-            author = request.POST.get('author')
             wraparound = board_json.get('wrap', False)
             board_type = board_json.get('type', 'open')
 
@@ -108,7 +117,6 @@ class CreateBoardView(CreateView):
                     height=height,
                     food_count=num_apples,
                     board_json=board_json,
-                    author=author
                 )
                 board.save()
                 return redirect('boards')
@@ -126,7 +134,6 @@ class CreateBoardView(CreateView):
                     'num_apples': num_apples,
                     'board_json_str': board_json_str,
                     'board_json': board_data,
-                    'author': author
                 }
                 return render(request, 'project/board_preview.html', context)
         else:
@@ -138,7 +145,6 @@ class CreateBoardView(CreateView):
                 width = int(form.cleaned_data['grid_width'])
                 height = int(width * 0.6) # 5:3 aspect ratio
                 num_apples = int(form.cleaned_data['num_apples'])
-                author = form.cleaned_data['author']
                 wraparound = form.cleaned_data['wraparound']
 
                 board_data = generate_board(board_type, width, height, wraparound)
@@ -154,7 +160,6 @@ class CreateBoardView(CreateView):
                     'board_json_str': board_json_str,
                     # NEED both, one for preview, one for hidden field for reconversion later
                     'board_json': board_data,
-                    'author': author
                 }
                 return render(request, 'project/board_preview.html', context)
 
@@ -181,6 +186,10 @@ class UpdateBoardView(UpdateView):
         board = Board.objects.get(pk=pk)
         context['board'] = board 
         return context
+    
+####################################################################
+# MATCHES MATCHES MATCHES MATCHES MATCHES MATCHES MATCHES MATCHES
+####################################################################
     
 class MatchListView(ListView):
     """Define a view class to display the list of Matches"""
@@ -229,6 +238,151 @@ class MatchDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('matches')
     
+####################################################################
+# LEADERBOARDS LEADERBOARDS LEADERBOARDS LEADERBOARDS LEADERBOARDS
+####################################################################
+class LeaderboardHubView(TemplateView):
+    """Simple hub view to navigate the leaderboard pages"""
+    template_name = "project/leaderboard_hub.html"
+
+class GlobalLeaderboardView(ListView):
+    template_name = "project/global_leaderboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        rows = self.get_queryset()
+        
+        context["rows"] = rows
+        return context
+    
+    def get_queryset(self):
+        """Override the queryset to give us a list of rows for the stats of each bot"""
+        # use select_related to avoid the N + 1 query problem 
+        stats = BotBoardStats.objects.select_related("bot")
+        totals = {}
+
+        # Go through and accumulate each bot's total stats
+        for s in stats:
+            pk = s.bot.pk
+
+            if pk not in totals:
+                totals[pk] = {
+                    "bot": s.bot,
+                    "games": 0,
+                    "wins": 0,
+                    "losses": 0,
+                    "draws": 0,
+                    "avg_turns_sum": 0,
+                    "avg_apples_sum": 0,
+                    "entries": 0,
+                }
+            
+            t = totals[pk]
+            t["games"] += s.games
+            t["wins"] += s.wins
+            t["losses"] += s.losses
+            t["draws"] += s.draws
+            t["avg_turns_sum"] += s.avg_turns
+            t["avg_apples_sum"] += s.avg_apples
+            t["entries"] += 1
+
+        # Make rows for our html template
+        rows = []
+        for pk in totals:
+            t = totals[pk]
+            rows.append({
+                "bot": t["bot"],
+                "games": t["games"],
+                "wins": t["wins"],
+                "losses": t["losses"],
+                "draws": t["draws"],
+                "avg_turns": t["avg_turns_sum"] / t["entries"],
+                "avg_apples": t["avg_apples_sum"] / t["entries"],
+                "win_rate": t["wins"] / t["games"] if t["games"] > 0 else 0
+            })
+
+        def sort_win_rate(row):
+            return row['win_rate']
+
+        #Sort by the win rate in decreasing order
+        rows.sort(key=sort_win_rate, reverse=True)
+
+        return rows
+
+
+class BoardLeaderboardView(ListView):
+    """Define a view to display leaderboard stats for a specific board
+    (board pk passed in through url)"""
+    model = BotBoardStats
+    template_name = "project/board_leaderboard.html"
+    context_object_name = "rows"
+
+    def get_queryset(self):
+        """Get rows for each bot of the board, and sort them by wins descending"""
+        return BotBoardStats.objects.filter(
+            board__pk=self.kwargs["pk"]
+        ).order_by("-wins", "games") # Break ties, same wins with less games is more impressive
+    
+    def get_context_data(self, **kwargs):
+        """Add additional context data of selected board"""
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        board = Board.objects.get(pk=pk)
+        context['board'] = board 
+        return context
+    
+class BoardLeaderboardHubView(ListView):
+    """Define a view for the board leadership hub where users select the 
+    board they want to view leaderships records for"""
+    model = Board
+    template_name = "project/board_leaderboard_hub.html"
+    context_object_name = "boards"
+
+class SimulationView(FormView):
+    """Define a view to simulate runs number of matches and show statistics
+    in order to compare bots and boards more objectively"""
+    template_name = "project/simulate.html"
+    form_class = SimulationForm
+
+    def form_valid(self, form):
+        """Overrite form_valid to simulate matches, then graph the plots, 
+        and send them to the next html template"""
+        results = simulate_matches(
+            bot1=form.cleaned_data["bot1"],
+            bot2=form.cleaned_data["bot2"],
+            board=form.cleaned_data["board"],
+            num_runs=form.cleaned_data["runs"],
+        )
+
+        context = self.get_context_data(form=form)
+        context["results"] = results
+
+        #Call our plotting functions to get 4 html plots.
+        context["plot_win_loss"] = plot(
+            win_loss_plot(results),
+            output_type="div",
+            include_plotlyjs=False,
+        )
+        context["plot_win_rate"] = plot(
+            win_rate_plot(results),
+            output_type="div",
+            include_plotlyjs=False,
+        )
+        context["plot_avg_turns"] = plot(
+            avg_turns_plot(results),
+            output_type="div",
+            include_plotlyjs=False,
+        )
+        context["plot_avg_apples"] = plot(
+            avg_apples_plot(results),
+            output_type="div",
+            include_plotlyjs=False,
+        )
+
+        return render(self.request, "project/simulation_results.html", context)
+    
+
+
 
 
 ################################################################################
@@ -237,7 +391,7 @@ from rest_framework import generics
 from .serializers import *
 
 class MoveEventListAPIView(generics.ListAPIView):
-    """Exposes the API to return all MoveEvents for a given Match"""
+    """Exposes the API to return all MoveEvents for a given Match (for the JS replay)"""
     queryset = MoveEvent.objects.all()
     serializer_class = MoveEventSerializer
     pagination_class = None
