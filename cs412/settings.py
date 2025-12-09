@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'colorfield', #For color picker widget
+    #'colorfield', #For color picker widget
     "hw", #Hello World Example App
     "quotes", #HW1 Quote of the Day App
     "formdata", #Example Form App 
@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "voter_analytics", #HW8 Voter Analytics App
     "rest_framework", #Example app
     'dadjokes', #HW 10 Dad Jokes App
-    'project', #Final Project - Snake Arena. Snake snake snake!
+    #'project', #Final Project - Snake Arena. Snake snake snake!
 ]
 
 
