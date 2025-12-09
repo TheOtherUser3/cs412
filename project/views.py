@@ -361,22 +361,18 @@ class SimulationView(FormView):
         context["plot_win_loss"] = plot(
             win_loss_plot(results),
             output_type="div",
-            include_plotlyjs=False,
         )
         context["plot_win_rate"] = plot(
             win_rate_plot(results),
             output_type="div",
-            include_plotlyjs=False,
         )
         context["plot_avg_turns"] = plot(
             avg_turns_plot(results),
             output_type="div",
-            include_plotlyjs=False,
         )
         context["plot_avg_apples"] = plot(
             avg_apples_plot(results),
             output_type="div",
-            include_plotlyjs=False,
         )
 
         return render(self.request, "project/simulation_results.html", context)
