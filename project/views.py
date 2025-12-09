@@ -187,6 +187,13 @@ class UpdateBoardView(UpdateView):
         context['board'] = board 
         return context
     
+    def get_success_url(self):
+        """Overide to redirect to bots list"""
+        pk = self.kwargs.get('pk')
+        return reverse('board', kwargs={'pk':pk})
+    
+    
+    
 ####################################################################
 # MATCHES MATCHES MATCHES MATCHES MATCHES MATCHES MATCHES MATCHES
 ####################################################################
