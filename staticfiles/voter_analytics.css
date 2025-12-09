@@ -1,0 +1,317 @@
+/* 
+File: voter_analytics.css
+Author: Dawson Maska (dawsonwm@bu.edu), 10/29/2025
+Description: css code to style the voter_analytics application
+*/
+
+/* === Global Layout === */
+body {
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    background: #f5f6fa;
+    color: #2f3640;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px 35px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* === Search Form === */
+.search-container {
+    background: linear-gradient(90deg, #74b9ff, #a29bfe);
+    border-radius: 12px;
+    padding: 25px 35px;
+    margin-bottom: 35px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-container form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 30px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.search-container label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+/* Input + Dropdown Fields */
+.search-container select,
+.search-container input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #2d3436;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+/* Filter Button */
+.filter-btn {
+    grid-column: span 2;
+    justify-self: center;
+    margin-top: 10px;
+    padding: 10px 26px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #0984e3;
+    color: white;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.filter-btn:hover {
+    background: #74b9ff;
+    transform: translateY(-2px);
+}
+
+/* === Table === */
+.grid-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.grid-container th {
+    background: #0984e3;
+    color: white;
+    text-align: left;
+    padding: 14px 12px;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+}
+
+.grid-container td {
+    padding: 12px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.grid-container tr:hover {
+    background-color: #f1f2f6;
+    transition: background-color 0.2s ease;
+}
+
+/* === PAGINATION === */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(90deg, #74b9ff, #a29bfe);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-info {
+    font-weight: 600;
+    color: white;
+}
+
+.pagination-btn {
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    background: white;
+    color: #0984e3;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: 0.2s ease;
+}
+
+.pagination-btn:hover {
+    background: #0984e3;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.pagination-btn.disabled {
+    background: rgba(255, 255, 255, 0.6);
+    color: #b2bec3;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+/* === Voter Detail View === */
+.voter-detail-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #f5f6fa;
+}
+
+.voter-detail-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    padding: 40px 50px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.voter-detail-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(180deg, #74b9ff, #a29bfe);
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+.voter-detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Header and typography */
+.voter-detail-card h2 {
+    margin-top: 0;
+    color: #0984e3;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    margin-bottom: 25px;
+}
+
+.voter-detail-card p {
+    font-size: 16px;
+    color: #2f3640;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+
+.voter-detail-card strong {
+    color: #353b48;
+}
+
+/* Voting history list */
+.voter-detail-card ul,
+.voter-detail-card li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.voter-detail-card li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f2f6;
+    font-size: 15px;
+    color: #444;
+}
+
+.voter-detail-card li:last-child {
+    border-bottom: none;
+}
+
+/* === NAVIGATION BAR === */
+header {
+    background: linear-gradient(90deg, #74b9ff, #a29bfe);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    border-radius: 0 0 12px 12px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    transition: 0.25s ease;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    left: 0;
+    bottom: -5px;
+    background: #fff;
+    transition: 0.3s ease;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+}
+
+.nav-links li a:hover {
+    color: #dfe6e9;
+}
+
+/* === GRAPH PAGE === */
+.graph-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.graph-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 25px 30px;
+    width: 90%;
+    max-width: 900px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.graph-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+

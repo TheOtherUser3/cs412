@@ -1,0 +1,122 @@
+/* 
+File: dadjokes.css
+Author: Dawson Maska (dawsonwm@bu.edu), 11/11/2025
+Description: css code to style the dadjokes application
+*/
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fafaff;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* HEADER + NAV */
+header {
+    background-color: #2b2c7f;
+    color: white;
+    text-align: center;
+    padding: 1.2rem 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.9rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0;
+    margin-top: 0.8rem;
+}
+
+.nav-links a {
+    color: #ffd43b;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+/* MAIN CONTENT */
+main {
+    flex-grow: 1;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+article {
+    width: 100%;
+    max-width: 750px;
+}
+
+/* UNIFIED BOXES */
+.container-box {
+    background-color: #ffffff;
+    border: 2px solid #d4d4f0;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem auto;
+    padding: 1.2rem;
+    text-align: center;
+}
+
+/* JOKE TEXT */
+.container-box .joke-text {
+    font-size: 1.05rem;
+    white-space: pre-line; /* <-- THIS SHOWS YOUR DATABASE LINE BREAKS */
+    margin-bottom: 1rem;
+}
+
+/* IMAGE STYLING */
+.container-box img {
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 0.8rem;
+}
+
+/* BYLINE */
+.container-box .byline {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #444;
+    margin-top: 0.4rem;
+}
+
+/* FOOTER */
+footer {
+    background-color: #2b2c7f;
+    color: white;
+    text-align: center;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    .container-box img {
+        height: 220px;
+    }
+}
