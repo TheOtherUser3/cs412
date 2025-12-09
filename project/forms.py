@@ -4,9 +4,7 @@
 
 from django import forms
 from .models import *
-
-from colorfield.fields import ColorField
-from colorfield.widgets import ColorWidget  
+ 
 
 # Define constants for board generation
 BOARD_TYPES = [
@@ -126,6 +124,10 @@ class CreateBotForm(forms.ModelForm):
     class Meta:
         model = Bot
         fields = ['name', 'color', 'greediness', 'caution', 'direction_bias', 'circliness', 'introversion', 'chaos']
+        # Color picker widget
+        widgets = {
+            "color": forms.TextInput(attrs={"type": "color"}),
+        }
 
 class BoardGeneratorForm(forms.ModelForm):
     """Define a form to generate a new Board"""

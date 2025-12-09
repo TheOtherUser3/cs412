@@ -5,7 +5,6 @@
 
 from django.db import models
 from django.urls import reverse
-from colorfield.fields import ColorField
 
 class Bot(models.Model):
     """Encapsulate the data of a snake bot"""
@@ -14,7 +13,7 @@ class Bot(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     # Snake color in hex format
-    color = ColorField(default="#00FF00")
+    color = models.CharField(max_length=7, default="#00ff00")  # stores "#RRGGBB"
 
     # User provided bot weights
 
