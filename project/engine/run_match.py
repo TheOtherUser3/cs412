@@ -1,7 +1,7 @@
 import random
 from django.db import transaction
 from ..models import Match, MoveEvent, BotBoardStats
-from .arena import step_game
+from .arena import step_game, get_apple_cells
 
 # Let us be lazy and just make FakeMoveEvents if we are simulating to save on database hits
 class FakeMoveEvent:
@@ -56,16 +56,15 @@ def run_match(bot1, bot2, board, max_turns=5000, simulate=False):
 
     # Initial apples 
     obstacles = set(map(tuple, board.board_json.get("obstacles", [])))
+
+    apple_cells = get_apple_cells(board, obstacles)
+
     apples = []
     while len(apples) < board.food_count:
-        p = (
-            random.randrange(board.width),
-            random.randrange(board.height),
-        )
+        p = random.choice(apple_cells)
         if (
             p not in b1_start
             and p not in b2_start
-            and p not in obstacles
             and p not in apples
         ):
             apples.append(p)

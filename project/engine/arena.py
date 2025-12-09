@@ -344,15 +344,15 @@ def step_game(prev, bot1, bot2, board):
             b2_body.pop()
 
     # respawn apples
+    apple_cells = get_apple_cells(board, obstacles)
+
     while len(apples) < board.food_count:
-        # choose random empty spot 
         for _ in range(100):
-            p = (random.randrange(board.width), random.randrange(board.height))
+            p = random.choice(apple_cells)
             if (
                 p not in apples
                 and p not in b1_body
                 and p not in b2_body
-                and p not in obstacles
             ):
                 apples.append(p)
                 break
@@ -374,4 +374,35 @@ def step_game(prev, bot1, bot2, board):
     
 
     
-    
+# Helper function so apples only spawn in the boxes in the two_box_arenas map
+def get_apple_cells(board, obstacles):
+    """Return list of valid apple spawn cells for this board."""
+    board_type = board.board_json.get("type")
+
+    # Special handling for two-box arenas
+    if board_type == "two_box_arenas":
+        w, h = board.width, board.height
+        mid = w // 2
+        cells = []
+
+        # Left box 
+        for x in range(3, mid - 3):
+            for y in range(3, h - 3):
+                if (x, y) not in obstacles:
+                    cells.append((x, y))
+
+        # Right box 
+        for x in range(mid + 3, w - 3):
+            for y in range(3, h - 3):
+                if (x, y) not in obstacles:
+                    cells.append((x, y))
+
+        return cells
+
+    # Default - anywhere that isn't an obstacle
+    cells = []
+    for x in range(board.width):
+        for y in range(board.height):
+            if (x, y) not in obstacles:
+                cells.append((x, y))
+    return cells
