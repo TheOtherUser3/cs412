@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "mini_insta", #HW3+ Mini Instragram Copy App
     "marathon_analytics", #Example Data Analytics App,
     "voter_analytics", #HW8 Voter Analytics App
-    "rest_framework", #Example app
+    #"rest_framework", #Example app
     'dadjokes', #HW 10 Dad Jokes App
     #'project', #Final Project - Snake Arena. Snake snake snake!
 ]
