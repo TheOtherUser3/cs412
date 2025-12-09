@@ -14,6 +14,7 @@ urlpatterns = [
     path('bots/create/', CreateBotView.as_view(), name="create_bot"),
     path('bots/<int:pk>/delete/', DeleteBotView.as_view(), name="delete_bot"),
     path('bots/<int:pk>/update/', UpdateBotView.as_view(), name="update_bot"),
+    path("bots/<int:pk>/", BotDetailView.as_view(), name="bot"),
 
     #Boards
     path('boards/', BoardListView.as_view(), name="boards"),

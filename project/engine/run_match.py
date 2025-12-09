@@ -38,12 +38,21 @@ def run_match(bot1, bot2, board, max_turns=5000, simulate=False):
     """
 
     # initial positions 
-    b1_start = [(1, 1), (0, 1), (0, 0)]
-    b2_start = [
-        (board.width - 2, board.height - 2),
-        (board.width - 1, board.height - 2),
-        (board.width - 1, board.height - 1),
-    ]
+    # if two_box_arenas start must be different
+    if board.board_json.get("type", []) == "two_box_arenas":
+        b1_start = [(4, 4), (3, 4), (3, 3)]
+        b2_start = [
+            (board.width - 6, board.height - 6),
+            (board.width - 5, board.height - 6),
+            (board.width - 5, board.height - 5),
+        ]
+    else:
+        b1_start = [(1, 1), (0, 1), (0, 0)]
+        b2_start = [
+            (board.width - 2, board.height - 2),
+            (board.width - 1, board.height - 2),
+            (board.width - 1, board.height - 1),
+        ]
 
     # Initial apples 
     obstacles = set(map(tuple, board.board_json.get("obstacles", [])))

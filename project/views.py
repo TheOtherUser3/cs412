@@ -16,6 +16,8 @@ from django.shortcuts import redirect
 from .engine.run_match import run_match, simulate_matches
 from .engine.plots import *
 from plotly.offline import plot
+# Allows for OR query
+from django.db.models import Q
 
 class HomePageTemplateView(TemplateView):
     """Define a view class to display the home snake navigation page"""
@@ -68,7 +70,21 @@ class UpdateBotView(UpdateView):
     
     def get_success_url(self):
         """Overide to redirect to bots list"""
-        return reverse('bots')
+        pk = self.kwargs.get('pk')
+        return reverse('bot', kwargs={'pk':pk})
+    
+class BotDetailView(DetailView):
+    model = Bot
+    template_name = "project/bot_detail.html"
+    context_object_name = "bot"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        #Get all matches bot has been a part of
+        context["matches"] = Match.objects.filter(Q(bot1=self.object) | Q(bot2=self.object)).order_by("-id")
+
+        return context
     
 ####################################################################
 # BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS BOARDS
@@ -203,9 +219,8 @@ class MatchListView(ListView):
     model = Match
     template_name = 'project/matches.html'
     context_object_name = 'matches'
-
-    def get_queryset(self):
-        return super().get_queryset().order_by('-started_at')
+    ordering = ["-started_at"]
+    paginate_by = 15
     
 class MatchDetailView(DetailView):
     """Define a view class to display the details of a Match"""
@@ -254,14 +269,8 @@ class LeaderboardHubView(TemplateView):
 
 class GlobalLeaderboardView(ListView):
     template_name = "project/global_leaderboard.html"
+    paginate_by = 25
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        rows = self.get_queryset()
-        
-        context["rows"] = rows
-        return context
-    
     def get_queryset(self):
         """Override the queryset to give us a list of rows for the stats of each bot"""
         # use select_related to avoid the N + 1 query problem 
@@ -323,6 +332,7 @@ class BoardLeaderboardView(ListView):
     model = BotBoardStats
     template_name = "project/board_leaderboard.html"
     context_object_name = "rows"
+    paginate_by = 25
 
     def get_queryset(self):
         """Get rows for each bot of the board, and sort them by wins descending"""

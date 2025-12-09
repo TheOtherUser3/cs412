@@ -27,34 +27,24 @@ Selected snake bots are shown playing snake in the background!
     <!-- Bot list -->
     <div class="bot-list">
         {% for bot in bots %}
-            <div class="bot-card">
-                <div class="bot-card-header">
-                    <!-- Apparently this is the way you have to access django inside of CSS! -->
-                    <h2 class="bot-name" style="--bot-color: {{ bot.color }}">{{ bot.name }}</h2>
+                <a href = "{% url 'bot' bot.pk %}" class="bot-card">
+                    <div class="bot-card-header">
+                        <!-- Apparently this is the way you have to access django inside of CSS! -->
+                        <h2 class="bot-name" style="--bot-color: {{ bot.color }}">{{ bot.name }}</h2>
 
-                    <!-- Placeholder for future actions -->
-                    <div class="bot-actions">
-                        <a href="{% url 'update_bot' bot.pk %}" class="btn-small secondary">
-                            Edit
-                        </a>
-                        <a href="{% url 'delete_bot' bot.pk %}" class="btn-small danger">
-                            Delete
-                        </a>
-                    </div>
+                        <div class="bot-stats">
+                            <div class="stat"><span>Greediness</span><strong>{{ bot.greediness }}</strong></div>
+                            <div class="stat"><span>Caution</span><strong>{{ bot.caution }}</strong></div>
+                            <div class="stat"><span>Circliness</span><strong>{{ bot.circliness }}</strong></div>
+                            <div class="stat"><span>Introversion</span><strong>{{ bot.introversion }}</strong></div>
+                        </div>
+                        
+                        <div class="stat chaos centered">
+                            <span>Chaos</span><strong>{{ bot.chaos }}</strong>
+                        </div>
 
-                    <div class="bot-stats">
-                        <div class="stat"><span>Greediness</span><strong>{{ bot.greediness }}</strong></div>
-                        <div class="stat"><span>Caution</span><strong>{{ bot.caution }}</strong></div>
-                        <div class="stat"><span>Circliness</span><strong>{{ bot.circliness }}</strong></div>
-                        <div class="stat"><span>Introversion</span><strong>{{ bot.introversion }}</strong></div>
                     </div>
-                    
-                    <div class="stat chaos centered">
-                        <span>Chaos</span><strong>{{ bot.chaos }}</strong>
-                    </div>
-
-                </div>
-            </div>
+                </a>
 
         {% empty %}
             <p class="muted">No bots yet. Create one!</p>

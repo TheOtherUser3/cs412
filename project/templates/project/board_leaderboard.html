@@ -13,6 +13,24 @@ Description: The board specific leaderboard stats.
     <div class="bots-header">
         <a href="{% url 'leaderboards' %}" class="btn-secondary">Back to Leaderboards</a>
     </div>
+    
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="snake-button">
+                Previous
+            </a>
+        {% endif %}
+
+        <span class="page-info">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="snake-button">
+                Next
+            </a>
+        {% endif %}
+    </div>
 
     <div class="leaderboard-card">
         <table class="leaderboard-table">
@@ -31,9 +49,7 @@ Description: The board specific leaderboard stats.
                 {% for row in rows %}
                 <tr>
                     <td class="bot-name-cell">
-                        <span class="bot-color" style="--bot-color: {{ match.bot2.color }}">
                              {{ row.bot.name }}
-                        </span>
                     </td>
                     <td>{{ row.win_rate|floatformat:2 }}</td>
                     <td>{{ row.wins }}</td>

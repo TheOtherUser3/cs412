@@ -1,0 +1,94 @@
+<!-- 
+File: board.html
+Author: Dawson Maska (dawsonwm@bu.edu), 11/25/2025
+Description: The Board display page.  See a visual preview of the board layout here.
+-->
+
+
+{% extends "project/base.html" %}
+{% block content %}
+
+<div class="snake-page">
+
+    <h1>
+        <span class="bot-color" style="--bot-color: {{ bot.color }}">
+            Bot: {{ bot.name }}
+        </span>
+    </h1>
+
+    <div class="buttons-header">
+        <a href="{% url 'bots' %}" class="btn-secondary">Back to Bots</a>
+        <a href="{% url 'matches' %}" class="btn-primary">Matches</a>
+
+        <a href="{% url 'boards' %}" class="btn-secondary">
+            Boards
+        </a>
+        <a href="{% url 'global_leaderboard' %}" class="snake-button">
+            Global Leaderboard
+        </a>
+    </div>
+
+    <div class = "bot-list">
+        <div class="bot-card">
+            <div class="bot-card-header">
+                <!-- Apparently this is the way you have to access django inside of CSS! -->
+                <h2 class="bot-name" style="--bot-color: {{ bot.color }}">{{ bot.name }}</h2>
+
+                <!-- Placeholder for future actions -->
+                <div class="bot-actions">
+                    <a href="{% url 'update_bot' bot.pk %}" class="btn-small secondary">
+                        Edit
+                    </a>
+                    <a href="{% url 'delete_bot' bot.pk %}" class="btn-small danger">
+                        Delete
+                    </a>
+                </div>
+
+                <div class="bot-stats">
+                    <div class="stat"><span>Greediness</span><strong>{{ bot.greediness }}</strong></div>
+                    <div class="stat"><span>Caution</span><strong>{{ bot.caution }}</strong></div>
+                    <div class="stat"><span>Circliness</span><strong>{{ bot.circliness }}</strong></div>
+                    <div class="stat"><span>Introversion</span><strong>{{ bot.introversion }}</strong></div>
+                </div>
+                
+                <div class="stat chaos centered">
+                    <span>Chaos</span><strong>{{ bot.chaos }}</strong>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Matches Played</h2>
+
+    <div class="match-list">
+        {% for match in matches %}
+        <div class="match-card">
+            <div class="match-info">
+                {{ match.bot1.name }} vs {{ match.bot2.name }}
+                <span class="muted">on {{ match.board.name }}</span>
+            </div>
+
+            <div class="match-meta">
+                Turns: {{ match.total_turns }} |
+                Winner:
+                {% if match.winner == 1 %}
+                    {{ match.bot1.name }}
+                {% elif match.winner == 2 %}
+                    {{ match.bot2.name }}
+                {% else %}
+                    TIE
+                {% endif %}
+            </div>
+
+            <a href="{% url 'match' match.pk %}" class="snake-button small">
+                View Match
+            </a>
+        </div>
+        {% empty %}
+        <p class="muted">This bot has not fought yet.</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

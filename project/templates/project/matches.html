@@ -23,6 +23,23 @@ Description: The matches dashboard page where you can start new matches or view 
         </a>
     </div>
 
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="snake-button">
+                Previous
+            </a>
+        {% endif %}
+
+        <span class="page-info">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="snake-button">
+                Next
+            </a>
+        {% endif %}
+    </div>
 
     <div class="match-list">
         {% for match in matches %}

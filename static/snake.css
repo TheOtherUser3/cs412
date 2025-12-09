@@ -351,6 +351,7 @@ h1 {
 }
 
 .bot-card {
+    text-decoration: none;
     position: relative;
 
     background: linear-gradient(
@@ -942,4 +943,31 @@ LEADERBOARD SECTION
 
 .leaderboard-table tbody tr:nth-child(3) .bot-name-cell {
     color: #cd7f32; 
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 2.5rem;
+}
+
+.page-info {
+    color: #bfeada;
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+.section-title {
+    margin: 3rem 0 1.6rem;
+    text-align: center;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+
+    color: #9df0c8;
+    text-transform: uppercase;
+    position: relative;
 }
